@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useSate } from 'react';
 import { Dropdown } from 'react-bootstrap';
-const CategoryItem = () => (
-    <Dropdown>
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Sản Phẩm
-  </Dropdown.Toggle>
+import './category.css';
+const CategoryItem = (props) => {
+    //const [itemName, setItemName] = useState('');
+    const listItems = props.children.map((element) =>
+        <Dropdown.Item href="">{element}</Dropdown.Item>
+    );
+    return (
+        <div className="dropdown">
+            <Dropdown>
+                <Dropdown.Toggle variant="light" id="dropdown-basic">
+                    {props.name}
+                </Dropdown.Toggle>
 
-        <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">Quần </Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Áo</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Phụ Kiện</Dropdown.Item>
-        </Dropdown.Menu>
-    </Dropdown>
-)
+                <Dropdown.Menu >
+                    {listItems}
+
+                </Dropdown.Menu>
+            </Dropdown>
+        </div>
+    )
+}
 export default CategoryItem;

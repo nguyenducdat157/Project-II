@@ -1,0 +1,13 @@
+.dropdown {
+    margin: 20px;
+    background-color: white;
+    color: black;
+    outline-color: #fff;
+}
+.bg-light {
+    background-color: white;
+}
+
+#dropdown-basic {
+    background-color: #fff;
+}
