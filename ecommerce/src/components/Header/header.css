@@ -1,0 +1,35 @@
+.header {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    justify-content: space-between;
+}
+.header-navbar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.header-logo {
+    color: inherit;
+    text-decoration: inherit;
+    font-family: RobotoThin;
+    font-size: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-icon {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-right: 20px;
+    color: black;
+}
+
+.search-icon i {
+    color: black;
+}
