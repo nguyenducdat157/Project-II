@@ -4,7 +4,7 @@ import { Image, Form, FormControl, Button, Nav } from 'react-bootstrap';
 import './header.css';
 const HeaderItem = () => {
     return (
-        <div className="header">
+        <div className="header" >
             <div className="header-logo">
                 <a href="">
                     <Image src="https://file.hstatic.net/200000201725/file/logo300x70_edf9c9c72acb48f791fe052257311c5c.png" fluid />

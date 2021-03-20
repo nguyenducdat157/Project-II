@@ -1,0 +1,13 @@
+.products {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0;
+    align-items: center;
+}
+img {
+    width: 100%;
+    vertical-align: middle;
+    border-style: none;
+    margin-right: 20px;
+}

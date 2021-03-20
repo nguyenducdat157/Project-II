@@ -1,0 +1,11 @@
+.product-block {
+    display: block;
+    height: 250px;
+    width: 20%;
+}
+
+.product-sale {
+    top: 10px;
+    left: 10px;
+    color: #f94c43;
+}
