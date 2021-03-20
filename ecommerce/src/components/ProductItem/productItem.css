@@ -1,11 +1,13 @@
-.product-block {
-    display: block;
-    height: 250px;
-    width: 20%;
-}
-
 .product-sale {
-    top: 10px;
-    left: 10px;
-    color: #f94c43;
+    color: #ee4d2d;
+    font-weight: 600;
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 36px;
+    text-align: center;
+    background-color: rgba(255, 216, 64, 0.94);
 }
