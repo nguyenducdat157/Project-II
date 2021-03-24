@@ -2,6 +2,9 @@ import React from 'react';
 import NavbarItem from '../Navbar';
 import { Image, Form, FormControl, Button, Nav } from 'react-bootstrap';
 import './header.css';
+import { Link } from "react-router-dom";
+import MediaQuery from "react-responsive";
+
 const HeaderItem = () => {
     return (
         <div className="header" >
@@ -29,6 +32,7 @@ const HeaderItem = () => {
                 </div>
             </div>
         </div>
+
     )
 }
 
