@@ -1,32 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
-import HeaderItem from './components/Header';
-import Slice from './components/Slice';
-import Container from './components/Container';
-import Footer from './components/Footer';
+import HomePage from './Pages/Homepage';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import AccountPage from './Pages/Account';
 
 function App() {
   return (
-    <>
-      <section>
-        <header>
-          <HeaderItem />
-        </header>
-      </section>
-      <section>
-        <Slice />
-        <div className="container" style={{ maxWidth: '100%' }}>
-          <h3>New arrival</h3>
-          <Container />
-          <h3>New arrival</h3>
-          <Container />
-        </div>
-      </section>
-      <section>
-        <Footer />
-      </section>
-    </>
+    <Router>
+      <Route path="/" exact component={HomePage} />
+      <Route path="/account" exact component={AccountPage} />
+
+    </Router>
+
   );
 }
 

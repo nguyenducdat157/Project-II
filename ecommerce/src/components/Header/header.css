@@ -34,3 +34,8 @@
 .search-icon i {
     color: black;
 }
+.header-line {
+    border-bottom: 0px solid rgb(240, 239, 239);
+    background-color: rgb(240, 239, 239);
+    margin-top: -10px;
+}
