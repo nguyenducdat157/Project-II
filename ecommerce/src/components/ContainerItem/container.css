@@ -1,0 +1,19 @@
+.products {
+    display: flex;
+    max-width: 100%;
+    width: 100%;
+    margin-left: 5%;
+    flex-flow: wrap;
+    justify-content: flex-start;
+}
+
+.products li {
+    display: inline;
+}
+
+img {
+    max-width: 100%;
+    margin-right: 40px;
+    width: 250px;
+    height: 250px;
+}

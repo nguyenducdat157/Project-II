@@ -29,8 +29,14 @@
     align-items: center;
     margin-right: 20px;
     color: black;
+    font-size: 1.5rem;
 }
 
-.search-icon i {
-    color: black;
+.header-line {
+    border-bottom: 0px solid rgb(240, 239, 239);
+    background-color: rgb(240, 239, 239);
+    margin-top: -10px;
+}
+a.nav-link::before {
+    display: none;
 }

@@ -1,0 +1,82 @@
+h1 {
+    text-align: center;
+}
+
+.title-infor-account h1:after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    margin: 50px auto 0;
+    background: #252a2b;
+}
+.hr-line {
+    border: 4px solid black;
+    width: 10%;
+    margin: auto;
+    margin-top: 50px;
+    background-color: black;
+}
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    align-items: center;
+    margin-top: 5%;
+}
+#customer_sidebar {
+    margin-bottom: 30px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    position: relative;
+    margin-left: 0;
+    text-align: left;
+}
+a {
+    transition: opacity 150ms linear, color 150ms linear;
+}
+.title-detail {
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+.col-xs-12 #customer_sidebar p {
+    font-size: 1rem;
+    font-weight: 400;
+}
+#customer_sidebar {
+    margin-left: 15%;
+}
+.titleSidebar {
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 500;
+    text-align: left;
+}
+.list-unstyled {
+    text-align: left;
+}
+li a {
+    color: black;
+    text-align: none;
+}
+.list-unstyled li a:hover {
+    color: #e85205;
+    text-decoration: none;
+}
+
+a:before {
+    content: "";
+    font-family: "FontAwesome";
+    font-size: 8px;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: 2px;
+}
