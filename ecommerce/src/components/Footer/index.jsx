@@ -1,4 +1,5 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Footer = () => {
     return (
@@ -8,13 +9,21 @@ const Footer = () => {
 
                 <section className="mb-4">
 
-                    <a className="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i className="fab fa-facebook-f" /></a>
+                    <a className="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+                        <FontAwesomeIcon icon={['fab', 'facebook-f']} />
+                    </a>
 
-                    <a className="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i className="fab fa-twitter" /></a>
+                    <a className="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+                        <FontAwesomeIcon icon={['fab', 'twitter']} />
+                    </a>
 
-                    <a className="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i className="fab fa-google" /></a>
+                    <a className="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+                        <FontAwesomeIcon icon={['fab', 'google']} />
+                    </a>
 
-                    <a className="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i className="fab fa-instagram" /></a>
+                    <a className="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+                        <FontAwesomeIcon icon={['fab', 'instagram']} />
+                    </a>
                 </section>
 
                 <section className="mb-4">

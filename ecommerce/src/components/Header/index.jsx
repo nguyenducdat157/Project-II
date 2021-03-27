@@ -2,8 +2,9 @@ import React from 'react';
 import NavbarItem from '../Navbar';
 import { Image, Form, FormControl, Button, Nav } from 'react-bootstrap';
 import './header.css';
-import { Link } from "react-router-dom";
-import MediaQuery from "react-responsive";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartArrowDown, faSearch, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+
 
 const HeaderItem = () => {
     return (
@@ -22,14 +23,14 @@ const HeaderItem = () => {
                     <div className="search-icon">
                         <Form inline>
                             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                            <Button variant="outline-light"><i class="fas fa-search"></i></Button>
+                            <Button variant="outline-light"><FontAwesomeIcon icon={faSearch} style={{ color: 'black' }} /></Button>
                         </Form>
                     </div>
                     <div className="account-icon">
-                        <Nav.Link href="/account"><i class="fas fa-user-circle"></i></Nav.Link>
+                        <Nav.Link href="/account"><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></Nav.Link>
                     </div>
                     <div className="cart-icon">
-                        <Nav.Link href="/cart"><i class="fas fa-shopping-cart"></i></Nav.Link>
+                        <Nav.Link href="/cart"><FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black' }} /></Nav.Link>
                     </div>
                 </div>
             </div>

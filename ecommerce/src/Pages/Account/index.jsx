@@ -16,9 +16,9 @@ const AccountPage = () => {
                     <div className="col-xs-12 col-sm-3 sidebar-account">
                         <h3 className="titleSidebar">Tài khoản</h3>
                         <ul className="list-unstyled">
-                            <li className="current"><a href="/account">Danh sách sản phẩm quan tâm</a></li>
-                            <li><a href="/account/addresses">Đổi mật khẩu</a></li>
-                            <li className="last"><a href="/account/logout">Đăng xuất</a></li>
+                            <li className="wish-list"><a href="/account">Danh sách sản phẩm quan tâm</a></li>
+                            <li><a href="#">Đổi mật khẩu</a></li>
+                            <li className="logout"><a href="/account/logout">Đăng xuất</a></li>
                         </ul>
                     </div>
                     <div className="col-xs-12 col-sm-9">
