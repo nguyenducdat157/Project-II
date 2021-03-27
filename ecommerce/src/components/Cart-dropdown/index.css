@@ -1,0 +1,30 @@
+.product-img img{
+    /* border: 10px solid red; */
+    height: inherit;
+    width: 7rem;
+
+}
+
+#dropdown-items{
+    /* display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap; */
+    
+    width: 30rem;
+    min-width: 100%;
+    max-height: 20rem;
+    overflow-y: auto;
+}
+
+.item-info h4{
+    font-size: medium;
+}
+
+.item-info {
+    font-size: smaller;
+}
+
+#cart{
+    background-color: rgb(240, 234, 234);
+    text-align: center;
+}
