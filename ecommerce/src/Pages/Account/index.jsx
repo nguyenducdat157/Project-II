@@ -17,6 +17,7 @@ const AccountPage = () => {
                         <h3 className="titleSidebar">Tài khoản</h3>
                         <ul className="list-unstyled">
                             <li className="wish-list"><a href="/account">Danh sách sản phẩm quan tâm</a></li>
+                            <li className="order-list"><a href="/listOrder">Đơn hàng của tôi</a></li>
                             <li><a href="#">Đổi mật khẩu</a></li>
                             <li className="logout"><a href="/account/logout">Đăng xuất</a></li>
                         </ul>

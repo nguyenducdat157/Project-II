@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './ReviewForm';
+import HeaderItem from '../../components/Header';
+import Footer from '../../components/Footer';
 
 function Copyright() {
     return (
@@ -92,14 +94,14 @@ export default function Checkout() {
     };
 
     return (
+
         <React.Fragment>
-            <CssBaseline />
+            <HeaderItem />
+            {/* <CssBaseline /> */}
             <AppBar position="absolute" color="default" className={classes.appBar}>
-                <Toolbar>
-                    <Typography variant="h6" color="inherit" noWrap>
-                        Company name
-          </Typography>
-                </Toolbar>
+                {/* <Toolbar>
+
+                </Toolbar> */}
             </AppBar>
             <main className={classes.layout}>
                 <Paper className={classes.paper}>
@@ -144,10 +146,12 @@ export default function Checkout() {
                                 </div>
                             </React.Fragment>
                         )}
+
                     </React.Fragment>
                 </Paper>
-                <Copyright />
+                {/* <Copyright /> */}
             </main>
+            <Footer />
         </React.Fragment>
     );
 }

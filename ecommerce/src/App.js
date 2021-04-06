@@ -16,6 +16,14 @@ import Signup from './Pages/Signup';
 import AoPage from './Pages/Ao';
 import CollectionPage from './Pages/Collections';
 import QuanPage from './Pages/Quan';
+import FormInput from './components/FormInput/formInput';
+import CartView from './Pages/Cart/cartView';
+import CreateProduct from './Pages/CreateProduct';
+import EditProduct from './Pages/EditProduct';
+import ProductList from './Pages/ListProducts';
+import ProductDetail from './Pages/ProductDetail';
+import OrdersList from './Pages/ListOrder';
+
 
 function App() {
   return (
@@ -28,6 +36,13 @@ function App() {
       <Route path="/collections/ao" exact component={AoPage} />
       <Route path="/collections" exact component={CollectionPage} />
       <Route path="/collections/quan" exact component={QuanPage} />
+      <Route path="/admin/editProduct" exact component={EditProduct} />
+      <Route path="/admin/createProduct" exact component={CreateProduct} />
+      <Route path="/cart" exact component={CartView} />
+      <Route path="/admin/listProduct" exact component={ProductList} />
+      <Route path="/productDetail" exact component={ProductDetail} />
+      <Route path="/listOrder" exact component={OrdersList} />
+
     </Router>
 
   );

@@ -13,7 +13,7 @@ const ProductItem = () => {
             </div>
             <div class="product-price" id="price-preview">
                 <span className="product-sale">-30%</span>
-                <span className="product-price">553,000₫</span>
+                <span className="product-price-content">553,000₫</span>
                 <del>790,000₫</del>
             </div>
             <div className="product-item__action">
