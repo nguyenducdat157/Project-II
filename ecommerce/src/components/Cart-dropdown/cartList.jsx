@@ -8,6 +8,7 @@ import { DropdownButton } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartArrowDown, faSearch, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 const CartDropdown = (props) => {
+
     return (
 
         // <Dropdown>
@@ -47,6 +48,36 @@ const CartDropdown = (props) => {
 
         </DropdownButton>
 
+// =======
+//     return(
+        
+//             // <Dropdown>
+//             //     <Dropdown.Toggle variant="success" id="dropdown-basic">
+//             //         Dropdown Button
+//             //     </Dropdown.Toggle>
+//             //     <p id="cart"> Giỏ hàng</p>
+//             //     <div id="dropdown-items">
+//             //         <DropdownMenu>
+//             //             <Dropdown.ItemText><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+//             //             <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+//             //             <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+//             //         </DropdownMenu>
+
+//             //     </div>
+//             // </Dropdown>
+        
+//             <DropdownButton variant='light' title={<FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black' }} />} menuAlign="right" id='cart-dropdown'>
+
+//                 <p id="cart"> Giỏ hàng</p>
+//                 <div id="dropdown-items">
+//                     <Dropdown.ItemText><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+//                     <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+//                     <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+//                 </div>
+
+//             </DropdownButton>
+            
+// >>>>>>> c75902f7106ca1864cd6e7a593d45580791d0d32
 
 
 

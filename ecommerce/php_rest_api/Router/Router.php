@@ -10,13 +10,8 @@ $router->post('/upload', 'home@uploadImage');
 
 $router->post('/home', 'home@post');
 
-$router->get('/', function() {
-    echo 'Welcome ';
-    
-});
+$router->get('/', 'home@getAllProducts');
 
 
 $router->post('/login','login@validate_user');
 $router->post('/register','register@register');
-
-

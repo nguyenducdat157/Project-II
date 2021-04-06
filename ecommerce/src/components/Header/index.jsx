@@ -4,9 +4,8 @@ import { Image, Form, FormControl, Button, Nav } from 'react-bootstrap';
 import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartArrowDown, faSearch, faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import Logo from '../../asset/logo.png';
 import CartDropdown from '../Cart-dropdown/cartList';
-
+import Logo from '../../asset/logo.png';
 const HeaderItem = () => {
     return (
         <>
