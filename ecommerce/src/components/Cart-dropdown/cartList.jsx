@@ -5,12 +5,28 @@ import DropdownMenu from 'react-bootstrap/esm/DropdownMenu'
 import DropdownItem from 'react-bootstrap/esm/DropdownItem'
 import './index.css'
 import { DropdownButton } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartArrowDown, faSearch, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 const CartDropdown = (props) => {
     return(
         
+            // <Dropdown>
+            //     <Dropdown.Toggle variant="success" id="dropdown-basic">
+            //         Dropdown Button
+            //     </Dropdown.Toggle>
+            //     <p id="cart"> Giỏ hàng</p>
+            //     <div id="dropdown-items">
+            //         <DropdownMenu>
+            //             <Dropdown.ItemText><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+            //             <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+            //             <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+            //         </DropdownMenu>
 
+            //     </div>
+            // </Dropdown>
         
-            <DropdownButton variant="primary" title="Cart" menuAlign="right">
+            <DropdownButton variant='light' title={<FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black' }} />} menuAlign="right" id='cart-dropdown'>
+
                 <p id="cart"> Giỏ hàng</p>
                 <div id="dropdown-items">
                     <Dropdown.ItemText><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>

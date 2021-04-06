@@ -28,3 +28,8 @@
     background-color: rgb(240, 234, 234);
     text-align: center;
 }
+
+#cart-dropdown{
+    /* border:5px solid; */
+    background-color: #fff;
+}

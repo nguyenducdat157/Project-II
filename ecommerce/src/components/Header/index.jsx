@@ -4,7 +4,7 @@ import { Image, Form, FormControl, Button, Nav } from 'react-bootstrap';
 import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartArrowDown, faSearch, faUserCircle } from '@fortawesome/free-solid-svg-icons';
-
+import CartDropdown from '../Cart-dropdown/cartList';
 
 const HeaderItem = () => {
     return (
@@ -30,7 +30,8 @@ const HeaderItem = () => {
                         <Nav.Link href="/account"><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></Nav.Link>
                     </div>
                     <div className="cart-icon">
-                        <Nav.Link href="/cart"><FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black' }} /></Nav.Link>
+                        {/* <Nav.Link href="/cart"><FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black' }} /></Nav.Link> */}
+                        <CartDropdown/>
                     </div>
                 </div>
             </div>
