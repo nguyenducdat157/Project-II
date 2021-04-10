@@ -37,6 +37,8 @@ $response->setHeader('Content-Type: application/json; charset=UTF-8');
 // set request url and method
 // echo $request->getUrl() . "<br>";
 // echo $request->getMethod() . "<br>";
+echo $request->getUrl();
+
 $router = new Router($request->getUrl(), $request->getMethod());
 
 // import router file

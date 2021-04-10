@@ -106,6 +106,7 @@ class Router {
      *  filter requests by http method
      */
     private function getMatchRoutersByRequestMethod() {
+
         foreach ($this->router as $value) {
             if (strtoupper($this->method) == $value->getMethod())
                 array_push($this->matchRouter, $value);
@@ -116,6 +117,7 @@ class Router {
      * filter route patterns by url request
      */
     private function getMatchRoutersByPattern($pattern) {
+        
         $this->matchRouter = [];
         foreach ($pattern as $value) {
             // echo $value->getPattern() . "<br>";
