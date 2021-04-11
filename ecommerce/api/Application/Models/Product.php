@@ -1,12 +1,7 @@
 <?php
 use MVC\Model;
-class ModelsLogin extends Model{
-    public function find_username($username)
-    {
-        $stmt = $this->db->prepare('
-            SELECT * from user where username = ?
-        ');
-        $stmt->execute(array($username));
-        return $stmt->fetchAll();
+class ModelsProduct extends Model{
+    public function select_all(){
+        return $this->db->query('SELECT * from product');
     }
 }

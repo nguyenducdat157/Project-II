@@ -40,7 +40,7 @@ function App() {
       <Route path="/admin/createProduct" exact component={CreateProduct} />
       <Route path="/cart" exact component={CartView} />
       <Route path="/admin/listProduct" exact component={ProductList} />
-      <Route path="/productDetail" exact component={ProductDetail} />
+      <Route path="/product-detail" exact={false} component={ProductDetail} />
       <Route path="/listOrder" exact component={OrdersList} />
 
     </Router>

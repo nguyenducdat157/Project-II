@@ -23,7 +23,7 @@ define('DATABASE', [
     'Port'   => '3306',
     'Host'   => 'localhost',
     'Driver' => 'PDO',
-    'Name'   => 'cn_web',
+    'Name'   => 'ecommerce',
     'User'   => 'root',
     'Pass'   => '',
     'Prefix' => 'sm_'

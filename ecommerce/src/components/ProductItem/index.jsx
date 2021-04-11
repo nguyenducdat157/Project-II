@@ -1,27 +1,60 @@
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {Link} from 'react-router-dom';
 import React from 'react';
 import './productItem.css';
-const ProductItem = () => {
+
+const ProductItem = (props) => {
+    const {id, available, image, title, sale, salePrice, originalPrice} = props.itemInfo;
+    const itemInfo = props.itemInfo;
+    const saleOff = itemInfo['saleOff'];
+    const name = itemInfo['name'];
+    const price = itemInfo['price']
+
+    const imgFile = require('../../asset/images/products/' + itemInfo['imgFile']).default;
+    // console.log(imgFile);
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+    const displaySaleItem = (saleOff, price) => {
+        return(
+            <div class="product-price" id="price-preview">
+            <span className="product-sale">-{saleOff}%</span>
+            <span className="product-price-content">{numberWithCommas(Math.round((1 - saleOff/100) * price))}đ</span>
+            <del>{numberWithCommas(price)}₫</del>
+            </div>
+        );
+    }
+    const displayNormalItem = (price) => {
+        return(
+            <div class="product-price" id="price-preview">
+            <span className="product-price-content">{numberWithCommas(price)}đ</span>
+
+            </div>
+        );
+
+    }
     return (
         <div className="product-block">
             <div className="product-image">
-                <img src="https://product.hstatic.net/200000201725/product/_nik9584_c1f027880d4148d28450a779faf74478_large.jpg"></img>
+            <Link to={{pathname: `/product-detail/${name}`, state: {info: itemInfo}}}><img src={imgFile}></img></Link>
             </div>
             <div className="product-title">
-                <a href="https://h2tstore.vn/products/quan-jean-1357xc28" >Quần Jeans MUSLAND</a>
+                <Link to={{pathname: `/product-detail/${name}`, state: {info: itemInfo}}}>{name}</Link>
+                {/* <a href="https://h2tstore.vn/products/quan-jean-1357xc28" >{name}</a> */}
             </div>
-            <div class="product-price" id="price-preview">
-                <span className="product-sale">-30%</span>
-                <span className="product-price-content">553,000₫</span>
-                <del>790,000₫</del>
+            {saleOff > 0 ? displaySaleItem(saleOff, price) : displayNormalItem(price)}
+            {/* <div class="product-price" id="price-preview">
+                <span className="product-sale">-{saleOff}%</span>
+                <span className="product-price-content">{Math.round((1 - saleOff/100) * price)}</span>
+                <del>{price}₫</del>
             </div>
             <div className="product-item__action">
                 <span className="product_item__like">
                     <a href="#"><FontAwesomeIcon icon={faHeart} /></a>
                 </span>
 
-            </div>
+            </div> */}
         </div>
     )
 }
