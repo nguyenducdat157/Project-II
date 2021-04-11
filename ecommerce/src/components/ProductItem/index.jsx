@@ -1,20 +1,24 @@
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './productItem.css';
-const ProductItem = () => {
+import ImageQuan from '../../asset/quan1.png';
+import axios from 'axios';
+const ProductItem = (props) => {
+
     return (
         <div className="product-block">
             <div className="product-image">
-                <img src="https://product.hstatic.net/200000201725/product/_nik9584_c1f027880d4148d28450a779faf74478_large.jpg"></img>
+                <a href={`/productDetail/${props.product.id}`}><img src={props.product.imgFile}></img></a>
             </div>
             <div className="product-title">
-                <a href="https://h2tstore.vn/products/quan-jean-1357xc28" >Quần Jeans MUSLAND</a>
+                <a href={`/productDetail/${props.product.id}`} >{props.product.name}</a>
             </div>
             <div class="product-price" id="price-preview">
-                <span className="product-sale">-30%</span>
-                <span className="product-price-content">553,000₫</span>
-                <del>790,000₫</del>
+                <span className="product-sale">-{props.product.sale}</span>
+                <span className="product-price-content">{props.product.price}</span>
+                <del>{props.product.price * (1 - props.product.sale)}</del>
             </div>
             <div className="product-item__action">
                 <span className="product_item__like">

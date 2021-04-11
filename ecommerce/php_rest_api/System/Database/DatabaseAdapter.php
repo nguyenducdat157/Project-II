@@ -28,8 +28,8 @@ class DatabaseAdapter {
      *
      * @param $driver
      * @param $hostname
-     * @param $username
-     * @param $password
+     * @param $username 
+     * @param $password  
      * @param $database
      */
     public function __construct($driver, $hostname, $username, $password, $database, $port) {

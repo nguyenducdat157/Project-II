@@ -1,12 +1,28 @@
 <?php
 use MVC\Model;
-class ModelsLogin extends Model{
-    public function find_username($username)
+class Product extends Model{
+    private $conn;
+    private $id;
+    private $availableAmount;
+    private $description;
+    private $brand;
+    private $imgFile;
+    private $importDate;
+    private $price;
+    private $name;
+    private $sale;
+    private $rating;
+    private $soldAmount;
+    private $status;
+    private $type;
+
+    
+    public function read()
     {
         $stmt = $this->db->prepare('
-            SELECT * from user where username = ?
+            SELECT * from product
         ');
-        $stmt->execute(array($username));
-        return $stmt->fetchAll();
+        $stmt->execute();
+        return $stmt;
     }
 }

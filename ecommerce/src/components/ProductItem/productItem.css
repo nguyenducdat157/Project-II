@@ -2,3 +2,8 @@ li a:hover {
     color: #e85205;
     text-decoration: none;
 }
+
+.product-image:hover,
+.product-title:hover {
+    cursor: pointer;
+}

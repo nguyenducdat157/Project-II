@@ -13,7 +13,7 @@ const HomePage = () => {
             </section>
             <section>
                 <Slice />
-                <div className="container" style={{ maxWidth: '90%' }}>
+                <div className="container" style={{ maxWidth: '100%' }}>
                     <h3>New arrival</h3>
                     <Container />
                     <h3>Sale 50%</h3>

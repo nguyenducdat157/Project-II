@@ -4,7 +4,7 @@ use MVC\Controller;
 //use JWT\JWT;
 //require SYSTEM . 'JWT.php';
 class ControllersHome extends Controller {
-    public function validate_user()
+    public function getAllProducts()
     {
         
         // $model = $this->model('login');
@@ -20,8 +20,10 @@ class ControllersHome extends Controller {
         // {
         //     echo("invalid password");
         // }
-        echo 'Home';
-        
+        $model = $this->model('Product');
+        $products = $model->read();
+        echo $products;
+        echo 'Hello';
     
     }
 
