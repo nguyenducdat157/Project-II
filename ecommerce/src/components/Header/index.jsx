@@ -6,7 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartArrowDown, faSearch, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import CartDropdown from '../Cart-dropdown/cartList';
 import Logo from '../../asset/logo.png';
-const HeaderItem = () => {
+const HeaderItem = (props) => {
+    const login = props.login;
+    // function HandleItems() {
+    //     props.setHandleItems();
+    // }
     return (
         <>
             <div className="header" >
@@ -27,7 +31,7 @@ const HeaderItem = () => {
                         </Form>
                     </div>
                     <div className="account-icon">
-                        <Nav.Link href="/account"><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></Nav.Link>
+                        <Nav.Link href={login ? "/account" : "/signin"}><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></Nav.Link>
                     </div>
                     <div className="cart-icon">
                         {/* <Nav.Link href="/cart"><FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black' }} /></Nav.Link> */}

@@ -10,7 +10,7 @@ import { faCartArrowDown, faSearch, faUserCircle } from '@fortawesome/free-solid
 const CartDropdown = (props) => {
 
     return (
-
+        
         // <Dropdown>
         //     <Dropdown.Toggle variant="success" id="dropdown-basic">
         //         Dropdown Button

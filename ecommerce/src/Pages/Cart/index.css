@@ -51,3 +51,13 @@ ul {
     background-color: #e85205;
     color: #fff;
 }
+
+#payment .button-primary.btn-cart a {
+    color: #fff;
+    text-decoration: none;
+}
+
+#payment .button-primary.btn-cart:hover a {
+    color: rgb(112, 110, 110);
+    text-decoration: none;
+}

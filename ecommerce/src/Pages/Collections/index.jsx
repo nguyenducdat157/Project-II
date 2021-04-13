@@ -1,12 +1,62 @@
 import { Pagination } from '@material-ui/lab';
+import axios from 'axios';
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router';
 import Container from '../../components/ContainerItem';
 import Footer from '../../components/Footer';
 import HeaderItem from '../../components/Header';
+import { HOST_URL } from '../../config';
 
 
 const CollectionPage = () => {
+    const [collectionItems, setCollectionItems] = useState('');
+    const { type } = useParams();
+    console.log(type);
+    // useState(()=>{
+
+    // });
+    // const [login, setLogin] = useState(false);
+    // useEffect(function () {
+
+    //     let config = {
+    //         method: 'get',
+    //         url: `${HOST_URL}/products/`,
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+
+    //     }
+
+
+    useEffect(function () {
+
+        let config = {
+            method: 'get',
+            url: type ? `${HOST_URL}/products/:type?type=${type}` : `${HOST_URL}/products`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+        }
+        axios(config)
+            .then(res => {
+                // if (localStorage.getItem('token')) {
+                //     setLogin(true);
+                // }
+                let data = res.data.response;
+                setCollectionItems(data);
+
+            })
+            .catch(err => {
+                console.log("error!");
+                console.log(err);
+            });
+    }, []);
+
+    // function HandleItems() {
+    //     setCollectionItems([]);
+    // }
 
     return (<>
         <section>
@@ -25,7 +75,7 @@ const CollectionPage = () => {
             </div>
             <div className="container" style={{ maxWidth: '100%' }}>
                 <h3>Tất cả sản phẩm</h3>
-                <Container />
+                <Container productItems={collectionItems} />
 
             </div>
             <div className="collection-pagination">
