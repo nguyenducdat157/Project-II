@@ -12,6 +12,9 @@ const HomePage = (props) => {
     // useState(()=>{
 
     // });
+ 
+
+
     const [login, setLogin] = useState(false);
     useEffect(function(){
 
@@ -52,6 +55,7 @@ const HomePage = (props) => {
 
     return (
         <>
+
             <section>
                 <header>
                     <HeaderItem login={login} />
