@@ -8,7 +8,7 @@
 }
 
 .products li {
-    display: inline;
+    display: inline-block;
 }
 
 img {

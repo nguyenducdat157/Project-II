@@ -8,6 +8,9 @@ import CartDropdown from '../Cart-dropdown/cartList';
 import Logo from '../../asset/logo.png';
 const HeaderItem = (props) => {
     const login = props.login;
+    // function HandleItems() {
+    //     props.setHandleItems();
+    // }
     return (
         <>
             <div className="header" >
@@ -28,7 +31,7 @@ const HeaderItem = (props) => {
                         </Form>
                     </div>
                     <div className="account-icon">
-                        <Nav.Link href={login ? "/account": "/signin"}><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></Nav.Link>
+                        <Nav.Link href={login ? "/account" : "/signin"}><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></Nav.Link>
                     </div>
                     <div className="cart-icon">
                         {/* <Nav.Link href="/cart"><FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black' }} /></Nav.Link> */}

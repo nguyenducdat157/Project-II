@@ -33,9 +33,10 @@ function App() {
       <Route path="/checkout" exact component={Checkout} />
       <Route path="/signin" exact component={SignIn} />
       <Route path="/register" exact component={Signup} />
-      <Route path="/collections/ao" exact component={AoPage} />
+      {/* <Route path="/collections/ao" exact component={AoPage} /> */}
       <Route path="/collections" exact component={CollectionPage} />
-      <Route path="/collections/quan" exact component={QuanPage} />
+      <Route path="/collections/:type" exact component={CollectionPage} />
+      {/* <Route path="/collections/quan" exact component={QuanPage} /> */}
       <Route path="/admin/editProduct" exact component={EditProduct} />
       <Route path="/admin/createProduct" exact component={CreateProduct} />
       <Route path="/cart" exact component={CartView} />

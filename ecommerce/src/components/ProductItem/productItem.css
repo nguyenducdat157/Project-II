@@ -3,9 +3,23 @@ li a:hover {
     text-decoration: none;
 }
 
-#price-preview{
-
+#price-preview {
     width: fit-content;
     margin: auto;
-    
+}
+
+#price-preview.product-price {
+    font-size: 1.3rem;
+    display: inline-flex;
+    margin-left: -32px;
+}
+.product-title {
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+.product-sale {
+    font-size: 1rem;
+}
+.product-price-content {
+    margin-right: 1rem;
 }
