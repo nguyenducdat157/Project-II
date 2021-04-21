@@ -25,8 +25,23 @@ class ControllersUser extends Controller {
     }
     public function register()
     {
+        header('Content-type: application/json');
+        // $this->_model->create_user($_POST['data']);
+        $data = json_decode(file_get_contents('php://input'), true);
        
-        $this->_model->create_user($_POST);
+        if ($this->_model->create_user($data)){
+            $user = ($this->_model->find_username($data['username']));
+            $user = $user[0];
+            $token = JWT::encode($user, SECRET_KEY);        
+            $response = ['user'=>$user];
+            $this->response->sendStatus(200);
+            $this->response->setContent(['token' => $token, 'response'=> $response]);    
+        }
+        else{
+            $response = 'Error creating user';
+            $this->response->sendStatus(401);
+            $this->response->setContent(['response' => $response]);
+        }
 
     }
     public function validate_user()

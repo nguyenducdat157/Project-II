@@ -58,8 +58,20 @@
     background-color: #ffff;
     color: black;
 }
+.quantity-productDetail input.item-quantity{
 
-.quantity {
+    font-weight: 500;
+    font-size: 15px;
+    height: 2rem;
+    padding: 0;
+    text-align: center;
+    width: 3rem;
+    background: #ededed;
+    border: 1px solid #dadbdd;
+    border-radius: 0;
+}
+
+.quantity-productDetail {
     border-bottom: 1px solid rgb(211, 209, 209);
     margin-bottom: 20px;
     padding-bottom: 20px;

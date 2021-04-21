@@ -7,7 +7,7 @@ import { faCartArrowDown, faSearch, faUserCircle } from '@fortawesome/free-solid
 import CartDropdown from '../Cart-dropdown/cartList';
 import Logo from '../../asset/logo.png';
 const HeaderItem = (props) => {
-    const login = props.login;
+    const login = (localStorage.getItem('id') != null);
     // function HandleItems() {
     //     props.setHandleItems();
     // }
@@ -34,8 +34,9 @@ const HeaderItem = (props) => {
                         <Nav.Link href={login ? "/account" : "/signin"}><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></Nav.Link>
                     </div>
                     <div className="cart-icon">
-                        {/* <Nav.Link href="/cart"><FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black' }} /></Nav.Link> */}
-                        <CartDropdown />
+                    
+                        <Nav.Link href="/cart"><FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black', marginLeft: '1rem' }} /></Nav.Link>
+                        {/* <CartDropdown /> */}
                     </div>
                 </div>
             </div>
