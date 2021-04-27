@@ -11,7 +11,7 @@ import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { NavigateBefore } from '@material-ui/icons';
 
 const HeaderItem = (props) => {
-    const login = props.login;
+    const login = (localStorage.getItem('id') != null);
     // function HandleItems() {
     //     props.setHandleItems();
     // }
@@ -84,8 +84,9 @@ const HeaderItem = (props) => {
                         <Nav.Link href={login ? "/account" : "/signin"}><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></Nav.Link>
                     </div>
                     <div className="cart-icon">
-                        {/* <Nav.Link href="/cart"><FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black' }} /></Nav.Link> */}
-                        <CartDropdown />
+                    
+                        <Nav.Link href="/cart"><FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black', marginLeft: '1rem' }} /></Nav.Link>
+                        {/* <CartDropdown /> */}
                     </div>
                 </div>
             </div>

@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { HOST_URL } from '../../config';
 import {Redirect} from 'react-router-dom';
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -74,22 +75,25 @@ export default function SignIn() {
                 // console.log("success!");
                 // console.log(res);
                 setLogin(true);
+                // console.log(res);
                 localStorage.setItem('id', res.data.response.user.id);
                 localStorage.setItem('token', res.data.token);
                 let user = res.data.response.user;
 
-                console.log(user);
-                console.log(user.firstname);
-                console.log(user.lastname);
-                console.log(user.email);
-                console.log(user.address);
-                console.log(user.phone);
+                // console.log(user);
+                // console.log(user.firstname);
+                // console.log(user.lastname);
+                // console.log(user.email);
+                // console.log(user.address);
+                // console.log(user.phone);
                 let userInfo = {
-                    name: user.firstname + ' ' + user.lastname,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
                     email: user.email,
                     address: user.address,
                     phone: user.phone,
                 };
+
                 localStorage.setItem('info', JSON.stringify(userInfo));
                 
             })
@@ -124,7 +128,7 @@ export default function SignIn() {
                     </div>
                     : ''
                 }
-                <form className={classes.form} onSubmit={handleSubmit} noValidate>
+                <form className={classes.form} onSubmit={handleSubmit} >
                     <TextField
                         variant="outlined"
                         margin="normal"

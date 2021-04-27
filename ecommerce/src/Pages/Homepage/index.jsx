@@ -72,6 +72,7 @@ const HomePage = (props) => {
 
     return (
         <>
+
             <section>
                 <header>
                     <HeaderItem login={login} />
