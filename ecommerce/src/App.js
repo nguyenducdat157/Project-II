@@ -23,6 +23,7 @@ import EditProduct from './Pages/EditProduct';
 import ProductList from './Pages/ListProducts';
 import ProductDetail from './Pages/ProductDetail';
 import OrdersList from './Pages/ListOrder';
+import SearchPage from './Pages/Search';
 
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
       <Route path="/admin/listProduct" exact component={ProductList} />
       <Route path="/product-detail" exact={false} component={ProductDetail} />
       <Route path="/listOrder" exact component={OrdersList} />
-
+      <Route path="/search" component={SearchPage} />
     </Router>
 
   );

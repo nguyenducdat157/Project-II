@@ -2,17 +2,25 @@ import { Pagination } from '@material-ui/lab';
 import axios from 'axios';
 
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import Container from '../../components/ContainerItem';
 import Footer from '../../components/Footer';
 import HeaderItem from '../../components/Header';
 import { HOST_URL } from '../../config';
 
 
-const CollectionPage = () => {
+const SearchPage = () => {
     const [collectionItems, setCollectionItems] = useState('');
-    const { type } = useParams();
-    console.log(type);
+    const [url, setUrl] = useState('');
+    // const { type } = useParams();
+    // console.log(type);
+    const getUrl = () => {
+        var search = window.location.search.substring(1);
+        JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
+        var keyword = search.split('=')[1];
+        console.log(keyword);
+        return keyword;
+    }
     // useState(()=>{
 
     // });
@@ -27,15 +35,16 @@ const CollectionPage = () => {
     //         },
 
     //     }
+    const handleSearch = (url) => {
+        setUrl(url);
+    }
 
 
     useEffect(function () {
-
+        var keyword = getUrl();
         let config = {
             method: 'get',
-            url: (type === "new-arrival") ? `${HOST_URL}/products/status/?status=new` :
-                (type === "sale-50") ? `${HOST_URL}/products/status/?status=sale` :
-                    type ? `${HOST_URL}/products/:type?type=${type}` : `${HOST_URL}/products`,
+            url: keyword ? `${HOST_URL}/products/search/?keyword=${keyword}` : `${HOST_URL}/products`,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -54,7 +63,8 @@ const CollectionPage = () => {
                 console.log("error!");
                 console.log(err);
             });
-    }, []);
+
+    }, [url]);
 
     // function HandleItems() {
     //     setCollectionItems([]);
@@ -63,7 +73,7 @@ const CollectionPage = () => {
     return (<>
         <section>
             <header>
-                <HeaderItem />
+                <HeaderItem handleSubmit={handleSearch} />
             </header>
         </section>
         <section>
@@ -76,7 +86,7 @@ const CollectionPage = () => {
                 />
             </div> */}
             <div className="container" style={{ maxWidth: '90%' }}>
-                <h3>Tất cả sản phẩm</h3>
+                <h1>Tìm kiếm</h1>
                 <Container productItems={collectionItems} />
 
             </div>
@@ -98,4 +108,4 @@ const CollectionPage = () => {
     )
 }
 
-export default CollectionPage;
+export default SearchPage;

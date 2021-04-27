@@ -34,6 +34,35 @@ class ControllersProduct extends Controller {
 
     }
 
+    public function get_products_by_key() {
+        $key = isset($_GET['keyword']) ? $_GET['keyword'] : '';
+        $result = $this->_model->getProductsByKey($key);
+       
+        $response = $result->rows;
+
+        $this->response->sendStatus(200);
+        $this->response->setContent(['response'=> $response]);  
+    }
+
+    public function get_products_by_status() {
+        $status = isset($_GET['status']) ? $_GET['status'] : die();
+        if($status=='sale'){
+            $result = $this->_model->getSaleProducts();
+        }
+        else if($status=='new') {
+            $result = $this->_model->getNewProducts();
+        }
+        
+       
+        $response = $result->rows;
+
+        $this->response->sendStatus(200);
+        $this->response->setContent(['response'=> $response]); 
+    }
+
+
+    
+
     
 
 

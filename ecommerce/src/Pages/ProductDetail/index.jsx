@@ -9,7 +9,7 @@ const ProductDetail = (props) => {
     const [choosenSize, setSize] = useState('S');
     const [amount, setAmount] = useState(1);
     const itemInfo = props.location.state.info;
-    
+
     const product = {
         name: itemInfo['name'],
         img: require('../../asset/images/products/' + itemInfo['imgFile']).default,
@@ -49,20 +49,20 @@ const ProductDetail = (props) => {
                     </div>
                     <div className="product-price" id="price-preview-detail">
                         <span>{numberWithCommas(product.price)}đ</span>
-                       
+
                     </div>
 
                     <div className="sizes">{
-                        product.sizes.map((size) => 
-                            <button className="btn-size" onClick={handleClickSize} 
-                            style={{backgroundColor : choosenSize==size ? 'black' : 'white', color : choosenSize==size ? 'white' : 'black'}}>
+                        product.sizes.map((size) =>
+                            <button className="btn-size" onClick={handleClickSize}
+                                style={{ backgroundColor: choosenSize == size ? 'black' : 'white', color: choosenSize == size ? 'white' : 'black' }}>
                                 {size}
                             </button>
                         )
                     }
 
                     </div>
-                    <div className='quantity'>
+                    <div className='quantity-productDetail'>
                         <button className='quantity-minus quantity-btn' disabled={amount == 1} onClick={handleDecreaseAmount}>-</button>
                         <input type='text' name='amount' className='item-quantity' value={amount}></input>
                         <button className='quantity-plus quantity-btn' onClick={handleIncreaseAmount}>+</button>

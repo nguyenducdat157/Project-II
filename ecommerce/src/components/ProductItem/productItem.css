@@ -11,15 +11,29 @@ li a:hover {
 #price-preview.product-price {
     font-size: 1.3rem;
     display: inline-flex;
-    margin-left: -32px;
+    /* margin-left: -32px; */
 }
 .product-title {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 400;
+    text-align: center;
+    display: inline;
 }
 .product-sale {
     font-size: 1rem;
 }
 .product-price-content {
     margin-right: 1rem;
+}
+
+.product-block {
+    display: inline-block;
+    max-width: 100%;
+    margin-right: 40px;
+    width: 250px;
+    text-align: center;
+}
+
+.product-block:hover {
+    box-shadow: 3px 3px 16px #d8d6d6;
 }

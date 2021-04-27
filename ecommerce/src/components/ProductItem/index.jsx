@@ -40,7 +40,7 @@ const ProductItem = (props) => {
                 <Link to={{ pathname: `/product-detail/${name}`, state: { info: itemInfo } }}><img src={imgFile}></img></Link>
             </div>
             <div className="product-title">
-                <Link style={{ marginLeft: '-30px' }} to={{ pathname: `/product-detail/${name}`, state: { info: itemInfo } }}>{name}</Link>
+                <Link to={{ pathname: `/product-detail/${name}`, state: { info: itemInfo } }}>{name}</Link>
                 {/* <a href="https://h2tstore.vn/products/quan-jean-1357xc28" >{name}</a> */}
             </div>
             {saleOff > 0 ? displaySaleItem(saleOff, price) : displayNormalItem(price)}
