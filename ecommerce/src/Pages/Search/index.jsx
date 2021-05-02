@@ -70,6 +70,8 @@ const SearchPage = () => {
     //     setCollectionItems([]);
     // }
 
+    console.log(collectionItems.length);
+
     return (<>
         <section>
             <header>
@@ -87,6 +89,7 @@ const SearchPage = () => {
             </div> */}
             <div className="container" style={{ maxWidth: '90%' }}>
                 <h1>Tìm kiếm</h1>
+                {collectionItems.length ? <p>Có {collectionItems.length} sản phẩm cho tìm kiếm</p> : ''}
                 <Container productItems={collectionItems} />
 
             </div>

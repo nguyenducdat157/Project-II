@@ -18,7 +18,7 @@ const ProductItem = (props) => {
     }
     const displaySaleItem = (saleOff, price) => {
         return (
-            <div class="product-price" id="price-preview">
+            <div class="product-price" id="price-preview" style={{ display: 'inline-flex' }}>
                 <span className="product-price-content">{numberWithCommas(Math.round((1 - saleOff / 100) * price))}đ</span>
                 <del style={{ fontSize: '1.2rem', marginRight: '1rem' }}>{numberWithCommas(price)}₫</del>
                 <p className="product-sale">-{saleOff}%</p>
@@ -27,10 +27,10 @@ const ProductItem = (props) => {
     }
     const displayNormalItem = (price) => {
         return (
-            <div class="product-price" id="price-preview">
+            <div class="product-price" id="price-preview" style={{ display: 'block' }} >
                 <span className="product-price-content">{numberWithCommas(price)}đ</span>
 
-            </div>
+            </div >
         );
 
     }

@@ -11,7 +11,7 @@ class ControllersUser extends Controller {
     }
     public function get_all_users(){
         $users = $this->_model->get_all_users();
-        if (count($users) > 0){
+        if (count(array($users)) > 0){
             $response = ['user'=>$users];
             $this->response->sendStatus(200);
             $this->response->setContent(['response'=> $response]);    

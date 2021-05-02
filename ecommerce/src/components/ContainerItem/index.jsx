@@ -42,7 +42,7 @@ const Container = (props) => {
                     ;
             }
         });
-        console.log(productItems);
+        //  console.log(productItems);
 
     }
 
@@ -54,7 +54,7 @@ const Container = (props) => {
     return (
         <>
             {!props.isHomePage ?
-                <select className="sorting-options" onChange={handleChange} >
+                <select className="sorting-options" onChange={handleChange} style={{ marginBottom: '1%' }} >
                     <option value="">Sắp xếp theo</option>
                     <option value="price-desc">Giá: Giảm dần</option>
                     <option value="price-asc">Giá: Tăng dần</option>

@@ -11,7 +11,7 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-const getTotalBill = (productList) =>{
+const getTotalBill = (productList) => {
     let total = 0;
     for (let i = 0; i < productList.length; i++) {
         total += productList[i].amount * productList[i].price;
@@ -35,11 +35,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Review(props) {
-    
+
     const classes = useStyles();
     const shipInfo = props.shipInfo;
     const cart = props.cart
-    
+
     const totalBill = getTotalBill(cart) + shipInfo.shipFee;
     return (
         <React.Fragment>
@@ -50,7 +50,7 @@ export default function Review(props) {
                 {cart.map((product) => (
                     <ListItem className={classes.listItem} key={product.name}>
                         <ListItemText primary={product.name} secondary={'Size: ' + product.size + ' - ' + 'SL: ' + product.amount} />
-                        <Typography variant="body2">{numberWithCommas(product.price)}đ</Typography>
+                        <Typography variant="body2">{numberWithCommas(product.price * product.amount)}đ</Typography>
                     </ListItem>
                 ))}
                 <ListItem className={classes.listItem}>

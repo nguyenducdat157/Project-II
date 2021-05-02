@@ -6,22 +6,25 @@ import CartDropdown from '../../components/Cart-dropdown/cartList'
 import HeaderItem from '../../components/Header'
 import Footer from '../../components/Footer'
 import '../../App.css'
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 const CartView = (props) => {
 
     const [productList, setProductList] = useState([]);
     const [totalBill, setTotalBill] = useState(0);
     const [login, setLogin] = useState(false);
-    useEffect(function(){
+    useEffect(function () {
         // console.log("hello");
         const products = JSON.parse(localStorage.getItem('cart'));
-        setProductList(products);
-       
-        setTotalBill(getTotalBill(products));
+
+        if (products) {
+            setProductList(products);
+            setTotalBill(getTotalBill(products));
+        }
+
         // console.log(products);
         // console.log(totalBill);
     }, []);
-    
+
     // window.addEventListener('storage', () => {
     //     // When local storage changes, dump the list to
     //     // the console.
@@ -34,8 +37,8 @@ const CartView = (props) => {
 
     const renderCartItems = () => {
         // console.log("rendering");
-        return (productList.map((item, idx)=>
-            <li><CartItem hiddenButton={false} id={idx} itemInfo={item} handleUpdateAmount={handleUpdateAmount} handleItemRemove={handleItemRemove}/></li>
+        return (productList.map((item, idx) =>
+            <li><CartItem hiddenButton={false} id={idx} itemInfo={item} handleUpdateAmount={handleUpdateAmount} handleItemRemove={handleItemRemove} /></li>
         ));
     }
 
@@ -54,7 +57,7 @@ const CartView = (props) => {
         setTotalBill(getTotalBill(productList));
         localStorage.setItem('cart', JSON.stringify(productList));
     }
-    const getTotalBill = (productList) =>{
+    const getTotalBill = (productList) => {
         let total = 0;
         for (let i = 0; i < productList.length; i++) {
             total += productList[i].amount * productList[i].price;
@@ -66,37 +69,42 @@ const CartView = (props) => {
         setLogin(localStorage.getItem('id') != null);
     }
 
-    
+
     return (
         <div>
             <HeaderItem />
             <div className="items-header">
                 <h4>Giỏ hàng của bạn</h4>
-                <p>Có {productList.length} sản phẩm trong giỏ hàng</p>
+                {productList.length ? <p>Có {productList.length} sản phẩm trong giỏ hàng</p> : <p>Không có sản phẩm nào trong giỏ hàng</p>}
             </div>
-            
-            <div className='items-content' hidden={productList.length == 0}>
-                <div className='items'>
-                    <div className="overflow-scroll">
-                        <ul>
-                            {productList.map((item, idx)=>
-                            <li><CartItem hiddenButton={false} id={idx} itemInfo={item} handleUpdateAmount={handleUpdateAmount} handleItemRemove={handleItemRemove}/></li>
-                            )}
-                        </ul>
+            { productList.length ?
+
+                <div className='items-content' hidden={productList.length == 0}>
+                    <div className='items'>
+                        <div className="overflow-scroll">
+                            <ul>
+                                {productList.map((item, idx) =>
+                                    <li><CartItem hiddenButton={false} id={idx} itemInfo={item} handleUpdateAmount={handleUpdateAmount} handleItemRemove={handleItemRemove} /></li>
+                                )}
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="total">
+                        <h5><b>Thông tin đơn hàng</b></h5>
+                        <hr />
+                        <p>Tổng tiền: <span id="total-amount"> {numberWithCommas(totalBill)}đ</span></p>
+                        <hr />
+                        <div id='payment'>
+                            {/* <button className="button-primary btn-cart" onClick={checkLoginStatus}><a href= {login ? "/checkout" : "/signin"} >Thanh toán</a></button> */}
+                            <a href={login ? "/checkout" : "/signin"} ><button className="button-primary btn-cart" onClick={checkLoginStatus} style={{ width: '400px' }}>Thanh toán</button></a>
+                        </div>
                     </div>
                 </div>
-                <div className="total">
-                    <h5><b>Thông tin đơn hàng</b></h5>
-                    <hr />
-                    <p>Tổng tiền: <span id="total-amount"> {numberWithCommas(totalBill)}đ</span></p>
-                    <hr />
-                    <div id='payment'>
-                        <button className="button-primary btn-cart" onClick={checkLoginStatus}><a href= {login ? "/checkout" : "/signin"} >Thanh toán</a></button>
-                    </div>
-                </div>
-            </div>
+                : ''}
             <Footer />
         </div>
+
+
 
     );
 }
