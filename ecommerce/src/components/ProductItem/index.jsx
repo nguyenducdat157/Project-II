@@ -7,6 +7,8 @@ import './productItem.css';
 const ProductItem = (props) => {
     const { id, available, image, title, sale, salePrice, originalPrice } = props.itemInfo;
     const itemInfo = props.itemInfo;
+    // const inWishlist = props.inWishlist;
+    //console.log(inWishlist);
     const saleOff = itemInfo['saleOff'];
     const name = itemInfo['name'];
     const price = itemInfo['price']
@@ -37,10 +39,10 @@ const ProductItem = (props) => {
     return (
         <div className="product-block">
             <div className="product-image">
-                <Link to={{ pathname: `/product-detail/${name}`, state: { info: itemInfo } }}><img src={imgFile}></img></Link>
+                <Link to={{ pathname: `/product-detail/${name}`, state: { info: itemInfo /*Wishlist: inWishlist*/ } }}><img src={imgFile}></img></Link>
             </div>
             <div className="product-title">
-                <Link to={{ pathname: `/product-detail/${name}`, state: { info: itemInfo } }}>{name}</Link>
+                <Link to={{ pathname: `/product-detail/${name}`, state: { info: itemInfo /*Wishlist: inWishlist*/ } }}>{name}</Link>
                 {/* <a href="https://h2tstore.vn/products/quan-jean-1357xc28" >{name}</a> */}
             </div>
             {saleOff > 0 ? displaySaleItem(saleOff, price) : displayNormalItem(price)}

@@ -53,10 +53,13 @@ const HomePage = (props) => {
                 console.log("error!");
                 console.log(err);
             });
+
+
+
     }, []);
     //console.log(allProductItems);
-    console.log(newProductItems);
-    console.log(saleProductItems);
+    //console.log(newProductItems);
+    //console.log(saleProductItems);
     // const newProductItems = [
     //     {},
     //     {},

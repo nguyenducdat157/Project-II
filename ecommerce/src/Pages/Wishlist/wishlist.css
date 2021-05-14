@@ -1,0 +1,18 @@
+.wishlist-item {
+    display: flex;
+    margin-left: 5%;
+    margin-right: 5%;
+    max-width: 90%;
+    width: 100%;
+}
+
+img .wishlist-img {
+    height: inherit;
+    width: 200px;
+}
+.wishlist-info {
+    margin-left: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}

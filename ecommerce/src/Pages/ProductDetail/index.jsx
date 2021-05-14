@@ -1,17 +1,27 @@
 import { CssBaseline } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from '../../components/Footer';
 import HeaderItem from '../../components/Header';
 import './productDetail.css';
 import '../../App.css'
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { HOST_URL } from '../../config';
+import axios from 'axios';
 
 const ProductDetail = (props) => {
     const [choosenSize, setSize] = useState('S');
-    const [amount, setAmount] = useState(1);
+    //const [Wishlist, setWistlist] = useState([]);
     const itemInfo = props.location.state.info;
+    const [amount, setAmount] = useState(1);
+
+    //const itemInWistlist = props.location.state.inWishlist;
     const [showToast, setToast] = useState(false);
+    const [showToastHeart, setToastHeart] = useState(false);
+    const userID = localStorage.getItem('id');
     const product = {
         id: itemInfo['ID'],
         name: itemInfo['name'],
@@ -20,6 +30,33 @@ const ProductDetail = (props) => {
         description: 'cool',
         sizes: ['S', 'M', 'L', 'XL'],
     }
+
+    const getLikedInLocalStorage = () => {
+        //const initLiked = checkInWishlist(product.id);
+        const listWishlist = JSON.parse(localStorage.getItem('wishlist'));
+        // console.log(listWishlist);
+        if (listWishlist === null) {
+            return false;
+
+        }
+        else {
+            for (let i = 0; i < listWishlist.length; i++) {
+                if (listWishlist[i].product_id === product.id) {
+                    // console.log(listWishlist[i].isInWishlist);
+                    return listWishlist[i].isInWishlist;
+
+                }
+            }
+
+            return false;
+        }
+    };
+
+    const [liked, setLiked] = useState(() => {
+        return getLikedInLocalStorage();
+    });
+
+
 
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -39,7 +76,7 @@ const ProductDetail = (props) => {
     const addProductToCart = (products, product) => {
         let found = false
         for (let i = 0; i < products.length; i++) {
-            if (product.id == products[i].id && product.size == products[i].size) {
+            if (product.id === products[i].id && product.size === products[i].size) {
                 products[i].amount += product.amount;
                 // products[i] = product;
                 found = true;
@@ -51,11 +88,14 @@ const ProductDetail = (props) => {
         }
     }
 
+
+
     const handleAddToCart = () => {
         let orderInfo = {
             id: product.id,
             name: product.name,
-            img: product.img,
+            // img: product.img,
+            imgFile: itemInfo['imgFile'],
             price: product.price,
             size: choosenSize,
             amount: amount,
@@ -83,6 +123,128 @@ const ProductDetail = (props) => {
         })
 
     }
+
+    const addToWishList = (items, item) => {
+        let found = false
+        for (let i = 0; i < items.length; i++) {
+            if (item.product_id === items[i].product_id) {
+                items[i].isInWishlist = item.isInWishlist;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            items.push(item);
+        }
+        console.log(item);
+    }
+
+
+    const handleAddToWishList = () => {
+        //console.log(liked);
+        setLiked((preState) => {
+            return !preState;
+        });
+        // console.log(liked);
+        const item = {
+            product_id: product.id,
+            isInWishlist: !getLikedInLocalStorage()
+        }
+
+        if (localStorage.getItem('wishlist') == null) {
+            let items = [];
+
+            addToWishList(items, item);
+
+            // products.push(orderInfo);
+            localStorage.setItem('wishlist', JSON.stringify(items));
+        }
+        else {
+            let items = JSON.parse(localStorage.getItem('wishlist'));
+            // console.log(items);
+            addToWishList(items, item);
+            // console.log(items);
+            // products.push(orderInfo);
+            localStorage.setItem('wishlist', JSON.stringify(items));
+        }
+        //console.log(localStorage.getItem('wishlist'));
+
+        console.log(getLikedInLocalStorage());
+        if (getLikedInLocalStorage() === true) {
+            //console.log("ADDD");
+
+            const data = {
+                "user_id": userID,
+                "product_id": itemInfo['ID']
+            };
+            console.log(JSON.stringify(data));
+
+            let config = {
+                method: 'post',
+                url: `${HOST_URL}/wishlists`,
+                headers: {
+                    'Content-Type': 'application/json'
+                    // "Access-Control-Allow-Methods": "GET, POST, DELETE"
+
+                },
+                data: data
+
+            }
+            //config.headers.add("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+            axios(config)
+                .then(res => {
+                    console.log(res);
+
+
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+
+            setToastHeart(true);
+            toast.success("Đã thêm vào danh sách yêu thích!", {
+                onClose: () => setToastHeart(false),
+                hideProgressBar: true,
+                closeButton: false,
+                position: "top-center",
+
+            })
+
+        } else {
+            //console.log("Remove");
+            const data = {
+                "user_id": userID,
+                "product_id": itemInfo['ID']
+            };
+            console.log(JSON.stringify(data));
+
+            let config = {
+                method: 'delete',
+                url: `${HOST_URL}/wishlists`,
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Access-Control-Allow-Origin': '*',
+                    // 'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS'
+                },
+                data: data
+
+            }
+            axios(config)
+                .then(res => {
+                    console.log(res);
+
+
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+
+
+        }
+
+    }
+
+
     return (
         <>
 
@@ -98,10 +260,18 @@ const ProductDetail = (props) => {
 
                 </div>
                 <div className="product-info">
-                    <div className="product-title" >
-                        <h2>{product.name}</h2>
+                    <div className="head-info">
+                        <div className="product-title" >
+                            <h2>{product.name}</h2>
 
+                        </div>
+                        <div className="wishlist">
+                            <Button variant="outline-light"
+                                onClick={handleAddToWishList}
+                            ><FontAwesomeIcon icon={faHeart} style={{ color: liked ? 'red' : 'black' }} /></Button>
+                        </div>
                     </div>
+
                     <div className="product-price" id="price-preview-detail">
                         <span>{numberWithCommas(product.price)}đ</span>
 

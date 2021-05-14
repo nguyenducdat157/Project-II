@@ -25,6 +25,7 @@ import ProductDetail from './Pages/ProductDetail';
 import OrdersList from './Pages/ListOrder';
 import SearchPage from './Pages/Search';
 import OrderDetail from './Pages/orderDetail';
+import WishlistPage from './Pages/Wishlist';
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
       <Route path="/listOrder" exact component={OrdersList} />
       <Route path="/order-detail" exact={false} component={OrderDetail} />
       <Route path="/search" component={SearchPage} />
+      <Route path="/customer/wishlist" exact={false} component={WishlistPage} />
 
     </Router>
 

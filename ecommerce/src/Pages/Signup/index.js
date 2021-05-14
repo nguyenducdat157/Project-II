@@ -145,14 +145,14 @@ export default function Signup() {
         }
         console.log(validate.emailIsInvalid, validate.phoneIsInvalid);
         setIsInvalid(validate);
+        //  console.log(isInvalid);
 
 
 
 
 
 
-
-        if (user.firstname && user.lastname && user.username && user.password && !isInvalid.emailIsInvalid && !isInvalid.phoneIsInvalid) {
+        if (user.firstname && user.lastname && user.username && user.password && !validate.emailIsInvalid && !validate.phoneIsInvalid) {
             let config = {
                 method: 'post',
                 url: `${HOST_URL}/register`,

@@ -3,7 +3,7 @@ import NavbarItem from '../Navbar';
 import { Image, Form, FormControl, Button, Nav } from 'react-bootstrap';
 import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartArrowDown, faSearch, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCartArrowDown, faSearch, faShoppingCart, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import CartDropdown from '../Cart-dropdown/cartList';
 import Logo from '../../asset/logo.png';
 import { Link, useHistory, Redirect } from 'react-router-dom';
@@ -80,12 +80,13 @@ const HeaderItem = (props) => {
                         </Form>
 
                     </div>
-                    <div className="account-icon">
-                        <Nav.Link href={login ? "/account" : "/signin"}><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></Nav.Link>
+                    <div className="account-icon" style={{ marginRight: '1rem', fontSize: '1rem' }}>
+                        <a href={login ? "/account" : "/signin"}><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></a>
+
                     </div>
                     <div className="cart-icon">
-                    
-                        <Nav.Link href="/cart"><FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black', marginLeft: '1rem' }} /></Nav.Link>
+
+                        <a href="/cart" style={{ display: 'inline-block', marginLeft: '1rem', fontSize: '1rem' }}><FontAwesomeIcon icon={faShoppingCart} style={{ color: 'black' }} /></a>
                         {/* <CartDropdown /> */}
                     </div>
                 </div>

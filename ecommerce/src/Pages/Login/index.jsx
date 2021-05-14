@@ -57,6 +57,7 @@ export default function SignIn() {
     const classes = useStyles();
     const [usernameIsNull, setusernameIsNull] = useState(false);
     const [passwordIsNull, setpasswordIsNull] = useState(false);
+    //const [userId, setUserId] = useState('');
     const handleSubmit = (e) => {
         e.preventDefault();
         let data = {
@@ -111,10 +112,41 @@ export default function SignIn() {
 
                 localStorage.setItem('info', JSON.stringify(userInfo));
 
+                /// xử lý danh sách yêu thích
+                let userId = localStorage.getItem('id');
+                // console.log(userId);
+                axios({
+                    method: 'get',
+                    url: `${HOST_URL}/wishlists?id=${userId}`,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(res => {
+                        let wishlist = res.data.response;
+                        //console.log(wishlist);
+                        let items = wishlist.map((item) => {
+                            // console.log(item);
+                            return {
+                                product_id: item.product_id,
+                                isInWishlist: true
+                            }
+                        })
+                        localStorage.setItem('wishlist', JSON.stringify(items));
+                    })
+                    .catch(err => {
+                        console.log("error!");
+                        console.log(err);
+                    });
+
+
             })
             .catch(err => {
                 setError(true);
             });
+
+
+
     }
 
     const handleUsernameChange = (e) => {
@@ -124,6 +156,9 @@ export default function SignIn() {
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     }
+
+
+
     return (
         <Container component="main" maxWidth="xs">
             {login ? <Redirect

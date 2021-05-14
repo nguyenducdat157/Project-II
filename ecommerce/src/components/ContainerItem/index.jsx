@@ -2,13 +2,61 @@ import { DateRangeSharp } from '@material-ui/icons';
 import React, { useState, useEffect } from 'react';
 import ProductItem from '../ProductItem';
 import './container.css'
-//import axios from 'axios';
+import axios from 'axios';
+import { HOST_URL } from '../../config';
 
 const Container = (props) => {
     const productItems = props.productItems;
-    //console.log(productItems);
+    // console.log(productItems);
     const [option, setOption] = useState('');
     const [direction, setDirection] = useState('');
+    const userID = localStorage.getItem('id');
+    // const [Wishlist, setWistlist] = useState([]);
+    // get wish list
+    //let Wishlist = [];
+    // useEffect(function () {
+    //     if (userID) {
+    //         let config = {
+    //             method: 'get',
+    //             url: `${HOST_URL}/wishlists?id=${userID}`,
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+
+    //         }
+    //         axios(config)
+    //             .then(res => {
+    //                 let data = res.data.response;
+    //                 setWistlist(data);
+    //                 // console.log(Wishlist);
+
+    //             })
+    //             .catch(err => {
+    //                 console.log("error!");
+    //                 console.log(err);
+    //             });
+
+    //     }
+    // }, [])
+
+
+    // //console.log(Wishlist);
+
+
+    // const checkInWishlist = (item) => {
+
+    //     if (Wishlist === []) return false;
+    //     let found = false;
+    //     for (let i = 0; i < Wishlist.length; i++) {
+    //         if (Wishlist[i].product_id === item.ID) {
+    //             found = true;
+    //             break;
+    //         }
+    //     }
+    //     // console.log(item, found);
+    //     return found;
+    // }
+
 
 
     // const listItems = <p>Chưa có sản phẩm nào ở đây</p>;
@@ -48,7 +96,7 @@ const Container = (props) => {
 
     //console.log({ name: 'dat', age: '18' });
     const listItems = productItems.length ? productItems.map((item) =>
-        <li><ProductItem itemInfo={item} /></li>
+        <li><ProductItem itemInfo={item} /*inWishlist={checkInWishlist(item)}*/ /></li>
     ) : <p>Chưa có sản phẩm nào ở đây</p>;
 
     return (

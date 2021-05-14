@@ -12,6 +12,7 @@ import { HOST_URL } from '../../config';
 const SearchPage = () => {
     const [collectionItems, setCollectionItems] = useState('');
     const [url, setUrl] = useState('');
+    const [page, setPage] = useState(1);
     // const { type } = useParams();
     // console.log(type);
     const getUrl = () => {
@@ -38,6 +39,11 @@ const SearchPage = () => {
     const handleSearch = (url) => {
         setUrl(url);
     }
+
+    const handleChangePage = (event, value) => {
+        setPage(value);
+    };
+
 
 
     useEffect(function () {
@@ -94,7 +100,7 @@ const SearchPage = () => {
 
             </div>
             <div className="collection-pagination">
-                <Pagination count={10} style={
+                <Pagination count={Math.ceil(collectionItems.length / 10)} page={page} onChange={handleChangePage} style={
                     {
                         display: 'flex',
                         justifyContent: 'center',
