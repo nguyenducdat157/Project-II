@@ -10,6 +10,7 @@
 
 #dropdown-basic {
     background-color: #fff;
+    font-size: 1.4rem;
 }
 /* #dropdown-basic a {
     text-decoration: none;
@@ -20,3 +21,12 @@
     text-decoration: none;
     color: #000;
 } */
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+.dropdown-toggle:after {
+    border: 0;
+}

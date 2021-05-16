@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { HOST_URL } from '../../config';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 function Copyright() {
     return (
@@ -55,12 +55,28 @@ export default function SignIn() {
     const [login, setLogin] = useState(false);
     const [err, setError] = useState(false);
     const classes = useStyles();
+    const [usernameIsNull, setusernameIsNull] = useState(false);
+    const [passwordIsNull, setpasswordIsNull] = useState(false);
+    //const [userId, setUserId] = useState('');
     const handleSubmit = (e) => {
         e.preventDefault();
         let data = {
             'username': username,
             'password': password,
         };
+        if (!username) {
+            setusernameIsNull(true);
+        }
+        else {
+            setusernameIsNull(false);
+        }
+
+        if (!password) {
+            setpasswordIsNull(true);
+        }
+        else {
+            setpasswordIsNull(false);
+        }
         let config = {
             method: 'post',
             url: `${HOST_URL}/login`,
@@ -68,7 +84,7 @@ export default function SignIn() {
                 'Content-Type': 'application/json'
             },
             data: data
-                
+
         }
         axios(config)
             .then(res => {
@@ -95,13 +111,44 @@ export default function SignIn() {
                 };
 
                 localStorage.setItem('info', JSON.stringify(userInfo));
-                
+
+                /// xử lý danh sách yêu thích
+                let userId = localStorage.getItem('id');
+                // console.log(userId);
+                axios({
+                    method: 'get',
+                    url: `${HOST_URL}/wishlists?id=${userId}`,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(res => {
+                        let wishlist = res.data.response;
+                        //console.log(wishlist);
+                        let items = wishlist.map((item) => {
+                            // console.log(item);
+                            return {
+                                product_id: item.product_id,
+                                isInWishlist: true
+                            }
+                        })
+                        localStorage.setItem('wishlist', JSON.stringify(items));
+                    })
+                    .catch(err => {
+                        console.log("error!");
+                        console.log(err);
+                    });
+
+
             })
             .catch(err => {
                 setError(true);
             });
+
+
+
     }
-    
+
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
     }
@@ -109,10 +156,13 @@ export default function SignIn() {
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     }
+
+
+
     return (
         <Container component="main" maxWidth="xs">
-            {login ? <Redirect 
-                    to='/'
+            {login ? <Redirect
+                to='/'
             /> : ''}
             <CssBaseline />
             <div className={classes.paper}>
@@ -122,9 +172,9 @@ export default function SignIn() {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                {err ? 
+                {err && username && password ?
                     <div class="alert alert-danger" role="alert">
-                        Invalid username or password
+                        Mật khẩu hoặc tài khoản không hợp lệ
                     </div>
                     : ''
                 }
@@ -132,20 +182,28 @@ export default function SignIn() {
                     <TextField
                         variant="outlined"
                         margin="normal"
-                        required
+                        error={usernameIsNull ? true : false}
+                        helperText={usernameIsNull ? "Vui lòng điền tên tài khoản" : ''}
                         fullWidth
                         id="username"
                         label="Username"
                         name="username"
-                       type = "text"
+                        type="text"
                         autoFocus
                         onChange={handleUsernameChange}
-                        
+
                     />
+                    {/* {!username ?
+                        <div class="alert alert-danger" role="alert">
+                            Vui lòng điền tên tài khoản
+                    </div>
+                        : ''
+                    } */}
                     <TextField
                         variant="outlined"
                         margin="normal"
-                        required
+                        error={passwordIsNull && !usernameIsNull ? true : false}
+                        helperText={passwordIsNull && !usernameIsNull ? "Vui lòng điền mật khẩu" : ''}
                         fullWidth
                         name="password"
                         label="Password"
@@ -154,6 +212,12 @@ export default function SignIn() {
                         autoComplete="current-password"
                         onChange={handlePasswordChange}
                     />
+                    {/* {(username.value && !password.value) ?
+                        <div class="alert alert-danger" role="alert">
+                            Vui lòng điền mật khẩu
+                    </div>
+                        : ''
+                    } */}
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"

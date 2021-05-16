@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { HOST_URL } from '../../config';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -51,9 +51,57 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signup() {
 
-    const [user, setUser] = useState({ username: '', password: '',firstname: '', lastname: '', phone: '', email: '', address:''});
+    const [user, setUser] = useState({ username: '', password: '', firstname: '', lastname: '', phone: '', email: '', address: '' });
+
+    const [listUserItems, setListUserItems] = useState([]);
     const [success, setSuccess] = useState(false);
-    const handleChange = (e) =>{
+
+    const [isInvalid, setIsInvalid] = useState({
+        firstnameIsNull: false,
+        lastnameIsNull: false,
+        usernameIsNull: false,
+        passwordIsNull: false,
+        // usernameIsExisted: false,
+        // emailIsInvalid: false,
+        // phoneIsInvalid: false
+    })
+
+
+
+    // get list User
+    // let configUser = {
+    //     method: 'get',
+    //     url: `${HOST_URL}/users`,
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    // }
+    // axios(configUser)
+    //     .then(res => {
+    //         // if (localStorage.getItem('token')) {
+    //         //     setLogin(true);
+    //         // }
+    //         let listUser = res.data.response.user.rows;
+    //         setListUserItems(listUser);
+    //         //console.log(listUser);
+
+    //     })
+    //     .catch(err => {
+    //         console.log("error!");
+    //         console.log(err);
+    //     });
+
+
+    function validateEmail(email) {
+
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+    function validatePhone(phone) {
+        var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        return re.test(String(phone));
+    }
+    const handleChange = (e) => {
         e.preventDefault();
         let userInfo = user;
         let name = e.target.name;
@@ -61,7 +109,7 @@ export default function Signup() {
         // console.log(name);
         // console.log(value);
         userInfo[name] = value;
-        
+
         setUser({
             ...user, userInfo
         });
@@ -74,53 +122,82 @@ export default function Signup() {
             'password': user.password,
             'firstname': user.firstname,
             'lastname': user.lastname,
-            'phone': user.phone, 
-            'email': user.email, 
+            'phone': user.phone,
+            'email': user.email,
             'address': user.address
         };
-        
-        let config = {
-            method: 'post',
-            url: `${HOST_URL}/register`,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: data
-                
-        }
-        axios(config)
-            .then(res => {
-                console.log("success!");
-                setSuccess(true);
-                
-     
-                // console.log(JSON.parse(res.data));
-                // console.log(typeof(res.data));
-                localStorage.setItem('id', res.data.response.user.id);
-                localStorage.setItem('token', res.data.token);
-                const user = res.data.response.user;
-                const userInfo = {
-                    name: user.firstname + ' ' + user.lastname,
-                    email: user.email,
-                    address: user.address,
-                    phone: user.phone,
-                };
-                console.log(userInfo);
-                localStorage.setItem('info', JSON.stringify(userInfo));
+        // for (let i = 0; i < listUserItems.length; i++) {
+        //     if (user.username === listUserItems[i].username) {
+        //         setUsernameIsExisted(true);
+        //         break;
+        //     }
+        // }
 
-                
-            })
-            .catch(err => {
-                setSuccess(false);
-            });
+
+
+        let validate = {
+            firstnameIsNull: !user.firstname ? true : false,
+            lastnameIsNull: !user.lastname ? true : false,
+            usernameIsNull: !user.username ? true : false,
+            passwordIsNull: !user.password ? true : false,
+            // usernameIsExisted: false,
+            emailIsInvalid: !validateEmail(user.email) ? true : false,
+            phoneIsInvalid: !validatePhone(user.phone) ? true : false
+        }
+        console.log(validate.emailIsInvalid, validate.phoneIsInvalid);
+        setIsInvalid(validate);
+        //  console.log(isInvalid);
+
+
+
+
+
+
+        if (user.firstname && user.lastname && user.username && user.password && !validate.emailIsInvalid && !validate.phoneIsInvalid) {
+            let config = {
+                method: 'post',
+                url: `${HOST_URL}/register`,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+
+            }
+            axios(config)
+                .then(res => {
+                    console.log("success!");
+                    setSuccess(true);
+
+
+                    // console.log(JSON.parse(res.data));
+                    // console.log(typeof(res.data));
+                    localStorage.setItem('id', res.data.response.user.id);
+                    localStorage.setItem('token', res.data.token);
+                    const user = res.data.response.user;
+                    const userInfo = {
+                        name: user.firstname + ' ' + user.lastname,
+                        email: user.email,
+                        address: user.address,
+                        phone: user.phone,
+                    };
+                    console.log(userInfo);
+                    localStorage.setItem('info', JSON.stringify(userInfo));
+
+
+                })
+                .catch(err => {
+                    setSuccess(false);
+                });
+
+        }
     }
-    
+
     const classes = useStyles();
 
     return (
-        
+
         <Container component="main" maxWidth="xs">
-            {success ? <Redirect to='/'/> : ''}
+            {success ? <Redirect to='/' /> : ''}
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
@@ -136,23 +213,25 @@ export default function Signup() {
                                 autoComplete="fname"
                                 name="firstname"
                                 variant="outlined"
-                                required
+                                // required
                                 fullWidth
                                 id="firstname"
                                 label="First Name"
                                 onChange={handleChange}
                                 value={user.firstname}
                                 autoFocus
-                                
-                
+                                error={isInvalid.firstnameIsNull ? true : false}
+                                helperText={isInvalid.firstnameIsNull ? "Vui lòng điền vào trường này" : ''}
+
+
                             />
-                            
-                            
+
+
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 variant="outlined"
-                                required
+                                //required
                                 fullWidth
                                 id="lastname"
                                 label="Last Name"
@@ -160,26 +239,30 @@ export default function Signup() {
                                 onChange={handleChange}
                                 value={user.lastname}
                                 autoComplete="lname"
+                                error={isInvalid.lastnameIsNull ? true : false}
+                                helperText={isInvalid.lastnameIsNull ? "Vui lòng điền vào trường này" : ''}
                             />
                         </Grid>
 
                         <Grid item xs={12}>
                             <TextField
                                 variant="outlined"
-                                required
+                                // required
                                 fullWidth
                                 id="username"
                                 label="Username"
                                 onChange={handleChange}
                                 name="username"
                                 value={user.username}
-                                
+                                error={isInvalid.usernameIsNull}
+                                helperText={isInvalid.usernameIsNull ? "Vui lòng điền vào trường này" : ''}
+
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 variant="outlined"
-                                required
+                                // required
                                 fullWidth
                                 name="password"
                                 label="Password"
@@ -188,6 +271,8 @@ export default function Signup() {
                                 onChange={handleChange}
                                 value={user.password}
                                 autoComplete="current-password"
+                                error={isInvalid.passwordIsNull ? true : false}
+                                helperText={isInvalid.passwordIsNull ? "Vui lòng điền vào trường này" : ''}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -199,8 +284,10 @@ export default function Signup() {
                                 name="email"
                                 onChange={handleChange}
                                 value={user.email}
-                            
+
                                 autoComplete="email"
+                                error={isInvalid.emailIsInvalid ? true : false}
+                                helperText={isInvalid.emailIsInvalid ? "Email không hợp lệ" : ''}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -212,7 +299,7 @@ export default function Signup() {
                                 name="address"
                                 onChange={handleChange}
                                 value={user.address}
-                                
+
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -224,7 +311,9 @@ export default function Signup() {
                                 name="phone"
                                 onChange={handleChange}
                                 value={user.phone}
-                                
+                                error={isInvalid.phoneIsInvalid ? true : false}
+                                helperText={isInvalid.phoneIsInvalid ? "Số điện thoại không hợp lệ" : ''}
+
                             />
                         </Grid>
 
@@ -235,7 +324,7 @@ export default function Signup() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-       
+
                     >
                         Sign up
                      </Button>

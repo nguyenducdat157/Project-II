@@ -105,22 +105,23 @@ class ModelsProduct extends Model{
     public function getProductsByType($type) {
        
         $stmt = $this->db->query('select * from product where type like "%'. $type. '%"');
-       //$stmt->bindParam(':id', $this->id);
+        return $stmt;
+    }
 
-    //    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    public function getProductsByKey($key) {
+        $stmt = $this->db->query('select * from product where brand like "%'. $key. '%" or name like "%'. $key. '%"
+        or type like "%'. $key. '%"');
+        return $stmt;
+    }
 
-    //     $this->availableAmount=$row['availableAmount'];
-    //     $this->description=$row['description'];
-    //     $this->brand=$row['brand'];
-    //     $this->imgFile=$row['imgFile'];
-    //     $this->importDate=$row['importDate'];
-    //     $this->price=$row['price'];
-    //     $this->name=$row['name'];
-    //     $this->saleOff=$row['saleOff'];
-    //     $this->rating=$row['rating'];
-    //     $this->soldAmount=$row['soldAmount'];
-    //     $this->status=$row['status'];
-    //     $this->type=$row['type'];
+    public function getSaleProducts() {
+        $stmt = $this->db->query('select * from product where saleOff = 50');
+        return $stmt;
+    }
+
+    public function getNewProducts() {
+        $stmt = $this->db->query('SELECT * from product WHERE datediff(CURDATE(), product.importDate) < 30
+        ');
         return $stmt;
     }
     public function get($id){

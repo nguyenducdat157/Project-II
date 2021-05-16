@@ -4,6 +4,13 @@ import { Link, Redirect, Route } from 'react-router-dom';
 import './category.css';
 const CategoryItem = (props) => {
     const [itemName, setItemName] = useState('');
+    const [show, setShow] = useState(false);
+    const showDropdown = (e) => {
+        setShow(!show);
+    }
+    const hideDropdown = e => {
+        setShow(false);
+    }
     function selectCategory(type) {
         switch (type) {
             case 'Áo':
@@ -42,7 +49,10 @@ const CategoryItem = (props) => {
             case 'Phụ kiện khác':
                 return 'accessory-others';
         }
+
     }
+
+
 
     // function HandleItems() {
     //     props.setHandleItems();
@@ -60,7 +70,10 @@ const CategoryItem = (props) => {
 
     return (
         <div className="dropdown">
-            <Dropdown>
+            <Dropdown
+                show={show}
+                onMouseEnter={showDropdown}
+                onMouseLeave={hideDropdown}>
                 <Dropdown.Toggle variant="light" id="dropdown-basic">
                     <a className="link-primary" href={"/collections/" + selectCategory(props.name)} replace  >{props.name}</a>
                 </Dropdown.Toggle>

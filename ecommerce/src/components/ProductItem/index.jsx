@@ -7,6 +7,8 @@ import './productItem.css';
 const ProductItem = (props) => {
     const { id, available, image, title, sale, salePrice, originalPrice } = props.itemInfo;
     const itemInfo = props.itemInfo;
+    // const inWishlist = props.inWishlist;
+    //console.log(inWishlist);
     const saleOff = itemInfo['saleOff'];
     const name = itemInfo['name'];
     const price = itemInfo['price']
@@ -18,7 +20,7 @@ const ProductItem = (props) => {
     }
     const displaySaleItem = (saleOff, price) => {
         return (
-            <div class="product-price" id="price-preview">
+            <div class="product-price" id="price-preview" style={{ display: 'inline-flex' }}>
                 <span className="product-price-content">{numberWithCommas(Math.round((1 - saleOff / 100) * price))}đ</span>
                 <del style={{ fontSize: '1.2rem', marginRight: '1rem' }}>{numberWithCommas(price)}₫</del>
                 <p className="product-sale">-{saleOff}%</p>
@@ -27,20 +29,20 @@ const ProductItem = (props) => {
     }
     const displayNormalItem = (price) => {
         return (
-            <div class="product-price" id="price-preview">
+            <div class="product-price" id="price-preview" style={{ display: 'block' }} >
                 <span className="product-price-content">{numberWithCommas(price)}đ</span>
 
-            </div>
+            </div >
         );
 
     }
     return (
         <div className="product-block">
             <div className="product-image">
-                <Link to={{ pathname: `/product-detail/${name}`, state: { info: itemInfo } }}><img src={imgFile}></img></Link>
+                <Link to={{ pathname: `/product-detail/${name}`, state: { info: itemInfo /*Wishlist: inWishlist*/ } }}><img src={imgFile}></img></Link>
             </div>
             <div className="product-title">
-                <Link style={{ marginLeft: '-30px' }} to={{ pathname: `/product-detail/${name}`, state: { info: itemInfo } }}>{name}</Link>
+                <Link to={{ pathname: `/product-detail/${name}`, state: { info: itemInfo /*Wishlist: inWishlist*/ } }}>{name}</Link>
                 {/* <a href="https://h2tstore.vn/products/quan-jean-1357xc28" >{name}</a> */}
             </div>
             {saleOff > 0 ? displaySaleItem(saleOff, price) : displayNormalItem(price)}

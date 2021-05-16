@@ -14,6 +14,7 @@ import Footer from '../../components/Footer';
 import '../../App.css';
 
 
+
 function OrdersList(props) {
     //   const orderList = useSelector(state => state.orderList);
     //   const { loading, orders, error } = orderList;
@@ -65,8 +66,8 @@ function OrdersList(props) {
             <HeaderItem />
             <div className="content content-margined">
                 <div className="back-to-result" style={{ marginBottom: '20px' }} >
-                    <Link to="../account" className="link-primary">
-                        <Grid container style={{ width: '15rem' }}>
+                    <Link to="../account" className="link-primary" style={{ display: 'contents' }}>
+                        <Grid container item xs={3} style={{ width: '15rem' }}>
                             <Grid item xs={2}><ArrowBackIcon /></Grid>
                             <Grid item xs={10}>Back to profile</Grid>
                         </Grid>

@@ -2,66 +2,25 @@ import { Pagination } from '@material-ui/lab';
 import axios from 'axios';
 
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import Container from '../../components/ContainerItem';
 import Footer from '../../components/Footer';
 import HeaderItem from '../../components/Header';
 import { HOST_URL } from '../../config';
 
 
-const CollectionPage = () => {
+const SearchPage = () => {
     const [collectionItems, setCollectionItems] = useState('');
-    const [collectionItemsFilters, setCollectionItemsFilters] = useState('');
-    const { type } = useParams();
-    console.log(type);
-
-    //pagination
+    const [url, setUrl] = useState('');
     const [page, setPage] = useState(1);
-
-    const handleChangePage = (event, value) => {
-        setPage(value);
-    };
-
-    //const [filters, setFilters] =
-
-    function setCollectionTitle(type) {
-        switch (type) {
-            case 'ao':
-                return "Áo";
-
-            case 'quan':
-                return "Quần";
-
-            case 'accessory':
-                return "Phụ Kiện";
-
-            case 'quan-jeans':
-                return "Quần Jeans";
-
-            case 'quan-shorts':
-                return "Quần shorts";
-
-            case 'quan-tay':
-                return "Quần Tây";
-
-            case 'ao-somi':
-                return 'Áo Sơmi';
-
-            case 'ao-thun':
-                return 'Áo Thun';
-
-            case 'ao-polo':
-                return 'Áo Polo';
-
-            case 'accessoty-bag':
-                return 'Balo-Túi xách';
-
-            case 'accessory-shoes':
-                return 'Giày';
-
-            case 'accessory-others':
-                return 'Phụ kiện Khác';
-        }
+    // const { type } = useParams();
+    // console.log(type);
+    const getUrl = () => {
+        var search = window.location.search.substring(1);
+        JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
+        var keyword = search.split('=')[1];
+        console.log(keyword);
+        return keyword;
     }
     // useState(()=>{
 
@@ -77,15 +36,21 @@ const CollectionPage = () => {
     //         },
 
     //     }
+    const handleSearch = (url) => {
+        setUrl(url);
+    }
+
+    const handleChangePage = (event, value) => {
+        setPage(value);
+    };
+
 
 
     useEffect(function () {
-
+        var keyword = getUrl();
         let config = {
             method: 'get',
-            url: (type === "new-arrival") ? `${HOST_URL}/products/status/?status=new` :
-                (type === "sale-50") ? `${HOST_URL}/products/status/?status=sale` :
-                    type ? `${HOST_URL}/products/:type?type=${type}` : `${HOST_URL}/products`,
+            url: keyword ? `${HOST_URL}/products/search/?keyword=${keyword}` : `${HOST_URL}/products`,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -98,23 +63,25 @@ const CollectionPage = () => {
                 // }
                 let data = res.data.response;
                 setCollectionItems(data);
-                setCollectionItemsFilters(data.slice(page * 10 - 10, page * 10));
 
             })
             .catch(err => {
                 console.log("error!");
                 console.log(err);
             });
-    }, [page]);
+
+    }, [url]);
 
     // function HandleItems() {
     //     setCollectionItems([]);
     // }
 
+    console.log(collectionItems.length);
+
     return (<>
         <section>
             <header>
-                <HeaderItem />
+                <HeaderItem handleSubmit={handleSearch} />
             </header>
         </section>
         <section>
@@ -127,8 +94,9 @@ const CollectionPage = () => {
                 />
             </div> */}
             <div className="container" style={{ maxWidth: '90%' }}>
-                {type ? <h3><b>{setCollectionTitle(type)}</b></h3> : <h3>Tất cả sản phẩm</h3>}
-                <Container productItems={collectionItemsFilters} />
+                <h1>Tìm kiếm</h1>
+                {collectionItems.length ? <p>Có {collectionItems.length} sản phẩm cho tìm kiếm</p> : ''}
+                <Container productItems={collectionItems} />
 
             </div>
             <div className="collection-pagination">
@@ -149,4 +117,4 @@ const CollectionPage = () => {
     )
 }
 
-export default CollectionPage;
+export default SearchPage;
