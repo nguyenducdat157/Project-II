@@ -15,24 +15,47 @@ import Typography from '@material-ui/core/Typography';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import HeaderItem from '../../components/Header/index';
 import Footer from '../../components/Footer/index';
-
+import axios from 'axios';
+import { HOST_URL } from '../../config';
 
 function ProductList(props) {
     //   const productList = useSelector(state => state.productList);
-    const productList = [{
-        id: '1',
-        name: 'quan au',
-        price: '100',
-        brand: 'addidas',
-        type: 'quan',
-        availableAmount: '100',
-        status: 'new',
-        description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-        image: 'https://product.hstatic.net/200000201725/product/_mg_5019_b98d474453db4d9b83d920178bbd46af_master.jpg',
+    // const productList = [{
+    //     id: '1',
+    //     name: 'quan au',
+    //     price: '100',
+    //     brand: 'addidas',
+    //     type: 'quan',
+    //     availableAmount: '100',
+    //     status: 'new',
+    //     description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    //     image: 'https://product.hstatic.net/200000201725/product/_mg_5019_b98d474453db4d9b83d920178bbd46af_master.jpg',
 
 
 
-    }]
+    // }]
+    const [productList, setProductList] = useState([]);
+    useEffect(function(){
+        let config = {
+            method: 'GET',
+            url: `${HOST_URL}/products`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+                
+        }
+        axios(config)
+            .then(res => {
+                const products = res.data.response; 
+                setProductList(products);
+                console.log(res.data.response);
+                
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, [])
+    
     //   const { loading, products, error } = productList;
 
     //   const productDelete = useSelector(state => state.productDelete);
@@ -74,7 +97,7 @@ function ProductList(props) {
                         <Grid item xs={8}>
                             <Typography component="h1" variant="h5" style={{ textAlign: 'left', marginLeft: '3rem' }}>
                                 Product list
-                        </Typography>
+                            </Typography>
                         </Grid>
                         <Grid item xs={4} style={{ paddingLeft: '12rem' }}>
                             <Link href="../admin/createProduct" style={{ color: '#203040', textDecoration: 'none' }}>
@@ -103,8 +126,8 @@ function ProductList(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody whiteSpace='normal'>
-                            {productList.map(product => (<TableRow key={product.id}>
-                                <TableCell>{product.id}</TableCell>
+                            {productList.map(product => (<TableRow key={product.ID}>
+                                <TableCell>{product.ID}</TableCell>
                                 <TableCell>{product.name}</TableCell>
                                 <TableCell>{product.price}</TableCell>
                                 <TableCell>{product.brand}</TableCell>
@@ -113,7 +136,7 @@ function ProductList(props) {
                                 <TableCell>{product.status}</TableCell>
                                 <TableCell style={{ maxWidth: '4rem', wordBreak: 'break-all' }}>{product.description}</TableCell>
                                 {/* <TableCell>{Math.round((product.rating + Number.EPSILON) * 10) / 10}</TableCell> */}
-                                <TableCell><img src={product.image} className="img-productList"></img></TableCell>
+                                <TableCell><img src={require('../../asset/images/products/' + product.imgFile).default} className="img-productList"></img></TableCell>
                                 <TableCell>
                                     {/* onClick={() => (window.confirm('Are you sure to delete this item?')) ? deleteHandler(product) : {}} */}
                                     <Link style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>

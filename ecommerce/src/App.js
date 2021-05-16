@@ -37,7 +37,7 @@ function App() {
       <Route path="/collections" exact component={CollectionPage} />
       <Route path="/collections/:type" exact component={CollectionPage} />
       {/* <Route path="/collections/quan" exact component={QuanPage} /> */}
-      <Route path="/admin/editProduct" exact component={EditProduct} />
+      <Route path="/admin/editProduct/:id" exact component={EditProduct} />
       <Route path="/admin/createProduct" exact component={CreateProduct} />
       <Route path="/cart" exact component={CartView} />
       <Route path="/admin/listProduct" exact component={ProductList} />
