@@ -33,7 +33,43 @@ class ControllersProduct extends Controller {
 
 
     }
+    public function get($params){
+        $id = $params['id'];
+        $product = $this->_model->get($id);
+        if ($product)
+            $this->send(200, $product);
+        else 
+            $this->send(404, ['error' => 'Product not found']);
+    }
+    public function create(){
+        
+        $data = json_decode(file_get_contents('php://input'));
+        $result = $this->_model->create($data);
+        if ($result)
+            $this->response->sendStatus(201);
+        else 
+            $this->response->sendStatus(400);
+    }
 
+
+    public function update($params){
+        $productID = $params['id'];
+        $data = json_decode(file_get_contents('php://input'));
+        $result = $this->_model->update($productID, $data);
+        if ($result)
+            $this->response->sendStatus(200);
+        else 
+            $this->response->sendStatus(400);
+    }
+
+    public function delete($params){
+        $productID = $params['id'];
+        $result = $this->_model->delete($productID);
+        if ($result)
+            $this->response->sendStatus(200);
+        else 
+            $this->response->sendStatus(400); 
+    }
     
 
 

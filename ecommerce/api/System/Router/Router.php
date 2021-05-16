@@ -142,9 +142,10 @@ class Router {
 	        $patternAsRegex = $patternAsRegex . '?';
 	    }
         $patternAsRegex = '@^' . $patternAsRegex . '$@';
-        
+
         // check match request url
         if (preg_match($patternAsRegex, $url, $paramsValue)) {
+  
             array_shift($paramsValue);
             foreach ($params[0] as $key => $value) {
                 $val = substr($value, 1);
@@ -190,8 +191,9 @@ class Router {
 
         $this->getMatchRoutersByRequestMethod();
         $this->getMatchRoutersByPattern($this->matchRouter);
-
+        
         if (!$this->matchRouter || empty($this->matchRouter)) {
+            echo "false" . PHP_EOL;
 			$this->sendNotFound();        
 		} else {
             // call to callback method
@@ -214,7 +216,7 @@ class Router {
 
             // controller class
             $controller = 'Controllers' . ucfirst($parts[0]);
-
+            // echo $controller . PHP_EOL;
             if (class_exists($controller))
                 $controller = new $controller();
             else
@@ -230,12 +232,16 @@ class Router {
             } else {
                 $method = 'index';
             }
-
+            // echo $method . PHP_EOL;
+ 
             // call to controller
             if (is_callable([$controller, $method]))
                 return call_user_func([$controller, $method], $params);
-            else
-				$this->sendNotFound();
+            else{
+                // echo "false1" . PHP_EOL;
+                $this->sendNotFound();
+            }
+				
         }
     }
 	

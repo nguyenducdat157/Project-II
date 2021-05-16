@@ -1,5 +1,6 @@
 <?php
 use MVC\Model;
+
 class ModelsProduct extends Model{
 
 
@@ -121,5 +122,71 @@ class ModelsProduct extends Model{
     //     $this->status=$row['status'];
     //     $this->type=$row['type'];
         return $stmt;
+    }
+    public function get($id){
+       
+        $query = 'SELECT * FROM product WHERE id = ?';
+        $stmt = $this->db->prepare($query);
+        if ($stmt->execute([$id]))
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        return false;
+    }
+    public function create($data){
+        $query = 'INSERT INTO product (';
+        $fields = '';
+        
+        $values = array();
+        foreach($data as $key=>$value){
+            $fields .= $key . ',';
+            array_push($values, $value);
+        }
+        $fields = substr($fields, 0, -1) . ') VALUES (';
+        for ($i = 0; $i < count($values); $i++){
+            $fields .= '?,';
+        }
+        $fields = substr($fields, 0, -1) . ')';
+        $query .= $fields; 
+    
+        $stmt = $this->db->prepare($query);
+        return $stmt->execute(array_values($values));
+        // return $query;
+
+    
+
+    }
+
+    public function update($id, $data){
+        $update = '';
+        $condition = ' WHERE id = ?';
+        $values = array();
+        foreach($data as $key=>$value){
+            $update .= '`'.$key.'` = ?,';
+            array_push($values, $value); 
+        }
+        array_push($values, $id);
+        $update = substr($update, 0, -1);
+        $query = 'UPDATE product SET ' . $update . $condition; 
+        $stmt = $this->db->prepare($query);
+        return $stmt->execute(array_values($values));
+        // try{
+        //     $stmt = $this->db->prepare($query);
+        //     return $stmt->execute(array_values($values));
+            
+        // } catch (PDOException){
+        //     return false;
+        // }
+
+    }
+
+    public function delete($id){
+        $query = 'DELETE FROM product WHERE id = ?';
+        $stmt = $this->db->prepare($query);
+        return $stmt->execute([$id]);
+        // try{
+        //     $stmt = $this->db->prepare($query);
+        //     return $stmt->execute($id);
+        // } catch (PDOException){
+        //     return false;
+        // }
     }
 }
