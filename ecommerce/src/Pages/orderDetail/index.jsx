@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import HeaderItem from '../../components/Header';
 import Footer from '../../components/Footer';
+import axios from 'axios';
+import { HOST_URL } from '../../config';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,9 +27,80 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function OrderDetail() {
+export default function OrderDetail(props) {
     const classes = useStyles();
+    const orderInfo = props.location.state.info;
+    let timeShipping = new Date(orderInfo.createTime);
+    timeShipping.setDate(timeShipping.getDate() + 3);
+    const [productList, setProductList] = useState([]);
 
+    useEffect(function () {
+        axios({
+            method: 'get',
+            url: `${HOST_URL}/orders/products?orderId=${orderInfo.id}`,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => {
+                let products = res.data.response;
+                console.log(products);
+                setProductList(products);
+
+            })
+            .catch(err => {
+                console.log("error!");
+                console.log(err);
+            });
+    }, []);
+
+    const showListProduct = productList.map(product => {
+        const imgFile = require('../../asset/images/products/' + product.imgFile).default;
+        return (
+
+            <Grid container spacing={3}>
+
+                <Grid item xs={5} style={{ textAlign: 'left' }}>
+
+                    <div className="info-product" style={{ display: 'flex' }}>
+                        <div className="img-product" >
+                            <img className={classes.img} alt="complex" src={imgFile} />
+                        </div>
+                        <div direction="column" style={{ marginLeft: '20px' }}>
+                            <div className="title-product">{product.name}</div>
+                            <div className="size-product">S</div>
+                        </div>
+                    </div>
+
+                </Grid>
+                <Grid item xs={2} style={{ textAlign: 'left' }}>
+                    <p>Giá</p>
+                    <div className="price-product">{product.price}</div>
+
+                </Grid>
+                <Grid item xs={1} style={{ textAlign: 'left' }}>
+                    <p>Số lượng</p>
+                    <div className="amount-product">{product.amount}</div>
+
+                </Grid>
+                <Grid item xs={2} style={{ textAlign: 'left' }}>
+                    <p>Giảm giá</p>
+                    <div className="sale-product">{product.saleOff}%</div>
+
+                </Grid>
+                <Grid item xs={2} style={{ textAlign: 'right' }}>
+                    <p>Tạm tính</p>
+                    <div className="finalprice-product">{Math.round((1 - product.saleOff / 100) * product.price) * product.amount}</div>
+
+                </Grid>
+            </Grid>
+        );
+    })
+
+
+
+
+    //  console.log(orderInfo);
     return (
         <>
             <HeaderItem />
@@ -36,16 +109,16 @@ export default function OrderDetail() {
                     <Grid item xs={4} className="info-receiver" >
                         <p>ĐỊA CHỈ NGƯỜI NHẬN</p>
                         <Paper className={classes.paper} style={{ height: "70%" }}>
-                            <div className="name-receiver"><b>HOÀNG HUY QUÂN</b></div>
-                            <div className="address-receiver">Địa chỉ: Xâm động, xã Vẫn Tảo, huyện Thường Tín, Việt Nam</div>
-                            <div className="phone-receiver">Điện thoại: 0123456789</div>
+                            <div className="name-receiver"><b>{orderInfo.name}</b></div>
+                            <div className="address-receiver">{orderInfo.address}</div>
+                            <div className="phone-receiver">{orderInfo.phone}</div>
                         </Paper>
                     </Grid>
                     <Grid item xs={4} className="info-shipping" >
                         <p>HÌNH THỨC GIAO HÀNG</p>
                         <Paper className={classes.paper} style={{ height: "70%" }}>
-                            <div className="time-shipping">Giao vào Thứ 3, ngày 16</div>
-                            <div className="fee-shipping">Phí vận chuyển: 20000đ</div>
+                            <div className="time-shipping">Giao hàng vào ngày {timeShipping.getDate()}, tháng {timeShipping.getMonth()}</div>
+                            <div className="fee-shipping">Phí vận chuyển: {orderInfo.shippingFee}</div>
                         </Paper>
                     </Grid>
                     <Grid item xs={4} className="info-payment">
@@ -56,41 +129,8 @@ export default function OrderDetail() {
                     </Grid>
                     <Grid item xs={12} >
                         <Paper className={classes.paper} style={{ display: 'grid' }}>
-                            <Grid container spacing={3}>
-                                <Grid item xs={5} style={{ textAlign: 'left' }}>
-                                    <p>Sản phẩm</p>
-                                    <div className="info-product" style={{ display: 'flex' }}>
-                                        <div className="img-product" >
-                                            <img className={classes.img} alt="complex" src="https://product.hstatic.net/200000201725/product/145814512_436424211048780_8189294073782225547_n_92a7dd1e09c948aa9ed2d6742e7c5e6a_grande.jpg" />
-                                        </div>
-                                        <div direction="column" style={{ marginLeft: '20px' }}>
-                                            <div className="title-product">Quần Jeans ống xuông</div>
-                                            <div className="size-product">S</div>
-                                        </div>
-                                    </div>
-
-                                </Grid>
-                                <Grid item xs={2} style={{ textAlign: 'left' }}>
-                                    <p>Giá</p>
-                                    <div className="price-product">59.500đ</div>
-
-                                </Grid>
-                                <Grid item xs={1} style={{ textAlign: 'left' }}>
-                                    <p>Số lượng</p>
-                                    <div className="amount-product">1</div>
-
-                                </Grid>
-                                <Grid item xs={2} style={{ textAlign: 'left' }}>
-                                    <p>Giảm giá</p>
-                                    <div className="sale-product">0đ</div>
-
-                                </Grid>
-                                <Grid item xs={2} style={{ textAlign: 'right' }}>
-                                    <p>Tạm tính</p>
-                                    <div className="finalprice-product">59.500đ</div>
-
-                                </Grid>
-                            </Grid>
+                            <p>Sản phẩm</p>
+                            {showListProduct}
                             <Grid container xs={12} className="summary" style={{ marginTop: '30px' }} >
                                 <Grid item xs={8}>
 
@@ -101,9 +141,9 @@ export default function OrderDetail() {
                                     <p>Tổng cộng</p>
                                 </Grid>
                                 <Grid item xs={2} style={{ textAlign: 'right' }}>
-                                    <p>59.500đ</p>
-                                    <p>0đ</p>
-                                    <p>59.500đ</p>
+                                    <p>{orderInfo.total_price}đ</p>
+                                    <p>{orderInfo.shippingFee}đ</p>
+                                    <p>{parseInt(orderInfo.total_price) + parseInt(orderInfo.shippingFee)}đ</p>
                                 </Grid>
                             </Grid>
                         </Paper>

@@ -8,88 +8,40 @@ import { HOST_URL } from '../../config';
 const Container = (props) => {
     const productItems = props.productItems;
     // console.log(productItems);
+    // const [productItems, setProductItems] = useState(props.productItems);
     const [option, setOption] = useState('');
     const [direction, setDirection] = useState('');
     const userID = localStorage.getItem('id');
-    // const [Wishlist, setWistlist] = useState([]);
-    // get wish list
-    //let Wishlist = [];
-    // useEffect(function () {
-    //     if (userID) {
-    //         let config = {
-    //             method: 'get',
-    //             url: `${HOST_URL}/wishlists?id=${userID}`,
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
 
-    //         }
-    //         axios(config)
-    //             .then(res => {
-    //                 let data = res.data.response;
-    //                 setWistlist(data);
-    //                 // console.log(Wishlist);
-
-    //             })
-    //             .catch(err => {
-    //                 console.log("error!");
-    //                 console.log(err);
-    //             });
-
-    //     }
-    // }, [])
-
-
-    // //console.log(Wishlist);
-
-
-    // const checkInWishlist = (item) => {
-
-    //     if (Wishlist === []) return false;
-    //     let found = false;
-    //     for (let i = 0; i < Wishlist.length; i++) {
-    //         if (Wishlist[i].product_id === item.ID) {
-    //             found = true;
-    //             break;
-    //         }
-    //     }
-    //     // console.log(item, found);
-    //     return found;
-    // }
-
-
-
-    // const listItems = <p>Chưa có sản phẩm nào ở đây</p>;
-    // if (productItems !== [])
-    //     listItems = productItems.map((item) =>
-    //         <li><ProductItem itemInfo={item} /></li>
-    //     );
     const handleChange = (e) => {
         //console.log(e.target.value);
         // console.log(e.target.direction);
         const value = e.target.value.split("-");
         setOption(value[0]);
         setDirection(value[1]);
+        console.log(value);
+        // const tempProductList = productItems;
         productItems.sort((a, b) => {
-            if (option === "price") {
+            if (value[0] === "price") {
 
-                return (direction === 'asc') ? (Math.round((1 - b.saleOff / 100) * b[option])) - (Math.round((1 - a.saleOff / 100) * a[option])) :
-                    (Math.round((1 - a.saleOff / 100) * a[option])) - (Math.round((1 - b.saleOff / 100) * b[option]));
+                return (value[1] === 'desc') ? (Math.round((1 - b.saleOff / 100) * b[value[0]])) - (Math.round((1 - a.saleOff / 100) * a[value[0]])) :
+                    (Math.round((1 - a.saleOff / 100) * a[value[0]])) - (Math.round((1 - b.saleOff / 100) * b[value[0]]));
             }
-            else if (option === 'name') {
-                return (direction === 'asc') ?
-                    b[option].toLowerCase().localeCompare(a[option].toLowerCase()) :
-                    a[option].toLowerCase().localeCompare(b[option].toLowerCase())
+            else if (value[0] === 'name') {
+                return (value[1] === 'desc') ?
+                    b[value[0]].toLowerCase().localeCompare(a[value[0]].toLowerCase()) :
+                    a[value[0]].toLowerCase().localeCompare(b[value[0]].toLowerCase())
                     ;
             }
 
             else {
-                return (direction === 'asc') ?
-                    new Date(a[option]).getTime() - new Date(b[option]).getTime() :
-                    new Date(b[option]).getTime() - new Date(a[option]).getTime()
+                return (value[1] === 'desc') ?
+                    new Date(a[value[0]]).getTime() - new Date(b[value[0]]).getTime() :
+                    new Date(b[value[0]]).getTime() - new Date(a[value[0]]).getTime()
                     ;
             }
         });
+        // props.handleChange(tempProductList);
         //  console.log(productItems);
 
     }

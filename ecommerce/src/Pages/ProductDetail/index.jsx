@@ -16,6 +16,7 @@ const ProductDetail = (props) => {
     const [choosenSize, setSize] = useState('S');
     //const [Wishlist, setWistlist] = useState([]);
     const itemInfo = props.location.state.info;
+    console.log(itemInfo);
     const [amount, setAmount] = useState(1);
 
     //const itemInWistlist = props.location.state.inWishlist;
@@ -27,8 +28,27 @@ const ProductDetail = (props) => {
         name: itemInfo['name'],
         img: require('../../asset/images/products/' + itemInfo['imgFile']).default,
         price: itemInfo['price'],
-        description: 'cool',
-        sizes: ['S', 'M', 'L', 'XL'],
+        description: itemInfo['description'],
+        type: itemInfo['type'],
+        sizes: ['S', 'M', 'L', 'XL', 'XXL']
+    }
+
+    function getSize(type) {
+        switch (type) {
+            case 'quan-jeans':
+            case 'quan-shorts':
+            case 'quan-tay':
+            case 'ao-somi':
+            case 'ao-thun':
+            case 'ao-polo':
+                return ['S', 'M', 'L', 'XL', 'XXL'];
+            case 'accessoty-bag':
+                return [];
+            case 'accessory-shoes':
+                return [38, 39, 40, 41, 42, 43];
+            case 'accessory-others':
+                return [];
+        }
     }
 
     const getLikedInLocalStorage = () => {

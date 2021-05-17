@@ -40,7 +40,10 @@ const AccountPage = () => {
                         <div className="row">
                             <div className="col-xs-12" id="customer_sidebar">
                                 <h2 className="title-detail">Thông tin tài khoản</h2>
-                                <p className="name_account">{info.firstname + ' ' + info.lastname}</p>
+                                {(info.firstname && info.lastname) ?
+                                    <p className="name_account">{info.firstname + ' ' + info.lastname}</p> :
+                                    <p>NULL</p>}
+                                {/* <p className="name_account">{info.firstname + ' ' + info.lastname}</p> */}
                                 <p className="email ">{info.email}</p>
                                 <p className="address">{info.address}</p>
                                 <p className="phone">{info.phone}</p>

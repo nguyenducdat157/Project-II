@@ -40,6 +40,7 @@ class DatabaseAdapter {
         } else {
             exit('Error: Could not load database driver ' . $driver . '!');
         }
+       // $this->dbConnection = new PDO($hostname, $username, $password, $database, $port);
     }
 
     /**

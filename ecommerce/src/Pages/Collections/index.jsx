@@ -22,6 +22,10 @@ const CollectionPage = () => {
         setPage(value);
     };
 
+    // const handleChangeCollectionItems = (productList) => {
+    //     setCollectionItemsFilters(productList);
+    // }
+
     //const [filters, setFilters] =
 
     function setCollectionTitle(type) {
