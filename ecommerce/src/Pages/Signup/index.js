@@ -114,6 +114,7 @@ export default function Signup() {
             ...user, userInfo
         });
     }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
