@@ -1,7 +1,7 @@
 <?php
 
 use MVC\Controller;
-use JWT\JWT;
+
 require SYSTEM . 'JWT.php';
 class ControllersOrder extends Controller {
     private $_model;
