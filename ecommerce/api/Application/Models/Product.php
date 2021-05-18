@@ -98,31 +98,66 @@ class ModelsProduct extends Model{
         return $this->type;
     }
     
-    public function select_all(){
-        return $this->db->query('SELECT * from product');
+    public function select_all($param=null){
+    $query = 'SELECT * from product';
+
+    if($param) {
+       // echo $param['type'];
+        $query =  $query. ' where type like "%'. $param['type']. '%"';
+       // echo $query;
+    }
+    $res = [];
+    $result =  $this->db->query($query);
+   // var_dump($result);
+    foreach($result as $sql) {
+        array_push($res, $sql);
+    }
+    return $res;
     }
 
     public function getProductsByType($type) {
-       
-        $stmt = $this->db->query('select * from product where type like "%'. $type. '%"');
-        return $stmt;
+        $res = [];
+        $result = $this->db->query('select * from product where type like "%'. $type. '%"');
+        
+        foreach($result as $sql) {
+            array_push($res, $sql);
+        }
+        return $res;
     }
 
     public function getProductsByKey($key) {
-        $stmt = $this->db->query('select * from product where brand like "%'. $key. '%" or name like "%'. $key. '%"
+        $res = [];
+        $result = $this->db->query('select * from product where brand like "%'. $key. '%" or name like "%'. $key. '%"
         or type like "%'. $key. '%"');
-        return $stmt;
+        
+        foreach($result as $sql) {
+            array_push($res, $sql);
+        }
+        return $res;
     }
 
     public function getSaleProducts() {
-        $stmt = $this->db->query('select * from product where saleOff = 50');
-        return $stmt;
+        $res = [];
+        $result = $this->db->query('select * from product where saleOff = 50');
+        // return $stmt;
+
+        foreach($result as $sql) {
+            array_push($res, $sql);
+        }
+        return $res;
     }
 
     public function getNewProducts() {
-        $stmt = $this->db->query('SELECT * from product WHERE datediff(CURDATE(), product.importDate) < 30
+        $res = [];
+        
+        $result = $this->db->query('SELECT * from product WHERE datediff(CURDATE(), product.importDate) < 30
         ');
-        return $stmt;
+        // return $stmt;
+
+        foreach($result as $sql) {
+            array_push($res, $sql);
+        }
+        return $res;
     }
     public function get($id){
        

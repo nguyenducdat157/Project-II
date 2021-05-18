@@ -22,6 +22,10 @@ const CollectionPage = () => {
         setPage(value);
     };
 
+    // const handleChangeCollectionItems = (productList) => {
+    //     setCollectionItemsFilters(productList);
+    // }
+
     //const [filters, setFilters] =
 
     function setCollectionTitle(type) {
@@ -81,11 +85,16 @@ const CollectionPage = () => {
 
     useEffect(function () {
 
+        // const url = (type === "new-arrival") ? `${HOST_URL}/products/status?status=new` :
+        //     (type === "sale-50") ? `${HOST_URL}/products/status?status=sale` :
+        //         type ? `${HOST_URL}/products?type=${type}` : `${HOST_URL}/products`;
+        // console.log(url);
+
         let config = {
             method: 'get',
-            url: (type === "new-arrival") ? `${HOST_URL}/products/status/?status=new` :
-                (type === "sale-50") ? `${HOST_URL}/products/status/?status=sale` :
-                    type ? `${HOST_URL}/products/:type?type=${type}` : `${HOST_URL}/products`,
+            url: (type === "new-arrival") ? `${HOST_URL}/products/status?status=new` :
+                (type === "sale-50") ? `${HOST_URL}/products/status?status=sale` :
+                    type ? `${HOST_URL}/products?type=${type}` : `${HOST_URL}/products`,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -97,6 +106,7 @@ const CollectionPage = () => {
                 //     setLogin(true);
                 // }
                 let data = res.data.response;
+                //console.log(data);
                 setCollectionItems(data);
                 setCollectionItemsFilters(data.slice(page * 10 - 10, page * 10));
 

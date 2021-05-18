@@ -12,55 +12,76 @@ import Grid from '@material-ui/core/Grid';
 import HeaderItem from '../../components/Header';
 import Footer from '../../components/Footer';
 import '../../App.css';
+import axios from 'axios';
+import { HOST_URL } from '../../config';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
+function TabElement(props) {
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+        props.parentCallback(newValue);
+    };
+
+    return (
+        <Paper square>
+            <Tabs
+                value={value}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={handleChange}
+                aria-label="disabled tabs example"
+                style={{ marginRight: '20px' }}
+            >
+                <Tab label="Tất cả" style={{ textTransform: 'none' }} />
+                <Tab label="Đang xác nhận" style={{ textTransform: 'none' }} />
+                <Tab label="Đang chuyển" style={{ textTransform: 'none' }} />
+                <Tab label="Đã nhận" style={{ textTransform: 'none' }} />
+            </Tabs>
+        </Paper>
+    );
+}
 
 
 function OrdersList(props) {
-    //   const orderList = useSelector(state => state.orderList);
-    //   const { loading, orders, error } = orderList;
+    const [orders, setOrders] = useState([]);
+    const userId = localStorage.getItem('id');
+    const [tab, setTab] = useState(0);
+    //console.log(userId);
+    const tabValue = ['Tất cả', 'Đang xác nhận', 'Đang chuyển', 'Đã nhận'];
 
-    //   const orderDelete = useSelector(state => state.orderDelete);
-    //   const { loading: loadingDelete, success: successDelete, error: errorDelete } = orderDelete;
 
-    //   const dispatch = useDispatch();
-
-    //   useEffect(() => {
-    //     dispatch(listOrders());
-    //     return () => {
-    //       //
-    //     };
-    //   }, [successDelete]);
-
-    // xóa đơn hàng
-    //   const deleteHandler = (order) => {
-    //     dispatch(deleteOrder(order._id));
-    //   }
-
-    const orders = [{
-        id: '1',
-        createDate: '12-04-2020',
-        userName: 'nguyenducdat',
-        totalPrice: '1.000.000đ',
-        address: 'Hanoi',
-        status: 'Da nhan'
-    },
-    {
-        id: '1',
-        createDate: '12-04-2020',
-        userName: 'nguyenducdat',
-        totalPrice: '1.000.000đ',
-        address: 'Hanoi',
-        status: 'Da nhan'
-    },
-    {
-        id: '1',
-        createDate: '12-04-2020',
-        userName: 'nguyenducdat',
-        totalPrice: '1.000.000đ',
-        address: 'Hanoi',
-        status: 'Da nhan'
+    const callback = (status) => {
+        setTab(status);
     }
-    ]
+
+    useEffect(function () {
+        axios({
+            method: 'get',
+            url: `${HOST_URL}/orders?userId=${userId}`,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => {
+                let orderList = res.data.response;
+                orderList = tab ? orderList.filter(item => {
+                    return item.status === tabValue[tab];
+                }) : orderList;
+                setOrders(orderList);
+
+            })
+            .catch(err => {
+                console.log("error!");
+                console.log(err);
+            });
+    }, [tab]);
+
+
+
     return (
         <>
             <HeaderItem />
@@ -73,17 +94,19 @@ function OrdersList(props) {
                         </Grid>
                     </Link>
                 </div>
-                <div className="order-header">
-                    <h3>Orders</h3>
+                <div className="order-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+                    <h3>Đơn hàng của tôi</h3>
+                    <TabElement style={{ width: 'fit-content' }} parentCallback={callback} />
                 </div>
+
                 <div className="order-list">
 
                     <Table className="table">
                         <TableHead>
                             <tr>
                                 <TableCell>ID</TableCell>
-                                <TableCell>Created Date</TableCell>
-                                <TableCell>User name</TableCell>
+                                <TableCell>Created Time</TableCell>
+                                <TableCell>Full Name</TableCell>
                                 <TableCell>Total Price</TableCell>
                                 <TableCell>Address</TableCell>
                                 <TableCell>Status</TableCell>
@@ -91,10 +114,16 @@ function OrdersList(props) {
                         </TableHead>
                         <TableBody>
                             {orders.map(order => (<tr key={order.id}>
-                                <TableCell>{order.id}</TableCell>
-                                <TableCell>{order.createDate}</TableCell>
-                                <TableCell>{order.userName}</TableCell>
-                                <TableCell>${order.totalPrice}</TableCell>
+
+                                <TableCell>
+                                    <Link to={{ pathname: `/order-detail/${order.id}`, state: { info: order } }}>
+                                        {order.id}
+                                    </Link>
+                                </TableCell>
+                                {/* <TableCell></TableCell> */}
+                                <TableCell>{order.createTime}</TableCell>
+                                <TableCell>{order.name}</TableCell>
+                                <TableCell>{order.total_price}đ</TableCell>
                                 <TableCell>{order.address}</TableCell>
 
                                 <TableCell>{order.status}</TableCell>

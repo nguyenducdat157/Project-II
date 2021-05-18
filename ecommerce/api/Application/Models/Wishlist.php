@@ -24,9 +24,14 @@ class ModelsWishlist extends Model{
     }
 
     public function getWishlistById($id) {
-       
-        $stmt = $this->db->query('select * from wish_list WHERE wish_list.user_id = '.$id);
-        return $stmt;
+        $res = [];
+        $result = $this->db->query('select * from wish_list WHERE wish_list.user_id = '.$id);
+        // return $stmt;
+
+        foreach($result as $sql) {
+            array_push($res, $sql);
+        }
+        return $res;
     }
 
     public function deteleWishlistById($data) {
@@ -50,7 +55,14 @@ class ModelsWishlist extends Model{
     }
 
     public function getProductWishlistById($id) {
-        $stmt = $this->db->query('select product.* from product, wish_list WHERE product.ID = wish_list.product_id and wish_list.user_id = '.$id );
-        return $stmt;
+        $res = [];
+
+        $result = $this->db->query('select product.* from product, wish_list WHERE product.ID = wish_list.product_id and wish_list.user_id = '.$id );
+        // return $stmt;
+
+        foreach($result as $sql) {
+            array_push($res, $sql);
+        }
+        return $res;
     }
 }

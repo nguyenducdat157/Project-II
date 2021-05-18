@@ -30,6 +30,31 @@ class ControllersOrder extends Controller {
             $this->response->setContent(['response' => $response]);
         }
     }
+    public function get_all_orders() {
+        $userId = isset($_GET['userId']) ? $_GET['userId'] : 'admin'; 
+
+        $result = '';
+        if($userId=='admin') {
+            $result = $this->_model->get_all_orders();
+        }
+        else {
+            $result = $this->_model->get_orders_by_userId($userId);
+        }
+      //  $response = $result->rows;
+
+        $this->response->sendStatus(200);
+        $this->response->setContent(['response'=> $result]);   
+    }
+    public function get_product_in_order() {
+        $orderId = isset($_GET['orderId']) ? $_GET['orderId'] : die();
+        $result = $this->_model->get_product_by_orderId($orderId);
+        
+       
+      //  $response = $result->rows;
+
+        $this->response->sendStatus(200);
+        $this->response->setContent(['response'=> $result]); 
+    }
 
     
 

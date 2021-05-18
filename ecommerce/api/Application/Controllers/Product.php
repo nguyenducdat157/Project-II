@@ -10,9 +10,15 @@ class ControllersProduct extends Controller {
         $this->_model = $this->model('product');
     }
 
-    public function get_all_products(){
-        $result = $this->_model->select_all();
-        $response = $result->rows;
+    public function get_all_products($params=null){
+        if(!$params) {
+            $result = $this->_model->select_all();
+        }
+        else {
+            $result = $this->_model->select_all($params);
+        }
+       
+       // $response = $result->rows;
        // print_r($response);
         // while($row = $result->fetch()){
         //     array_push($response, $row);
@@ -21,15 +27,15 @@ class ControllersProduct extends Controller {
         //     array_push($response, $row);
         // }
         $this->response->sendStatus(200);
-        $this->response->setContent(['response'=> $response]);     
+        $this->response->setContent(['response'=> $result]);     
     }
     public function get_products_by_type() {
         $type = isset($_GET['type']) ? $_GET['type'] : ''; 
         $result = $this->_model->getProductsByType($type);
-        $response = $result->rows;
+     //   $response = $result->rows;
 
         $this->response->sendStatus(200);
-        $this->response->setContent(['response'=> $response]);  
+        $this->response->setContent(['response'=> $result]);  
 
 
     }
@@ -74,10 +80,10 @@ class ControllersProduct extends Controller {
         $key = isset($_GET['keyword']) ? $_GET['keyword'] : '';
         $result = $this->_model->getProductsByKey($key);
        
-        $response = $result->rows;
+       // $response = $result->rows;
 
         $this->response->sendStatus(200);
-        $this->response->setContent(['response'=> $response]);  
+        $this->response->setContent(['response'=> $result]);  
     }
 
     public function get_products_by_status() {
@@ -90,10 +96,10 @@ class ControllersProduct extends Controller {
         }
         
        
-        $response = $result->rows;
+       // $response = $result->rows;
 
         $this->response->sendStatus(200);
-        $this->response->setContent(['response'=> $response]); 
+        $this->response->setContent(['response'=> $result]); 
     }
 
 
