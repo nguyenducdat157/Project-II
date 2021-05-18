@@ -51,10 +51,10 @@ class ControllersWishlist extends Controller {
     public function get_wishlist_by_id() {
         $id = isset($_GET['id']) ? $_GET['id'] : ''; 
         $result = $this->_model->getWishlistById($id);
-        $response = $result->rows;
+      //  $response = $result->rows;
 
         $this->response->sendStatus(200);
-        $this->response->setContent(['response'=> $response]);  
+        $this->response->setContent(['response'=> $result]);  
 
 
     }
@@ -62,10 +62,10 @@ class ControllersWishlist extends Controller {
     public function get_product_wishlist_by_id() {
         $id = isset($_GET['id']) ? $_GET['id'] : ''; 
         $result = $this->_model->getProductWishlistById($id);
-        $response = $result->rows;
+       // $response = $result->rows;
 
         $this->response->sendStatus(200);
-        $this->response->setContent(['response'=> $response]);  
+        $this->response->setContent(['response'=> $result]);  
 
 
     }

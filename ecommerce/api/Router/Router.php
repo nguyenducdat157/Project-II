@@ -19,7 +19,7 @@ $router->post('/orders', 'order@create_order');
 
 $router->get('/products/:type', 'product@get_products_by_type');
 $router->get('/products/search/', 'product@get_products_by_key');
-$router->get('/products/status/', 'product@get_products_by_status');
+$router->get('/products/status', 'product@get_products_by_status');
 
 $router->post('/wishlists', 'wishlist@add_to_wishlist');
 $router->get('/wishlists', 'wishlist@get_wishlist_by_id');

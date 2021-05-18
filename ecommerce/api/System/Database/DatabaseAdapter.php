@@ -31,17 +31,7 @@ class DatabaseAdapter {
             print "Error!: " . $e->getMessage() . " <br/>";
             die();
         }
-<<<<<<< HEAD
        // $this->dbConnection = new PDO($hostname, $username, $password, $database, $port);
-=======
-        // $class = '\Database\DB\\' . $driver;
-
-        // if (class_exists($class)) {
-        //     $this->dbConnection = new $class($hostname, $username, $password, $database, $port);
-        // } else {
-        //     exit('Error: Could not load database driver ' . $driver . '!');
-        // }
->>>>>>> f897094484045fd9880f10c43fe05d1159f52a2d
     }
 
 

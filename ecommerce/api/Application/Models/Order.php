@@ -32,20 +32,34 @@ class ModelsOrder extends Model{
     }
 
     public function get_all_orders() {
-        return $this->db->query('SELECT `order`.*, sum(product.price * (1 - product.saleOff / 100) * order_item.amount) as total_price
+        $res = [];
+        $result = $this->db->query('SELECT `order`.*, sum(product.price * (1 - product.saleOff / 100) * order_item.amount) as total_price
                 from order_item, product, `order`     
                 WHERE order_item.order_id = `order`.id
                 and order_item.product_id = product.ID
                 GROUP BY `order`.`userID`, `order`.`id`');
+        
+        foreach($result as $sql) {
+            array_push($res, $sql);
+        }
+        return $res;
+        
     }
 
     public function get_orders_by_userId($userId) {
-        return $this->db->query('SELECT `order`.*, sum(product.price * (1 - product.saleOff / 100) * order_item.amount) as total_price
+        $res = [];
+        $result =  $this->db->query('SELECT `order`.*, sum(product.price * (1 - product.saleOff / 100) * order_item.amount) as total_price
                 from order_item, product, `order`     
                 WHERE order_item.order_id = `order`.id
                 and order_item.product_id = product.ID
                  and `order`.userID = '.$userId. ' GROUP BY `order`.`userID`, `order`.`id`');
         
+
+                 
+        foreach($result as $sql) {
+            array_push($res, $sql);
+        }
+        return $res;
         // $orders = [];
         // $stmt = $this->db->prepare('select * from order where userID = '. $userId);
         // // while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -72,9 +86,15 @@ class ModelsOrder extends Model{
     }
 
     public function get_product_by_orderId($orderId) {
-        return $this->db->query('
+        $res = [];
+        $result =  $this->db->query('
         select product.*, order_item.amount as amount from product, order_item 
         WHERE order_item.product_id = product.ID 
         and order_item.order_id = '.$orderId. ' GROUP by product.ID');
+
+        foreach($result as $sql) {
+            array_push($res, $sql);
+        }
+        return $res;
     }
 }
