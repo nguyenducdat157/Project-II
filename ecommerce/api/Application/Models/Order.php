@@ -6,7 +6,7 @@ class ModelsOrder extends Model{
         $userId = $data['user_id'];
         $shipInfo = $data['ship_info'];
         extract($shipInfo);
-        $orderInfo = array($userId, $firstname . ' ' . $lastname, $timeCreated, 'pending', $shipFee, $address, $phone);
+        $orderInfo = array($userId, $firstname . ' ' . $lastname, $timeCreated, 'Đang xác nhận', $shipFee, $address, $phone);
         $products = $data['products'];
         
         $stmt = $this->db->prepare('
@@ -97,4 +97,45 @@ class ModelsOrder extends Model{
         }
         return $res;
     }
+
+    public function change_status_order($id, $status) {
+        $sql = 'update `order` set `order`.status = "'.$status. '" where `order`.id = '. $id;
+        $stmt = $this->db->prepare($sql);
+        //var_dump($stmt);
+        if($stmt->execute()) {
+            return true;
+        } 
+        return false;
+    }
+
+    public function update_amount_product($orderId) {
+        $sql = 'SELECT product.ID, product.availableAmount, product.soldAmount, order_item.amount 
+        from product, order_item 
+        WHERE product.id = `order_item`.`product_id` 
+        and order_item.order_id = '. $orderId;
+        $stmt = $this->db->prepare($sql);
+        //var_dump($stmt);
+        if($stmt->execute()) {
+            $products = $stmt->fetchAll();
+            //var_dump($products);
+            foreach($products as $product) {
+                $id = $product['ID'];
+                $amount = $product['amount'];
+                $availableAmount = $product['availableAmount'] + $amount;
+                $soldAmount = ($product['soldAmount'] - $amount) > 0 ? $product['soldAmount'] - $amount : 0;
+                $stmt = $this->db->prepare('
+                    update product set product.availableAmount = '.$availableAmount.', product.soldAmount = '.$soldAmount.'
+                     where product.ID = '. $id
+            );
+                if(!$stmt->execute()) {
+                    return false;
+                }
+
+            }
+            return true;
+        } 
+        return false;
+    }
+
+
 }

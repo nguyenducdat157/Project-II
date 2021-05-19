@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const CartItem = (props) => {
 
     const itemInfo = props.itemInfo;
-    //console.log(itemInfo);
+    console.log(itemInfo);
     const id = props.id;
     const [amount, setAmount] = useState(itemInfo.amount);
     const imgFile = require('../../asset/images/products/' + itemInfo['imgFile']).default;
@@ -19,7 +19,7 @@ const CartItem = (props) => {
         if (!props.hiddenButton) {
 
 
-            setAmount(amount + 1);
+            setAmount(Math.min(amount + 1, itemInfo['availableAmount']));
 
             // console.log(amount + 1);
             props.handleUpdateAmount(id, amount + 1);
@@ -51,7 +51,7 @@ const CartItem = (props) => {
                         <Link to={{ pathname: `/product-detail/${itemInfo.name}`, state: { info: itemInfo } }}> <h4> {itemInfo.name} </h4></Link>
                         {/* <h4> {itemInfo.name} </h4> */}
                         <p hidden={props.hiddenButton}> <span className='item-price'>{numberWithCommas(itemInfo.price)}</span></p>
-                        <p> <span className='variant'> {itemInfo.size}</span></p>
+                        {/* <p> <span className='variant'> {itemInfo.size}</span></p> */}
                     </div>
                     <div className='item-remove'>
                         <button type="button" class="close" aria-label="Close" onClick={handleItemRemove}>

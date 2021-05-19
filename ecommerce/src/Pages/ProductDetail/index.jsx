@@ -30,26 +30,27 @@ const ProductDetail = (props) => {
         price: itemInfo['price'],
         description: itemInfo['description'],
         type: itemInfo['type'],
+        availableAmount: itemInfo['availableAmount'],
         sizes: ['S', 'M', 'L', 'XL', 'XXL']
     }
 
-    function getSize(type) {
-        switch (type) {
-            case 'quan-jeans':
-            case 'quan-shorts':
-            case 'quan-tay':
-            case 'ao-somi':
-            case 'ao-thun':
-            case 'ao-polo':
-                return ['S', 'M', 'L', 'XL', 'XXL'];
-            case 'accessoty-bag':
-                return [];
-            case 'accessory-shoes':
-                return [38, 39, 40, 41, 42, 43];
-            case 'accessory-others':
-                return [];
-        }
-    }
+    // function getSize(type) {
+    //     switch (type) {
+    //         case 'quan-jeans':
+    //         case 'quan-shorts':
+    //         case 'quan-tay':
+    //         case 'ao-somi':
+    //         case 'ao-thun':
+    //         case 'ao-polo':
+    //             return ['S', 'M', 'L', 'XL', 'XXL'];
+    //         case 'accessoty-bag':
+    //             return [];
+    //         case 'accessory-shoes':
+    //             return [38, 39, 40, 41, 42, 43];
+    //         case 'accessory-others':
+    //             return [];
+    //     }
+    // }
 
     const getLikedInLocalStorage = () => {
         //const initLiked = checkInWishlist(product.id);
@@ -119,6 +120,7 @@ const ProductDetail = (props) => {
             price: product.price,
             size: choosenSize,
             amount: amount,
+            availableAmount: product.availableAmount
         };
         // console.log(orderInfo);
         if (localStorage.getItem('cart') == null) {
@@ -297,7 +299,7 @@ const ProductDetail = (props) => {
 
                     </div>
 
-                    <div className="sizes">{
+                    {/* <div className="sizes">{
                         product.sizes.map((size) =>
                             <button className="btn-size" onClick={handleClickSize}
                                 style={{ backgroundColor: choosenSize == size ? 'black' : 'white', color: choosenSize == size ? 'white' : 'black' }}>
@@ -306,11 +308,14 @@ const ProductDetail = (props) => {
                         )
                     }
 
+                    </div> */}
+                    <div className="product-soldAmount">
+                        <p>Đã bán: <b>{itemInfo['soldAmount']}</b> sản phẩm</p>
                     </div>
                     <div className='quantity-productDetail'>
-                        <button className='quantity-minus quantity-btn' disabled={amount == 1} onClick={handleDecreaseAmount}>-</button>
+                        <button className='quantity-minus quantity-btn' disabled={amount === 1} onClick={handleDecreaseAmount}>-</button>
                         <input type='text' name='amount' className='item-quantity' value={amount}></input>
-                        <button className='quantity-plus quantity-btn' onClick={handleIncreaseAmount}>+</button>
+                        <button className='quantity-plus quantity-btn' disabled={amount === parseInt(itemInfo['availableAmount'])} onClick={handleIncreaseAmount}>+</button>
                         <CssBaseline />
                     </div>
 
