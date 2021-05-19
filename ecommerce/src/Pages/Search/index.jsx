@@ -11,6 +11,7 @@ import { HOST_URL } from '../../config';
 
 const SearchPage = () => {
     const [collectionItems, setCollectionItems] = useState('');
+    const [collectionItemsFilters, setCollectionItemsFilters] = useState('');
     const [url, setUrl] = useState('');
     const [page, setPage] = useState(1);
     // const { type } = useParams();
@@ -63,6 +64,8 @@ const SearchPage = () => {
                 // }
                 let data = res.data.response;
                 setCollectionItems(data);
+                //setCollectionItems(data.slice(page * 10 - 10, page * 10));
+                setCollectionItemsFilters(data.slice(page * 10 - 10, page * 10));
 
             })
             .catch(err => {
@@ -70,7 +73,7 @@ const SearchPage = () => {
                 console.log(err);
             });
 
-    }, [url]);
+    }, [url, page]);
 
     // function HandleItems() {
     //     setCollectionItems([]);
@@ -96,7 +99,7 @@ const SearchPage = () => {
             <div className="container" style={{ maxWidth: '90%' }}>
                 <h1>Tìm kiếm</h1>
                 {collectionItems.length ? <p>Có {collectionItems.length} sản phẩm cho tìm kiếm</p> : ''}
-                <Container productItems={collectionItems} />
+                <Container productItems={collectionItemsFilters} />
 
             </div>
             <div className="collection-pagination">

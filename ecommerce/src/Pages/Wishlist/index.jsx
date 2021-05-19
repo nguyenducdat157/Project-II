@@ -104,6 +104,7 @@ const WishlistPage = () => {
         productList.splice(id, 1);
         setProductList(productList);
         setItemChange(product_id);
+        //console.log(itemChange);
         // setTotalBill(getTotalBill(productList));
         const item = {
             product_id: product_id,

@@ -56,6 +56,36 @@ class ControllersOrder extends Controller {
         $this->response->setContent(['response'=> $result]); 
     }
 
+    public function update_status_order() {
+        header('Content-type: application/json');
+        $data = json_decode(file_get_contents('php://input'), true);
+        $id = $data['id'];
+        $status = $data['status'];
+        $isAdmin = $data['isAdmin'];
+
+        //$result = $this->_model->change_status_order($id, $status);
+        if($isAdmin) {
+            $result = $this->_model->change_status_order($id, $status);
+        }
+        else {
+            $result = $this->_model->update_amount_product($id) and $this->_model->change_status_order($id, $status);
+        }
+        //var_dump($result);
+        if ($result){
+            $response = 'Successfully updated order';
+            $this->response->sendStatus(200);
+            $this->response->setContent(['response' => $response]);
+        }
+        else{
+            $response = 'Error updating order';
+            $this->response->sendStatus(401);
+            $this->response->setContent(['response' => $response]);
+        }
+    }
+
+    
+
+
     
 
 
