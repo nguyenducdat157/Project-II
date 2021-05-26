@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 //import { useSelector, useDispatch } from 'react-redux';
 //import { listProducts, deleteProduct } from '../actions/productActions';
 import Table from '@material-ui/core/Table';
@@ -17,45 +17,96 @@ import HeaderItem from '../../components/Header/index';
 import Footer from '../../components/Footer/index';
 import axios from 'axios';
 import { HOST_URL } from '../../config';
+import { AdminHeader } from '../Admin/dashboard';
+import { Paper, Tabs, Tab } from '@material-ui/core';
+
+
+function TabElement(props) {
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+        props.parentCallback(newValue);
+    };
+
+
+    return (
+        <Paper square>
+            <Tabs
+                value={value}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={handleChange}
+                aria-label="disabled tabs example"
+                style={{ marginRight: '20px' }}
+            >
+                <Tab label="Tất cả" style={{ textTransform: 'none' }} />
+                <Tab label="new" style={{ textTransform: 'none' }} />
+                <Tab label="hot" style={{ textTransform: 'none' }} />
+            </Tabs>
+        </Paper>
+    );
+}
+
 
 function ProductList(props) {
-    //   const productList = useSelector(state => state.productList);
-    // const productList = [{
-    //     id: '1',
-    //     name: 'quan au',
-    //     price: '100',
-    //     brand: 'addidas',
-    //     type: 'quan',
-    //     availableAmount: '100',
-    //     status: 'new',
-    //     description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    //     image: 'https://product.hstatic.net/200000201725/product/_mg_5019_b98d474453db4d9b83d920178bbd46af_master.jpg',
+    const [idDelete, setIdDelete] = useState(0);
+    const [tab, setTab] = useState(0);
+    const tabValue = ['Tất cả', 'new', 'hot'];
+
+    const callback = (status) => {
+        setTab(status);
+    }
+    const handleDelete = (id) => {
 
 
+        axios({
+            method: 'delete',
+            url: `${HOST_URL}/products`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: id
+        })
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log("error!");
+                console.log(err);
+            });
 
-    // }]
+        setIdDelete(id);
+
+
+    }
+
     const [productList, setProductList] = useState([]);
-    useEffect(function(){
+    useEffect(function () {
         let config = {
             method: 'GET',
             url: `${HOST_URL}/products`,
             headers: {
                 'Content-Type': 'application/json'
             },
-                
+
         }
         axios(config)
             .then(res => {
-                const products = res.data.response; 
+                let products = res.data.response;
+                console.log(products);
+                products = tab ? products.filter(item => {
+                    return item.status === tabValue[tab];
+                }) : products;
                 setProductList(products);
                 console.log(res.data.response);
-                
+
             })
             .catch(err => {
                 console.log(err);
             });
-    }, [])
-    
+    }, [tab])
+
     //   const { loading, products, error } = productList;
 
     //   const productDelete = useSelector(state => state.productDelete);
@@ -81,17 +132,16 @@ function ProductList(props) {
     // return loading ? <div>Loading...</div> :
     return (
         <>
-            <HeaderItem />
+            <AdminHeader />
             <div className="content content-margined">
-                {/* <div className="back-to-result">
-                <Link href="../profile" style={{ cursor: 'pointer', textDecoration: 'none' }}>
-                    <Grid container style={{ width: '15rem' }}>
-                        <Grid item xs={2}><ArrowBackIcon /></Grid>
-                        <Grid item xs={10}>Back to profile</Grid>
-                    </Grid>
-                </Link>
-            </div> */}
-
+                <div className="back-to-result" style={{ marginBottom: '20px' }}>
+                    <Link to="../admin" className="link-primary" style={{ cursor: 'pointer', textDecoration: 'none' }}>
+                        <Grid container style={{ width: '15rem' }}>
+                            <Grid item xs={2}><ArrowBackIcon /></Grid>
+                            <Grid item xs={10}>Back to profile</Grid>
+                        </Grid>
+                    </Link>
+                </div>
                 <div className="product-header">
                     <Grid container>
                         <Grid item xs={8}>
@@ -100,13 +150,14 @@ function ProductList(props) {
                             </Typography>
                         </Grid>
                         <Grid item xs={4} style={{ paddingLeft: '12rem' }}>
-                            <Link href="../admin/createProduct" style={{ color: '#203040', textDecoration: 'none' }}>
+                            <Link to="../admin/createProduct" className="link-primary" style={{ textDecoration: 'none' }}>
                                 <Grid container>
                                     <Grid item xs={1}><AddBoxIcon /></Grid>
                                     <Grid item xs={4} style={{ fontSize: '1rem' }}>Add product</Grid>
                                 </Grid>
                             </Link>
                         </Grid>
+                        <TabElement style={{ width: 'fit-content' }} parentCallback={callback} />
                     </Grid>
                 </div>
                 <div className="product-list">
@@ -139,8 +190,17 @@ function ProductList(props) {
                                 <TableCell><img src={require('../../asset/images/products/' + product.imgFile).default} className="img-productList"></img></TableCell>
                                 <TableCell>
                                     {/* onClick={() => (window.confirm('Are you sure to delete this item?')) ? deleteHandler(product) : {}} */}
-                                    <Link style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>
-                                    <Link href={"../admin/updateProduct/" + product.id} style={{ color: "#203040", cursor: 'pointer' }}><CreateIcon /></Link>
+                                    {/* <Link style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link> */}
+                                    <Link onClick={() => (window.confirm('Bạn có chắc chắn muốn xóa sản phẩm hàng này không')) ? handleDelete(product.ID) : {}} style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>
+                                    {/* <Link to={ "../admin/editProduct/" + product.id} style={{ color: "#203040", cursor: 'pointer' }}><CreateIcon /></Link> */}
+                                    <Link
+                                        to={{
+                                            pathname: `../admin/editProduct/${product.ID}`,
+                                            // state: { info: itemInfo /*Wishlist: inWishlist*/ }
+                                        }}
+                                        style={{ color: "#203040", cursor: 'pointer' }}>
+                                        <CreateIcon />
+                                    </Link>
                                 </TableCell>
                             </TableRow>))}
                         </TableBody>

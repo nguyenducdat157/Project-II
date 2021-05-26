@@ -57,7 +57,7 @@ const CollectionPage = () => {
             case 'ao-polo':
                 return 'Áo Polo';
 
-            case 'accessoty-bag':
+            case 'accessory-bag':
                 return 'Balo-Túi xách';
 
             case 'accessory-shoes':

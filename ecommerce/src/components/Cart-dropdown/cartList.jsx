@@ -7,23 +7,23 @@ import './index.css'
 import { DropdownButton } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartArrowDown, faSearch, faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 const CartDropdown = (props) => {
     const [productList, setProductList] = useState([]);
     const [totalBill, setTotalBill] = useState(0);
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
-    useEffect(function(){
+    useEffect(function () {
         // console.log("hello");
         const products = JSON.parse(localStorage.getItem('cart'));
         setProductList(products);
-       
+
         setTotalBill(getTotalBill(products));
         // console.log(products);
         // console.log(totalBill);
     }, []);
-    const getTotalBill = (productList) =>{
+    const getTotalBill = (productList) => {
         let total = 0;
         for (let i = 0; i < productList.length; i++) {
             total += productList[i].amount * productList[i].price;
@@ -33,8 +33,8 @@ const CartDropdown = (props) => {
 
     const renderCartItems = () => {
         // console.log("rendering");
-        return (productList.map((item, idx)=>
-            <li><CartItem hiddenButton={true} id={idx} itemInfo={item} handleItemRemove={handleItemRemove}/></li>
+        return (productList.map((item, idx) =>
+            <li><CartItem hiddenButton={true} id={idx} itemInfo={item} handleItemRemove={handleItemRemove} /></li>
         ));
     }
 
@@ -47,7 +47,7 @@ const CartDropdown = (props) => {
 
 
     return (
-        
+
         // <Dropdown>
         //     <Dropdown.Toggle variant="success" id="dropdown-basic">
         //         Dropdown Button
@@ -70,9 +70,9 @@ const CartDropdown = (props) => {
                 {/* <Dropdown.ItemText><CartItem hiddenButton="true" /><hr /></Dropdown.ItemText>
                 <Dropdown.ItemText ><CartItem hiddenButton="true" /><hr /></Dropdown.ItemText>
                 <Dropdown.ItemText ><CartItem hiddenButton="true" /><hr /></Dropdown.ItemText> */}
-                {productList.map((item, idx)=>
-            <li><CartItem hiddenButton={true} id={idx} itemInfo={item} handleItemRemove={handleItemRemove}/></li>
-        )}
+                {productList.map((item, idx) =>
+                    <li><CartItem hiddenButton={true} id={idx} itemInfo={item} handleItemRemove={handleItemRemove} /></li>
+                )}
             </div>
             {/* total and button in dropdown */}
             <div className="total-fee">
@@ -88,36 +88,36 @@ const CartDropdown = (props) => {
 
         </DropdownButton>
 
-// =======
-//     return(
-        
-//             // <Dropdown>
-//             //     <Dropdown.Toggle variant="success" id="dropdown-basic">
-//             //         Dropdown Button
-//             //     </Dropdown.Toggle>
-//             //     <p id="cart"> Giỏ hàng</p>
-//             //     <div id="dropdown-items">
-//             //         <DropdownMenu>
-//             //             <Dropdown.ItemText><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
-//             //             <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
-//             //             <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
-//             //         </DropdownMenu>
+        // =======
+        //     return(
 
-//             //     </div>
-//             // </Dropdown>
-        
-//             <DropdownButton variant='light' title={<FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black' }} />} menuAlign="right" id='cart-dropdown'>
+        //             // <Dropdown>
+        //             //     <Dropdown.Toggle variant="success" id="dropdown-basic">
+        //             //         Dropdown Button
+        //             //     </Dropdown.Toggle>
+        //             //     <p id="cart"> Giỏ hàng</p>
+        //             //     <div id="dropdown-items">
+        //             //         <DropdownMenu>
+        //             //             <Dropdown.ItemText><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+        //             //             <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+        //             //             <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+        //             //         </DropdownMenu>
 
-//                 <p id="cart"> Giỏ hàng</p>
-//                 <div id="dropdown-items">
-//                     <Dropdown.ItemText><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
-//                     <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
-//                     <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
-//                 </div>
+        //             //     </div>
+        //             // </Dropdown>
 
-//             </DropdownButton>
-            
-// >>>>>>> c75902f7106ca1864cd6e7a593d45580791d0d32
+        //             <DropdownButton variant='light' title={<FontAwesomeIcon icon={faCartArrowDown} style={{ color: 'black' }} />} menuAlign="right" id='cart-dropdown'>
+
+        //                 <p id="cart"> Giỏ hàng</p>
+        //                 <div id="dropdown-items">
+        //                     <Dropdown.ItemText><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+        //                     <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+        //                     <Dropdown.ItemText ><CartItem hiddenButton="true"/><hr/></Dropdown.ItemText>
+        //                 </div>
+
+        //             </DropdownButton>
+
+        // >>>>>>> c75902f7106ca1864cd6e7a593d45580791d0d32
 
 
 

@@ -30,6 +30,10 @@ $router->get('/wishlists/products', 'wishlist@get_product_wishlist_by_id');
 $router->get('/orders', 'order@get_all_orders');
 $router->get('/orders/products', 'order@get_product_in_order');
 $router->put('/orders', 'order@update_status_order');
+$router->get('/orders/order', 'order@get_order_by_id');
 
+//notification
+$router->get('/notifications', 'notification@get_notifications');
+$router->post('/notifications', 'notification@create_notifications');
 
 //$router->post('/deletewishlists', 'wishlist@delete_by_id');

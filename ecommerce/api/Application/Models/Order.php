@@ -85,6 +85,23 @@ class ModelsOrder extends Model{
 
     }
 
+
+    public function get_order_by_orderId($orderId) {
+        $res = [];
+        $result =  $this->db->query('SELECT `order`.*, sum(product.price * (1 - product.saleOff / 100) * order_item.amount) as total_price
+                from order_item, product, `order`     
+                WHERE order_item.order_id = `order`.id
+                and order_item.product_id = product.ID
+                 and `order`.id = '.$orderId. ' GROUP BY `order`.`userID`, `order`.`id`');
+        
+
+                 
+        foreach($result as $sql) {
+            array_push($res, $sql);
+        }
+        return $res;
+    }
+
     public function get_product_by_orderId($orderId) {
         $res = [];
         $result =  $this->db->query('

@@ -32,6 +32,7 @@ const AccountPage = () => {
                         <ul className="list-unstyled">
                             <li className="wish-list"><Link to={`/customer/wishlist/${userId}`} >Danh sách sản phẩm quan tâm</Link></li>
                             <li className="order-list"><a href="/listOrder">Đơn hàng của tôi</a></li>
+                            <li><a href="/notification">Thông báo</a></li>
                             <li><a href="#">Đổi mật khẩu</a></li>
                             <li className="logout"><a href="/" onClick={handleLogout}>Đăng xuất</a></li>
                         </ul>

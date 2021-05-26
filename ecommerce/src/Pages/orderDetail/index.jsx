@@ -6,6 +6,7 @@ import HeaderItem from '../../components/Header';
 import Footer from '../../components/Footer';
 import axios from 'axios';
 import { HOST_URL } from '../../config';
+import { AdminHeader } from '../Admin/dashboard';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,15 +30,41 @@ const useStyles = makeStyles((theme) => ({
 
 export default function OrderDetail(props) {
     const classes = useStyles();
-    const orderInfo = props.location.state.info;
-    let timeShipping = new Date(orderInfo.createTime);
-    timeShipping.setDate(timeShipping.getDate() + 3);
+    // const orderInfo = props.location.state.info;
+    const orderId = props.location.state.orderId;
+    const [orderInfo, setOrderInfo] = useState({});
+    // let timeShipping =  new Date(orderInfo.createTime);
+    // timeShipping.setDate(timeShipping.getDate() + 3);
+    // let timeShipping = new Date();
     const [productList, setProductList] = useState([]);
-
+    const isAdmin = true;
     useEffect(function () {
+
+
         axios({
             method: 'get',
-            url: `${HOST_URL}/orders/products?orderId=${orderInfo.id}`,
+            url: `${HOST_URL}/orders/order?orderId=${orderId}`,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => {
+                let order = res.data.response;
+
+                console.log(order[0]);
+                setOrderInfo(order[0]);
+
+            })
+            .catch(err => {
+                console.log("error!");
+                console.log(err);
+            });
+
+
+        axios({
+            method: 'get',
+            // url: `${HOST_URL}/orders/products?orderId=${orderInfo.id}`,
+            url: `${HOST_URL}/orders/products?orderId=${orderId}`,
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -52,7 +79,14 @@ export default function OrderDetail(props) {
                 console.log("error!");
                 console.log(err);
             });
+
     }, []);
+
+    function calculateTime(date) {
+        let newTime = new Date(date);
+        newTime.setDate(newTime.getDate() + 3);
+        return newTime;
+    }
 
     const showListProduct = productList.map(product => {
         const imgFile = require('../../asset/images/products/' + product.imgFile).default;
@@ -68,7 +102,7 @@ export default function OrderDetail(props) {
                         </div>
                         <div direction="column" style={{ marginLeft: '20px' }}>
                             <div className="title-product">{product.name}</div>
-                            <div className="size-product">S</div>
+                            {/* <div className="size-product">S</div> */}
                         </div>
                     </div>
 
@@ -103,7 +137,8 @@ export default function OrderDetail(props) {
     //  console.log(orderInfo);
     return (
         <>
-            <HeaderItem />
+            {isAdmin ? <AdminHeader style={{ marginBottom: '30px' }} /> : <HeaderItem />}
+            {/* <HeaderItem /> */}
             <div className={classes.root}>
                 <Grid container style={{ width: '100%', margin: 'auto' }} spacing={3} >
                     <Grid item xs={4} className="info-receiver" >
@@ -117,7 +152,7 @@ export default function OrderDetail(props) {
                     <Grid item xs={4} className="info-shipping" >
                         <p>HÌNH THỨC GIAO HÀNG</p>
                         <Paper className={classes.paper} style={{ height: "70%" }}>
-                            <div className="time-shipping">Giao hàng vào ngày {timeShipping.getDate()}, tháng {timeShipping.getMonth()}</div>
+                            <div className="time-shipping">Giao hàng vào ngày {calculateTime(orderInfo.createTime).getDate()}, tháng {calculateTime(orderInfo.createTime).getMonth() + 1}</div>
                             <div className="fee-shipping">Phí vận chuyển: {orderInfo.shippingFee}</div>
                         </Paper>
                     </Grid>

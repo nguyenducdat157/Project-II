@@ -13,7 +13,13 @@ class ModelsUser extends Model{
         
     }
     public function get_all_users(){
-        return $this->db->query('SELECT * from user');
+        $res = [];
+        $result =  $this->db->query('SELECT * from user');
+        
+        foreach($result as $sql) {
+            array_push($res, $sql);
+        }
+        return $res;
     }
     public function create_user($data)
     {

@@ -17,7 +17,7 @@ class ControllersOrder extends Controller {
         $userId = $data['user_id'];
         $shipInfo = $data['ship_info'];
         extract($shipInfo);
-        $orderInfo = array($userId, $firstname . ' ' . $lastname, $timeCreated, 'pending', $shipFee, $address, $phone);
+        $orderInfo = array($userId, $firstname . ' ' . $lastname, $timeCreated, 'Đang xác nhận', $shipFee, $address, $phone);
         $result = $this->_model->create_order($data);
         if ($result){
             $response = 'Successfully created order';
@@ -81,6 +81,17 @@ class ControllersOrder extends Controller {
             $this->response->sendStatus(401);
             $this->response->setContent(['response' => $response]);
         }
+    }
+
+    public function get_order_by_id() {
+        $orderId = isset($_GET['orderId']) ? $_GET['orderId'] : die(); 
+
+        $result = '';
+        $result = $this->_model->get_order_by_orderId($orderId);
+      //  $response = $result->rows;
+
+        $this->response->sendStatus(200);
+        $this->response->setContent(['response'=> $result]);  
     }
 
     
