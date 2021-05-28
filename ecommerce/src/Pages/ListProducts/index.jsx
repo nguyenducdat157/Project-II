@@ -35,6 +35,7 @@ function ProductList(props) {
 
     // }]
     const [productList, setProductList] = useState([]);
+    const userInfo = JSON.parse(localStorage.getItem('info'));
     useEffect(function(){
         let config = {
             method: 'GET',
@@ -79,77 +80,80 @@ function ProductList(props) {
     //   console.log("product = " + products);
 
     // return loading ? <div>Loading...</div> :
-    return (
-        <>
-            <HeaderItem />
-            <div className="content content-margined">
-                {/* <div className="back-to-result">
-                <Link href="../profile" style={{ cursor: 'pointer', textDecoration: 'none' }}>
-                    <Grid container style={{ width: '15rem' }}>
-                        <Grid item xs={2}><ArrowBackIcon /></Grid>
-                        <Grid item xs={10}>Back to profile</Grid>
-                    </Grid>
-                </Link>
-            </div> */}
-
-                <div className="product-header">
-                    <Grid container>
-                        <Grid item xs={8}>
-                            <Typography component="h1" variant="h5" style={{ textAlign: 'left', marginLeft: '3rem' }}>
-                                Product list
-                            </Typography>
+    if (userInfo && userInfo.role === 'admin'){
+        return (
+            <>
+                <HeaderItem />
+                <div className="content content-margined">
+                    {/* <div className="back-to-result">
+                    <Link href="../profile" style={{ cursor: 'pointer', textDecoration: 'none' }}>
+                        <Grid container style={{ width: '15rem' }}>
+                            <Grid item xs={2}><ArrowBackIcon /></Grid>
+                            <Grid item xs={10}>Back to profile</Grid>
                         </Grid>
-                        <Grid item xs={4} style={{ paddingLeft: '12rem' }}>
-                            <Link href="../admin/createProduct" style={{ color: '#203040', textDecoration: 'none' }}>
-                                <Grid container>
-                                    <Grid item xs={1}><AddBoxIcon /></Grid>
-                                    <Grid item xs={4} style={{ fontSize: '1rem' }}>Add product</Grid>
-                                </Grid>
-                            </Link>
+                    </Link>
+                </div> */}
+
+                    <div className="product-header">
+                        <Grid container>
+                            <Grid item xs={8}>
+                                <Typography component="h1" variant="h5" style={{ textAlign: 'left', marginLeft: '3rem' }}>
+                                    Product list
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={4} style={{ paddingLeft: '12rem' }}>
+                                <Link href="../admin/createProduct" style={{ color: '#203040', textDecoration: 'none' }}>
+                                    <Grid container>
+                                        <Grid item xs={1}><AddBoxIcon /></Grid>
+                                        <Grid item xs={4} style={{ fontSize: '1rem' }}>Add product</Grid>
+                                    </Grid>
+                                </Link>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </div>
-                <div className="product-list">
+                    </div>
+                    <div className="product-list">
 
-                    <Table className="table" style={{ marginTop: '1rem' }} >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Price</TableCell>
-                                <TableCell>Brand</TableCell>
-                                <TableCell>Type</TableCell>
-                                <TableCell>Aivalable Amount</TableCell>
-                                <TableCell>Status</TableCell>
-                                <TableCell>Description</TableCell>
-                                <TableCell>Image</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody whiteSpace='normal'>
-                            {productList.map(product => (<TableRow key={product.ID}>
-                                <TableCell>{product.ID}</TableCell>
-                                <TableCell>{product.name}</TableCell>
-                                <TableCell>{product.price}</TableCell>
-                                <TableCell>{product.brand}</TableCell>
-                                <TableCell>{product.type}</TableCell>
-                                <TableCell>{product.availableAmount}</TableCell>
-                                <TableCell>{product.status}</TableCell>
-                                <TableCell style={{ maxWidth: '4rem', wordBreak: 'break-all' }}>{product.description}</TableCell>
-                                {/* <TableCell>{Math.round((product.rating + Number.EPSILON) * 10) / 10}</TableCell> */}
-                                <TableCell><img src={require('../../asset/images/products/' + product.imgFile).default} className="img-productList"></img></TableCell>
-                                <TableCell>
-                                    {/* onClick={() => (window.confirm('Are you sure to delete this item?')) ? deleteHandler(product) : {}} */}
-                                    <Link style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>
-                                    <Link href={"../admin/updateProduct/" + product.id} style={{ color: "#203040", cursor: 'pointer' }}><CreateIcon /></Link>
-                                </TableCell>
-                            </TableRow>))}
-                        </TableBody>
-                    </Table>
+                        <Table className="table" style={{ marginTop: '1rem' }} >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>ID</TableCell>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell>Price</TableCell>
+                                    <TableCell>Brand</TableCell>
+                                    <TableCell>Type</TableCell>
+                                    <TableCell>Aivalable Amount</TableCell>
+                                    <TableCell>Status</TableCell>
+                                    <TableCell>Description</TableCell>
+                                    <TableCell>Image</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody whiteSpace='normal'>
+                                {productList.map(product => (<TableRow key={product.ID}>
+                                    <TableCell>{product.ID}</TableCell>
+                                    <TableCell>{product.name}</TableCell>
+                                    <TableCell>{product.price}</TableCell>
+                                    <TableCell>{product.brand}</TableCell>
+                                    <TableCell>{product.type}</TableCell>
+                                    <TableCell>{product.availableAmount}</TableCell>
+                                    <TableCell>{product.status}</TableCell>
+                                    <TableCell style={{ maxWidth: '4rem', wordBreak: 'break-all' }}>{product.description}</TableCell>
+                                    {/* <TableCell>{Math.round((product.rating + Number.EPSILON) * 10) / 10}</TableCell> */}
+                                    <TableCell><img src={require('../../asset/images/products/' + product.imgFile).default} className="img-productList"></img></TableCell>
+                                    <TableCell>
+                                        {/* onClick={() => (window.confirm('Are you sure to delete this item?')) ? deleteHandler(product) : {}} */}
+                                        <Link style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>
+                                        <Link href={"../admin/updateProduct/" + product.id} style={{ color: "#203040", cursor: 'pointer' }}><CreateIcon /></Link>
+                                    </TableCell>
+                                </TableRow>))}
+                            </TableBody>
+                        </Table>
 
-                </div>
-            </div >
-            <Footer />
-        </>
-    )
+                    </div>
+                </div >
+                <Footer />
+            </>
+        )
+    }
+    return (<h1>Permission denied</h1>)
 }
 export default ProductList;

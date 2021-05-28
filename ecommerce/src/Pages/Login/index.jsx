@@ -57,6 +57,7 @@ export default function SignIn() {
     const classes = useStyles();
     const [usernameIsNull, setusernameIsNull] = useState(false);
     const [passwordIsNull, setpasswordIsNull] = useState(false);
+    const [userInfo, setUserInfo] = useState(null);
     //const [userId, setUserId] = useState('');
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -90,7 +91,7 @@ export default function SignIn() {
             .then(res => {
                 // console.log("success!");
                 // console.log(res);
-                setLogin(true);
+                
                 // console.log(res);
                 localStorage.setItem('id', res.data.response.user.id);
                 localStorage.setItem('token', res.data.token);
@@ -108,10 +109,11 @@ export default function SignIn() {
                     email: user.email,
                     address: user.address,
                     phone: user.phone,
+                    role: user.is_admin === '0' ? 'customer' : 'admin'
                 };
-
+                setUserInfo(userInfo)
                 localStorage.setItem('info', JSON.stringify(userInfo));
-
+                setLogin(true);
                 /// xử lý danh sách yêu thích
                 let userId = localStorage.getItem('id');
                 // console.log(userId);
@@ -161,9 +163,7 @@ export default function SignIn() {
 
     return (
         <Container component="main" maxWidth="xs">
-            {login ? <Redirect
-                to='/'
-            /> : ''}
+            {login && userInfo ? userInfo.role === 'admin' ?  <Redirect to={{pathname:'/admin', state:{role: "admin"}}}/> : <Redirect to='/'/> :''}
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>

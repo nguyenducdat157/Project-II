@@ -11,10 +11,11 @@ import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { NavigateBefore } from '@material-ui/icons';
 
 const HeaderItem = (props) => {
-    const login = (localStorage.getItem('id') != null);
+    const login = (localStorage.getItem('id') !== null);
     // function HandleItems() {
     //     props.setHandleItems();
     // }
+    const userInfo = JSON.parse(localStorage.getItem('info'));
 
     const [searchKeyword, setSearchKeyword] = useState('');
     const [redirect, setRedirect] = useState(false);
@@ -44,7 +45,8 @@ const HeaderItem = (props) => {
 
 
 
-
+    // console.log(login)
+    // console.log(userInfo)
     return (
         <>
             {
@@ -59,37 +61,41 @@ const HeaderItem = (props) => {
                 </div>
 
                 <div className="header-navbar">
-                    <NavbarItem />
+                    <NavbarItem role={userInfo && userInfo.role === 'admin' ? 'admin' : 'customer'}/>
                 </div>
-                <div className="header-icon">
-                    <div className="search-icon">
-                        <Form inline >
-                            <FormControl
-                                id="auto"
-                                type="text"
-                                placeholder="Tìm kiếm sản phẩm, loại, hãng,..."
-                                style={{ width: '18rem' }}
-                                className="mr-sm-2"
-                                onChange={handleSearchInputChanges}
-                            // value={searchKeyword}
-                            />
-                            <Button variant="outline-light"
-                                onClick={submitSearchHandler}
-                                type="submit"
-                            ><FontAwesomeIcon icon={faSearch} style={{ color: 'black' }} /></Button>
-                        </Form>
+                    {(!login || (userInfo && userInfo.role === 'customer') ? 
+                    <div className="header-icon">
+                        <div className="search-icon">
+                            <Form inline >
+                                <FormControl
+                                    id="auto"
+                                    type="text"
+                                    placeholder="Tìm kiếm sản phẩm, loại, hãng,..."
+                                    style={{ width: '18rem' }}
+                                    className="mr-sm-2"
+                                    onChange={handleSearchInputChanges}
+                                // value={searchKeyword}
+                                />
+                                <Button variant="outline-light"
+                                    onClick={submitSearchHandler}
+                                    type="submit"
+                                ><FontAwesomeIcon icon={faSearch} style={{ color: 'black' }} /></Button>
+                            </Form>
 
-                    </div>
-                    <div className="account-icon" style={{ marginRight: '1rem', fontSize: '1rem' }}>
-                        <a href={login ? "/account" : "/signin"}><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></a>
+                        </div>
+                        <div className="account-icon" style={{ marginRight: '1rem', fontSize: '1rem' }}>
+                            <a href={login ? "/account" : "/signin"}><FontAwesomeIcon icon={faUserCircle} style={{ color: 'black' }} /></a>
 
-                    </div>
-                    <div className="cart-icon">
+                        </div>
+                        <div className="cart-icon">
 
-                        <a href="/cart" style={{ display: 'inline-block', marginLeft: '1rem', fontSize: '1rem' }}><FontAwesomeIcon icon={faShoppingCart} style={{ color: 'black' }} /></a>
-                        {/* <CartDropdown /> */}
+                            <a href="/cart" style={{ display: 'inline-block', marginLeft: '1rem', fontSize: '1rem' }}><FontAwesomeIcon icon={faShoppingCart} style={{ color: 'black' }} /></a>
+                            {/* <CartDropdown /> */}
+                        </div>
                     </div>
-                </div>
+
+                    : null)}
+                    
             </div>
             <div className="header-line"><hr /></div>
         </>
