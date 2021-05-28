@@ -27,6 +27,8 @@ import SearchPage from './Pages/Search';
 import OrderDetail from './Pages/orderDetail';
 import WishlistPage from './Pages/Wishlist';
 import Dashboard from './Pages/Admin/dashboard';
+import UserList from './Pages/ListUser/listUser';
+import NotifiCationPage from './Pages/Notification';
 
 
 function App() {
@@ -39,9 +41,9 @@ function App() {
       <Route path="/collections/:type" exact component={CollectionPage} />
       <Route path="/signin" exact component={SignIn} />
       <Route path="/register" exact component={Signup} />
-      <Route path="/product-detail" exact={false} component={ProductDetail} />
+
       <Route path="/search" component={SearchPage} />
-      <Route path="/listOrder" exact component={OrdersList} />
+
       <Route path="/order-detail" exact={false} component={OrderDetail} />
       {/* registered user routes */}
       <Route path="/checkout" exact component={Checkout} />
@@ -50,11 +52,15 @@ function App() {
       <Route path="/admin/createProduct" exact component={CreateProduct} />
       <Route path="/cart" exact component={CartView} />
       <Route path="/admin/listProduct" exact component={ProductList} />
+      <Route path="/admin/listUser" exact component={UserList} />
+      <Route path="/product-detail" exact={false} component={ProductDetail} />
+      <Route path="/listOrder" exact component={OrdersList} />
       <Route path="/admin/listOrder" exact component={OrdersList} />
 
       
       <Route path="/customer/wishlist" exact={false} component={WishlistPage} />
       <Route path="/admin" exact component={Dashboard} />
+      <Route path="/notification" exact component={NotifiCationPage} />
     </Router>
 
   );

@@ -15,7 +15,7 @@ function ListItems(){
             <Link to={{pathname:"/admin/listOrder", state:{role:"admin"}}} style={{ color: 'black ', textDecoration: 'none', fontSize: '1rem' }}>Danh sách Đơn hàng</Link>
         </ListItem>
         <ListItem button>
-            <Link to="#" style={{ color: 'black ', textDecoration: 'none', fontSize: '1rem' }}>Danh sách Tài khoản</Link>
+            <Link to="/admin/listUser" style={{ color: 'black ', textDecoration: 'none', fontSize: '1rem' }}>Danh sách Khách hàng</Link>
         </ListItem>
         {/* <ListItem button>
             <ListItemText primary="Reports" />

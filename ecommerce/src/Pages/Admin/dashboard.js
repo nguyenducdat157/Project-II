@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -22,7 +22,9 @@ import ListItems from './listItems';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import Chart from './Chart.js';
-import HeaderItem from '../../components/Header/index';
+import axios from 'axios';
+import { HOST_URL } from '../../config';
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -117,10 +119,58 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Dashboard(props) {
+export function AdminHeader(props) {
     const classes = useStyles();
-    const userInfo = JSON.parse(localStorage.getItem('info'));
-    // console.log(userInfo);
+    const [open, setOpen] = React.useState(false);
+    // const handleDrawerOpen = () => {
+    //     setOpen(true);
+    // };
+    // const handleDrawerClose = () => {
+    //     setOpen(false);
+    // };
+    // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+    const handleLogout = () => {
+        localStorage.removeItem('id');
+        localStorage.removeItem('token');
+        localStorage.removeItem('info');
+
+
+    }
+    return (
+        <>
+            <CssBaseline />
+            <AppBar position="static" >
+                <Toolbar >
+                    {/* <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                    // onClick={handleDrawerOpen}
+                    // className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                    >
+                        <MenuIcon />
+                    </IconButton> */}
+                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+                        <a href="/admin" style={{ textDecoration: 'none', color: 'white' }}>Dashboard</a>
+                    </Typography>
+                    <IconButton color="inherit">
+                        <a href="/signin" onClick={handleLogout} style={{
+                            fontSize: '1.2rem', margin: 'auto', textDecoration: 'none', color: 'white'
+                        }}>Đăng xuất
+                        </a>
+                        {/* <p style={{ fontSize: '1.2rem', margin: 'auto' }}>Đăng xuất</p> */}
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
+        </>
+    );
+
+}
+
+export default function Dashboard() {
+    const classes = useStyles();
+    const [orders, setOrders] = useState([]);
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -136,6 +186,32 @@ export default function Dashboard(props) {
         window.location.href = '/';
     }
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+    const handleLogout = () => {
+        localStorage.removeItem('id');
+        localStorage.removeItem('token');
+        localStorage.removeItem('info');
+
+
+    }
+
+    useEffect(function () {
+        axios({
+            method: 'get',
+            url: `${HOST_URL}/orders`,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => {
+                let orderList = res.data.response;
+                setOrders(orderList);
+            })
+            .catch(err => {
+                console.log("error!");
+                console.log(err);
+            });
+    }, []);
 
     return (
     <>
@@ -157,13 +233,18 @@ export default function Dashboard(props) {
                     <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                     Dashboard
-                    </Typography>
-                    <IconButton color="inherit" onClick={handleLogOut}>
-                        <p style={{ fontSize: '1.2rem', margin: 'auto' }}>Đăng xuất</p>
+                        Dashboard
+          </Typography>
+                    <IconButton color="inherit">
+                        <a href="/signin" onClick={handleLogout} style={{
+                            fontSize: '1.2rem', margin: 'auto', textDecoration: 'none', color: 'white'
+                        }}>Đăng xuất
+                        </a>
                     </IconButton>
                 </Toolbar>
             </AppBar>
+            {/*  */}
+            <AdminHeader />
             <Drawer
                 variant="permanent"
                 classes={{
@@ -179,34 +260,34 @@ export default function Dashboard(props) {
                 <Divider />
                 <List><ListItems/></List>
              <  Divider />
-            </Drawer> */}
+            </Drawer>
             <main className={classes.content}>
-             <div className={classes.appBarSpacer} />
-             <Container maxWidth="lg" className={classes.container}>
-                 <Grid container spacing={3}>
-                     {/* Chart */}
-                     <Grid item xs={12} md={8} lg={9}>
-                         <Paper className={fixedHeightPaper}>
-                             <Chart />
-                         </Paper>
-                     </Grid>
-                     {/* Recent Deposits */}
-                     <Grid item xs={12} md={4} lg={3}>
-                         <Paper className={fixedHeightPaper}>
-                             <Deposits />
-                         </Paper>
-                     </Grid>
-                     {/* Recent Orders */}
-                     <Grid item xs={12}>
-                         <Paper className={classes.paper}>
-                             <Orders />
-                         </Paper>
-                     </Grid>
-                 </Grid>
-                 <Box pt={4}>
-                     <Copyright />
-                 </Box>
-             </Container>
+                <div className={classes.appBarSpacer} />
+                <Container maxWidth="lg" className={classes.container}>
+                    <Grid container spacing={3}>
+                        {/* Chart */}
+                        <Grid item xs={12} md={8} lg={9}>
+                            <Paper className={fixedHeightPaper}>
+                                <Chart listOrder={orders} />
+                            </Paper>
+                        </Grid>
+                        {/* Recent Deposits */}
+                        <Grid item xs={12} md={4} lg={3}>
+                            <Paper className={fixedHeightPaper}>
+                                <Deposits listOrder={orders} />
+                            </Paper>
+                        </Grid>
+                        {/* Recent Orders */}
+                        <Grid item xs={12}>
+                            <Paper className={classes.paper}>
+                                <Orders listOrder={orders} />
+                            </Paper>
+                        </Grid>
+                    </Grid>
+                    <Box pt={4}>
+                        <Copyright />
+                    </Box>
+                </Container>
             </main>
         </div>
         </>

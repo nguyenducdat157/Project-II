@@ -5,6 +5,7 @@ import HeaderItem from '../../components/Header';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import { HOST_URL } from '../../config';
+import { AdminHeader } from '../Admin/dashboard';
 function EditProduct() {
     const params = useParams();
     const [product, setProduct] = useState({});
@@ -12,13 +13,13 @@ function EditProduct() {
         // let productInfo = product;
         // console.log(Object.keys(productInfo));
         // productInfo[name] = value;
-        
+
         // setProduct(productInfo);
         setProduct({
             ...product, [name]: value
         });
         // console.log(product);
-        
+
     }
     const handleFileSelected = (files) => {
 
@@ -28,9 +29,25 @@ function EditProduct() {
         setProduct({
             ...product, imgFile: files[0].name
         });
-        
+
     }
-    useEffect(function(){
+
+    const handleReset = () => {
+        const newProduct = {
+            name: '',
+            price: 0,
+            imgFile: null,
+            availableAmount: 0,
+            type: '',
+            brand: '',
+            importDate: '',
+            description: '',
+            saleOff: 0,
+            status: 'new'
+        }
+        setProduct(newProduct);
+    }
+    useEffect(function () {
         const productID = params['id'];
 
         let config = {
@@ -39,13 +56,13 @@ function EditProduct() {
             headers: {
                 'Content-Type': 'application/json'
             }
-                
+
         }
         axios(config)
             .then(res => {
                 console.log(res.data);
                 setProduct(res.data);
-                
+
             })
             .catch(err => {
                 console.log(err);
@@ -53,10 +70,12 @@ function EditProduct() {
     }, []);
     return (
         <div>
-            <HeaderItem />
-            <FormInput titleForm="Update Product" textButton="Update" product={product}
-            method="PUT"
-            handleChange={handleChange} handleFileSelected={handleFileSelected}
+            {/* <HeaderItem /> */}
+            <AdminHeader />
+            <FormInput titleForm="Update Product" textButton="Cập nhật" product={product}
+                method="PUT"
+                handleChange={handleChange} handleFileSelected={handleFileSelected}
+                handleReset={handleReset}
             />
             <Footer />
         </div>

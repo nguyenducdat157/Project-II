@@ -14,17 +14,30 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Deposits() {
+export default function Deposits(props) {
     const classes = useStyles();
+    const today = new Date();
+    const orders = props.listOrder.filter(item => {
+        return new Date(item.createTime).getFullYear() === today.getFullYear() &&
+            new Date(item.createTime).getMonth() === today.getMonth() &&
+            new Date(item.createTime).getDate() === today.getDate() && item.status !== "Đã hủy"
+    });
+    const deposits = orders.reduce((sum, x) => {
+        return sum + parseInt(x.total_price) / 1000;
+    }, 0);
+
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
     return (
         <React.Fragment>
-            <Title>Recent Deposits</Title>
-            <Typography component="p" variant="h4">
-                $3,024.00
+            <Title>Doanh thu hôm nay</Title>
+            <Typography component="p" variant="h5">
+                {numberWithCommas(deposits)} (Triệu đồng)
       </Typography>
             <Typography color="textSecondary" className={classes.depositContext}>
-                on 15 March, 2019
-      </Typography>
+                Hôm nay
+            </Typography>
         </React.Fragment>
     );
 }
