@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { listOrders, deleteOrder } from '../actions/orderActions';
 import Table from '@material-ui/core/Table';
@@ -54,7 +54,10 @@ function TabElement(props) {
 
 
 function OrdersList(props) {
-    const isAdmin = true;
+    
+    const userInfo = JSON.parse(localStorage.getItem('info'));
+    const isAdmin = userInfo && userInfo.role === 'admin';
+    
     // const classes = useStyles();
     const [orders, setOrders] = useState([]);
     const userId = localStorage.getItem('id');
@@ -117,6 +120,7 @@ function OrdersList(props) {
     }
 
     const changeStatusHandler = async (id, status) => {
+        console.log("change status");
         let checkOrderChange = { id: id, status: '' };
         if (isAdmin) {
             checkOrderChange.status = (status === "Đang xác nhận") ? "Đang chuyển" : "Đã nhận";
@@ -160,36 +164,43 @@ function OrdersList(props) {
 
 
     useEffect(function () {
-        axios({
-            method: 'get',
-            url: isAdmin ? `${HOST_URL}/orders` : `${HOST_URL}/orders?userId=${userId}`,
-            headers: {
-                'Content-Type': 'application/json'
+        if (userInfo){
+            let url = '';
+            if (userInfo.role === 'admin'){
+                url = `${HOST_URL}/orders`
             }
-        })
-            .then(res => {
-                let orderList = res.data.response.reverse();
-                orderList = tab ? orderList.filter(item => {
-                    return item.status === tabValue[tab];
-                }) : orderList;
-                setOrders(orderList.sort(function (a, b) {
-                    return parseInt(b.id) - parseInt(a.id);
-                }));
-
+            else{
+                url = `${HOST_URL}/orders?userId=${userId}`
+            }
+            axios({
+                method: 'get',
+                url: url,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
-            .catch(err => {
-                console.log("error!");
-                console.log(err);
-            });
+                .then(res => {
+                    let orderList = res.data.response.reverse();
+                    orderList = tab ? orderList.filter(item => {
+                        return item.status === tabValue[tab];
+                    }) : orderList;
+                    setOrders(orderList);
+    
+                })
+                .catch(err => {
+                    console.log("error!");
+                    console.log(err);
+                });
+        }
+
     }, [tab, orderChange.id, orderChange.status]);
 
 
 
-
     return (
+        
         <>
-            {isAdmin ? <AdminHeader /> : <HeaderItem />}
-            {/* <HeaderItem /> */}
+            {userInfo === null ?  <Redirect to="/signin"/> : userInfo.role === 'admin' ? <AdminHeader/> : <HeaderItem/>}
             <div className="content content-margined">
                 <div className="back-to-result" style={{ marginBottom: '20px' }} >
                     <Link to={isAdmin ? "../admin" : "../account"} className="link-primary" style={{ display: 'contents' }}>
@@ -200,7 +211,7 @@ function OrdersList(props) {
                     </Link>
                 </div>
                 <div className="order-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                    <h3>Đơn hàng của tôi</h3>
+                    <h3>Đơn hàng</h3>
                     <TabElement style={{ width: 'fit-content' }} parentCallback={callback} />
                 </div>
 
@@ -237,7 +248,7 @@ function OrdersList(props) {
                                     isAdmin ? <SimpleSelect initialValue={order.status} /> : <TableCell>{order.status}</TableCell>
                                 } */}
                                 <TableCell>{order.status}</TableCell>
-                                { isAdmin ?
+                                {isAdmin ?
                                     (order.status === "Đang xác nhận") ?
                                         <TableCell>
                                             <Link onClick={() => { changeStatusHandler(order.id, order.status) }} style={{ color: "#203040", cursor: 'pointer' }}><LocalShipping /></Link>
@@ -255,7 +266,7 @@ function OrdersList(props) {
                                     :
                                     (order.status === "Đang xác nhận") ?
                                         <TableCell>
-                                            <Link onClick={() => (window.confirm('Bạn có chắc chắn muốn xóa đơn hàng này không')) ? changeStatusHandler(order.id, order.status) : {}} style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>
+                                            <Link onClick={() => (window.confirm('Bạn có chắc chắn muốn xóa đơn hàng này không')) ? () => {changeStatusHandler(order.id, order.status)} : {}} style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>
                                         </TableCell> :
                                         <TableCell>
                                             <Link style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon color="disabled" /></Link>

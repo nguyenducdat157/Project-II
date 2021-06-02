@@ -5,13 +5,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
 
 
-export const mainListItems = (
-    <div>
+function ListItems(){
+    return (
+        <div>
         <ListItem button>
-            <Link to="/admin/listProduct" style={{ color: 'black ', textDecoration: 'none', fontSize: '1rem' }}>Danh sách sản phẩm</Link>
+            <Link to={{pathname:"/admin/listProduct", state:{role:"admin"}}} style={{ color: 'black ', textDecoration: 'none', fontSize: '1rem' }}>Danh sách sản phẩm</Link>
         </ListItem>
         <ListItem button>
-            <Link to="/admin/listOrder" style={{ color: 'black ', textDecoration: 'none', fontSize: '1rem' }}>Danh sách Đơn hàng</Link>
+            <Link to={{pathname:"/admin/listOrder", state:{role:"admin"}}} style={{ color: 'black ', textDecoration: 'none', fontSize: '1rem' }}>Danh sách Đơn hàng</Link>
         </ListItem>
         <ListItem button>
             <Link to="/admin/listUser" style={{ color: 'black ', textDecoration: 'none', fontSize: '1rem' }}>Danh sách Khách hàng</Link>
@@ -20,5 +21,8 @@ export const mainListItems = (
             <ListItemText primary="Reports" />
         </ListItem> */}
     </div>
-);
+    );
+}
+    
+export default ListItems;
 

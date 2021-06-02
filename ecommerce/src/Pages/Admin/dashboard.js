@@ -18,7 +18,7 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems } from './listItems';
+import ListItems from './listItems';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import Chart from './Chart.js';
@@ -135,7 +135,6 @@ export function AdminHeader(props) {
         localStorage.removeItem('token');
         localStorage.removeItem('info');
 
-
     }
     return (
         <>
@@ -155,7 +154,7 @@ export function AdminHeader(props) {
                         <a href="/admin" style={{ textDecoration: 'none', color: 'white' }}>Dashboard</a>
                     </Typography>
                     <IconButton color="inherit">
-                        <a href="/signin" onClick={handleLogout} style={{
+                        <a href="/" onClick={handleLogout} style={{
                             fontSize: '1.2rem', margin: 'auto', textDecoration: 'none', color: 'white'
                         }}>Đăng xuất
                         </a>
@@ -170,6 +169,7 @@ export function AdminHeader(props) {
 
 export default function Dashboard() {
     const classes = useStyles();
+    const userInfo = JSON.parse(localStorage.getItem('info'));
     const [orders, setOrders] = useState([]);
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
@@ -178,6 +178,13 @@ export default function Dashboard() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    const handleLogOut = () => {
+        localStorage.removeItem('id');
+        localStorage.removeItem('token');
+        localStorage.removeItem('info');
+        localStorage.removeItem('wishlist');
+        window.location.href = '/';
+    }
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     const handleLogout = () => {
@@ -207,30 +214,35 @@ export default function Dashboard() {
     }, []);
 
     return (
+    <>
+        {userInfo && userInfo.role === 'admin' ?
+        <>
         <div className={classes.root}>
             <CssBaseline />
+            
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                     edge="start"
+                     color="inherit"
+                     aria-label="open drawer"
+                     onClick={handleDrawerOpen}
+                     className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
                     >
-                        <MenuIcon />
+                    <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         Dashboard
-          </Typography>
+                    </Typography>
                     <IconButton color="inherit">
-                        <a href="/signin" onClick={handleLogout} style={{
+                        <a href="/" onClick={handleLogout} style={{
                             fontSize: '1.2rem', margin: 'auto', textDecoration: 'none', color: 'white'
                         }}>Đăng xuất
                         </a>
                     </IconButton>
                 </Toolbar>
             </AppBar>
+            {/* 
             {/* <AdminHeader /> */}
             <Drawer
                 variant="permanent"
@@ -245,8 +257,8 @@ export default function Dashboard() {
                     </IconButton>
                 </div>
                 <Divider />
-                <List>{mainListItems}</List>
-                <Divider />
+                <List><ListItems/></List>
+             <  Divider />
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
@@ -277,5 +289,9 @@ export default function Dashboard() {
                 </Container>
             </main>
         </div>
+        </>
+         : <h1>Permission denied</h1>}
+        
+    </>
     );
 }

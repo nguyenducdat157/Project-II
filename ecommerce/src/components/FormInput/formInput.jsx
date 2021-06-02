@@ -227,7 +227,30 @@ export default function FormInput(props) {
                         </Grid>
 
                         <Grid item xs={12} sm={6}>
-                            <TextField
+                        <FormControl variant="outlined" margin="normal" style={{ width: '100%' }}>
+                                <InputLabel id="status">Status</InputLabel>
+                                <Select
+                                    id="status"
+                                    label="status"
+                                    InputLabelProps={{ shrink: true }}
+                                    required
+                                    variant="outlined"
+                                    margin="normal"
+                                    name="status"
+                                    value={product.status}
+                                    defaultValue=''
+                                    onChange={handleChange}
+                                    fullWidth
+                                >
+                                    <MenuItem value={"new"}>New</MenuItem>
+                                    <MenuItem value={"hot"}>Hot</MenuItem>
+                                    
+   
+                                </Select>
+
+
+                            </FormControl>
+                            {/* <TextField
                                 variant="outlined"
                                 margin="normal"
                                 required
@@ -241,7 +264,7 @@ export default function FormInput(props) {
                                 autoFocus
 
                             // onChange={(e) => setBrand(e.target.value)}
-                            />
+                            /> */}
                         </Grid>
                         <Grid item xs={12} sm={12}>
                             <TextField
