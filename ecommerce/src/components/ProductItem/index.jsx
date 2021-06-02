@@ -7,6 +7,7 @@ import './productItem.css';
 const ProductItem = (props) => {
     const { id, available, image, title, sale, salePrice, originalPrice } = props.itemInfo;
     const itemInfo = props.itemInfo;
+    //console.log(itemInfo);
     // const inWishlist = props.inWishlist;
     //console.log(inWishlist);
     const saleOff = itemInfo['saleOff'];

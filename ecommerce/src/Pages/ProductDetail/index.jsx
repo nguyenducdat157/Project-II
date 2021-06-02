@@ -31,7 +31,7 @@ const ProductDetail = (props) => {
         description: itemInfo['description'],
         type: itemInfo['type'],
         availableAmount: itemInfo['availableAmount'],
-        sizes: ['S', 'M', 'L', 'XL', 'XXL']
+        saleOff: itemInfo['saleOff']
     }
 
     // function getSize(type) {
@@ -120,7 +120,8 @@ const ProductDetail = (props) => {
             price: product.price,
             size: choosenSize,
             amount: amount,
-            availableAmount: product.availableAmount
+            availableAmount: product.availableAmount,
+            saleOff: product.saleOff
         };
         // console.log(orderInfo);
         if (localStorage.getItem('cart') == null) {

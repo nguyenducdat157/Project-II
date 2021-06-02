@@ -7,6 +7,7 @@ const CartItem = (props) => {
     console.log(itemInfo);
     const id = props.id;
     const [amount, setAmount] = useState(itemInfo.amount);
+    console.log(amount);
     const imgFile = require('../../asset/images/products/' + itemInfo['imgFile']).default;
 
 
@@ -22,7 +23,9 @@ const CartItem = (props) => {
             setAmount(Math.min(amount + 1, itemInfo['availableAmount']));
 
             // console.log(amount + 1);
-            props.handleUpdateAmount(id, amount + 1);
+            //props.handleUpdateAmount(id, amount + 1);
+
+            props.handleUpdateAmount(id, itemInfo.amount + 1);
         }
 
 
@@ -30,7 +33,8 @@ const CartItem = (props) => {
     const handleDecreaseAmount = () => {
         if (!props.hiddenButton) {
             setAmount(Math.max(1, amount - 1));
-            props.handleUpdateAmount(id, amount - 1);
+            //props.handleUpdateAmount(id, amount - 1);
+            props.handleUpdateAmount(id, itemInfo.amount - 1);
         }
 
     }
@@ -50,7 +54,21 @@ const CartItem = (props) => {
                     <div className='item-info'>
                         <Link to={{ pathname: `/product-detail/${itemInfo.name}`, state: { info: itemInfo } }}> <h4> {itemInfo.name} </h4></Link>
                         {/* <h4> {itemInfo.name} </h4> */}
-                        <p hidden={props.hiddenButton}> <span className='item-price'>{numberWithCommas(itemInfo.price)}</span></p>
+                        <p hidden={props.hiddenButton}>
+                            {itemInfo.saleOff === 0 ?
+                                <>
+                                    <span className='item-price'>{numberWithCommas(itemInfo.price)}</span>
+                                </> :
+                                <>
+                                    <span className='item-price' style={{ marginRight: '10px' }}><del>{numberWithCommas(itemInfo.price)}</del></span>
+                                    <span className='item-price' style={{ marginRight: '10px' }}>{itemInfo.saleOff}%</span>
+                                    <span className='item-price'>{numberWithCommas(itemInfo.price * (1 - itemInfo.saleOff / 100))}</span>
+                                </>
+
+                            }
+
+                        </p>
+
                         {/* <p> <span className='variant'> {itemInfo.size}</span></p> */}
                     </div>
                     <div className='item-remove'>
@@ -65,10 +83,10 @@ const CartItem = (props) => {
                 <div className='quantity-price'>
                     <div className='quantity'>
                         <button className='quantity-minus quantity-btn' hidden={props.hiddenButton} onClick={handleDecreaseAmount}>-</button>
-                        <input type='text' name='amount' className='item-quantity' value={amount}></input>
+                        <input type='text' name='amount' className='item-quantity' value={itemInfo.amount}></input>
                         <button className='quantity-plus quantity-btn' hidden={props.hiddenButton} onClick={handleIncreaseAmount}>+</button>
                     </div>
-                    <b className='total-price'>{numberWithCommas(itemInfo.price * amount)}đ</b>
+                    <b className='total-price'>{numberWithCommas(itemInfo.price * (1 - itemInfo.saleOff / 100) * itemInfo.amount)}đ</b>
                 </div>
 
             </div>

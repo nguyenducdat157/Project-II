@@ -6,7 +6,7 @@ import Container from '../../components/ContainerItem';
 import axios from 'axios';
 import { HOST_URL } from '../../config.js';
 const HomePage = (props) => {
-
+    //const userInfo = JSON.parse(localStorage.getItem("info"));
     //const [allProductItems, setAllProductItems] = useState([]);
     const [newProductItems, setNewProductItems] = useState([]);
     const [saleProductItems, setSaleProductItems] = useState([]);
