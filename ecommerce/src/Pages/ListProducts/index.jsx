@@ -136,14 +136,14 @@ function ProductList(props) {
             <>
                 <AdminHeader />
                 <div className="content content-margined">
-                    {/* <div className="back-to-result">
-                    <Link href="../profile" style={{ cursor: 'pointer', textDecoration: 'none' }}>
-                        <Grid container style={{ width: '15rem' }}>
-                            <Grid item xs={2}><ArrowBackIcon /></Grid>
-                            <Grid item xs={10}>Back to profile</Grid>
-                        </Grid>
-                    </Link>
-                </div> */}
+                    <div className="back-to-result">
+                        <Link to="/admin" style={{ cursor: 'pointer', textDecoration: 'none' }}>
+                            <Grid container style={{ width: '15rem' }}>
+                                <Grid item xs={2}><ArrowBackIcon /></Grid>
+                                <Grid item xs={10}>Back to profile</Grid>
+                            </Grid>
+                        </Link>
+                    </div>
 
                     <div className="product-header">
                         <Grid container>
@@ -153,7 +153,7 @@ function ProductList(props) {
                                 </Typography>
                             </Grid>
                             <Grid item xs={4} style={{ paddingLeft: '12rem' }}>
-                                <Link href="../admin/createProduct" style={{ color: '#203040', textDecoration: 'none' }}>
+                                <Link to="../admin/createProduct" style={{ color: '#203040', textDecoration: 'none' }}>
                                     <Grid container>
                                         <Grid item xs={1}><AddBoxIcon /></Grid>
                                         <Grid item xs={4} style={{ fontSize: '1rem' }}>Add product</Grid>
@@ -193,7 +193,7 @@ function ProductList(props) {
                                     <TableCell>
                                         {/* onClick={() => (window.confirm('Are you sure to delete this item?')) ? deleteHandler(product) : {}} */}
                                         <Link style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>
-                                        <Link href={"../admin/updateProduct/" + product.id} style={{ color: "#203040", cursor: 'pointer' }}><CreateIcon /></Link>
+                                        <Link to={"../admin/editProduct/" + product.ID} style={{ color: "#203040", cursor: 'pointer' }}><CreateIcon /></Link>
                                     </TableCell>
                                 </TableRow>))}
                             </TableBody>

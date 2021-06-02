@@ -135,7 +135,6 @@ export function AdminHeader(props) {
         localStorage.removeItem('token');
         localStorage.removeItem('info');
 
-
     }
     return (
         <>
@@ -155,7 +154,7 @@ export function AdminHeader(props) {
                         <a href="/admin" style={{ textDecoration: 'none', color: 'white' }}>Dashboard</a>
                     </Typography>
                     <IconButton color="inherit">
-                        <a href="/signin" onClick={handleLogout} style={{
+                        <a href="/" onClick={handleLogout} style={{
                             fontSize: '1.2rem', margin: 'auto', textDecoration: 'none', color: 'white'
                         }}>Đăng xuất
                         </a>
@@ -170,6 +169,7 @@ export function AdminHeader(props) {
 
 export default function Dashboard() {
     const classes = useStyles();
+    const userInfo = JSON.parse(localStorage.getItem('info'));
     const [orders, setOrders] = useState([]);
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
@@ -217,11 +217,10 @@ export default function Dashboard() {
     <>
         {userInfo && userInfo.role === 'admin' ?
         <>
-        <HeaderItem />
         <div className={classes.root}>
             <CssBaseline />
             
-            {/* <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+            <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
                      edge="start"
@@ -234,17 +233,17 @@ export default function Dashboard() {
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         Dashboard
-          </Typography>
+                    </Typography>
                     <IconButton color="inherit">
-                        <a href="/signin" onClick={handleLogout} style={{
+                        <a href="/" onClick={handleLogout} style={{
                             fontSize: '1.2rem', margin: 'auto', textDecoration: 'none', color: 'white'
                         }}>Đăng xuất
                         </a>
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            {/*  */}
-            <AdminHeader />
+            {/* 
+            {/* <AdminHeader /> */}
             <Drawer
                 variant="permanent"
                 classes={{
