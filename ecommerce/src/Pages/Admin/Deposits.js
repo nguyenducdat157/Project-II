@@ -33,7 +33,10 @@ export default function Deposits(props) {
         <React.Fragment>
             <Title>Doanh thu hôm nay</Title>
             <Typography component="p" variant="h5">
-                {deposits} (Nghìn đồng)
+                {(parseInt(deposits) > 1000) ? numberWithCommas(deposits) + " (Triệu đồng)" :
+                    deposits + " (Nghìn đồng)"
+                }
+
             </Typography>
             <Typography color="textSecondary" className={classes.depositContext}>
                 Hôm nay

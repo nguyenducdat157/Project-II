@@ -55,14 +55,15 @@ const CartItem = (props) => {
                         <Link to={{ pathname: `/product-detail/${itemInfo.name}`, state: { info: itemInfo } }}> <h4> {itemInfo.name} </h4></Link>
                         {/* <h4> {itemInfo.name} </h4> */}
                         <p hidden={props.hiddenButton}>
-                            {itemInfo.saleOff === 0 ?
-                                <>
-                                    <span className='item-price'>{numberWithCommas(itemInfo.price)}</span>
-                                </> :
+                            {parseInt(itemInfo.saleOff) > 0 ?
                                 <>
                                     <span className='item-price' style={{ marginRight: '10px' }}><del>{numberWithCommas(itemInfo.price)}</del></span>
                                     <span className='item-price' style={{ marginRight: '10px' }}>{itemInfo.saleOff}%</span>
                                     <span className='item-price'>{numberWithCommas(itemInfo.price * (1 - itemInfo.saleOff / 100))}</span>
+
+                                </> :
+                                <>
+                                    <span className='item-price'>{numberWithCommas(itemInfo.price)}</span>
                                 </>
 
                             }
