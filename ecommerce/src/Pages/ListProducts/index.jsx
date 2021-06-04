@@ -83,7 +83,7 @@ function ProductList(props) {
 
     const [productList, setProductList] = useState([]);
     const userInfo = JSON.parse(localStorage.getItem('info'));
-    useEffect(function(){
+    useEffect(function () {
         let config = {
             method: 'GET',
             url: `${HOST_URL}/products`,
@@ -108,30 +108,8 @@ function ProductList(props) {
             });
     }, [tab])
 
-    //   const { loading, products, error } = productList;
 
-    //   const productDelete = useSelector(state => state.productDelete);
-    //   const { loading: loadingDelete, success: successDelete, error: errorDelete } = productDelete;
-
-
-    //   const dispatch = useDispatch();
-
-    //   useEffect(() => {
-    //     dispatch(listProducts());
-    //     return () => {
-    //       //
-    //     };
-    //   }, [successDelete]);
-
-    // xóa sản phẩm
-    //   const deleteHandler = (product) => {
-    //     dispatch(deleteProduct(product._id));
-    //   }
-
-    //   console.log("product = " + products);
-
-    // return loading ? <div>Loading...</div> :
-    if (userInfo && userInfo.role === 'admin'){
+    if (userInfo && userInfo.role === 'admin') {
         return (
             <>
                 <AdminHeader />
@@ -143,6 +121,9 @@ function ProductList(props) {
                                 <Grid item xs={10}>Back to profile</Grid>
                             </Grid>
                         </Link>
+                    </div>
+                    <div className="tab_element" style={{ width: 'fit-content', marginBottom: '10px' }} >
+                        <TabElement parentCallback={callback} />
                     </div>
 
                     <div className="product-header">

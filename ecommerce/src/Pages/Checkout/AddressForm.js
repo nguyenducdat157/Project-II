@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import {useState} from 'react';
+import { useState } from 'react';
 export default function AddressForm(props) {
     // const info = JSON.parse(localStorage.getItem('info'));
     // const [shipInfo, setShipInfo] = useState({
@@ -14,26 +14,26 @@ export default function AddressForm(props) {
     //     'phone': info.phone
 
     // });
-    
+
     // useEffect(function(){
     //     console.log(shipInfo);
     // });
     const shipInfo = props.shipInfo;
-    
-    const handleChange = (e) =>{
+
+    const handleChange = (e) => {
         e.preventDefault();
         // const newShipInfo = JSON.parse(JSON.stringify(shipInfo));
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         // newShipInfo[name] = value;
 
-        
-        
-        
+
+
+
         // setShipInfo(prevInfo => ({
         //     ...prevInfo, ...newShipInfo
         // }));
         // console.log(newShipInfo);
-              
+
         props.handleShipInfo(name, value);
 
     }
@@ -74,7 +74,7 @@ export default function AddressForm(props) {
                         name="address"
                         label="Address"
                         fullWidth
-
+                        required
                         value={shipInfo.address}
                         onChange={handleChange}
                     />
@@ -87,6 +87,7 @@ export default function AddressForm(props) {
                         fullWidth
                         value={shipInfo.phone}
                         onChange={handleChange}
+                        required
                     />
                 </Grid>
 
