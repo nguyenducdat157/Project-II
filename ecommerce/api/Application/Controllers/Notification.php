@@ -39,6 +39,24 @@ class ControllersNotification extends Controller {
         $this->response->sendStatus(200);
         $this->response->setContent(['response'=> $result]);   
     }
+    public function set_read() {
+        header('Content-type: application/json');
+        $data = json_decode(file_get_contents('php://input'), true);
+        $id = $data['id'];
+        $result = $this->_model->set_read($id); 
+
+
+        if ($result){
+            $response = 'Successfully updated notification';
+            $this->response->sendStatus(200);
+            $this->response->setContent(['response' => $response]);
+        }
+        else{
+            $response = 'Error updating notification';
+            $this->response->sendStatus(401);
+            $this->response->setContent(['response' => $response]);
+        }
+    }
 
    
 

@@ -34,7 +34,7 @@ const ProductDetail = (props) => {
         availableAmount: itemInfo['availableAmount'],
         saleOff: itemInfo['saleOff']
     }
-    // console.log(product);
+    //console.log(product);
 
     // function getSize(type) {
     //     switch (type) {
@@ -298,11 +298,26 @@ const ProductDetail = (props) => {
 
                         </div>
                     </div>
+                    {
+                        (product.saleOff === "0") ?
+                            <div className="product-price" id="price-preview-detail">
+                                <span>{numberWithCommas(product.price)}đ</span>
 
-                    <div className="product-price" id="price-preview-detail">
-                        <span>{numberWithCommas(product.price)}đ</span>
+                            </div> :
+                            <div className="product-price" id="price-preview-detail">
+                                <span>{numberWithCommas(product.price * (1 - parseInt(product.saleOff) / 100))}đ</span>
+                                <span style={{
+                                    color: "black",
+                                    fontWeight: '400'
+                                }}><del>{numberWithCommas(product.price)}đ</del></span>
+                                <span style={{
+                                    color: "black",
+                                    fontWeight: '400'
+                                }}>-{product.saleOff}%</span>
 
-                    </div>
+                            </div>
+                    }
+
 
                     {/* <div className="sizes">{
                         product.sizes.map((size) =>

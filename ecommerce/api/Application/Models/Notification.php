@@ -31,6 +31,15 @@ class ModelsNotification extends Model{
 
         return false;
     }
+    public function set_read($id) {
+        $sql = 'update notification set notification.status = 1 where notification.id = '. $id;
+        $stmt = $this->db->prepare($sql);
+        //var_dump($stmt);
+        if($stmt->execute()) {
+            return true;
+        } 
+        return false;
+    }
 
 
     

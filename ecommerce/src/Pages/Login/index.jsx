@@ -91,7 +91,7 @@ export default function SignIn() {
             .then(res => {
                 // console.log("success!");
                 // console.log(res);
-                
+
                 // console.log(res);
                 localStorage.setItem('id', res.data.response.user.id);
                 localStorage.setItem('token', res.data.token);
@@ -163,7 +163,7 @@ export default function SignIn() {
 
     return (
         <Container component="main" maxWidth="xs">
-            {login && userInfo ? userInfo.role === 'admin' ?  <Redirect to={{pathname:'/admin', state:{role: "admin"}}}/> : <Redirect to='/'/> :''}
+            {login && userInfo ? userInfo.role === 'admin' ? <Redirect to={{ pathname: '/admin', state: { role: "admin" } }} /> : <Redirect to='/' /> : ''}
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
@@ -232,11 +232,6 @@ export default function SignIn() {
                         Sign In
           </Button>
                     <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant="body2">
-                                Forgot password?
-              </Link>
-                        </Grid>
                         <Grid item>
                             <Link href="/register" variant="body2">
                                 {"Don't have an account? Sign Up"}

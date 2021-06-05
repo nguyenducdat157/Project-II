@@ -184,6 +184,9 @@ function OrdersList(props) {
                     orderList = tab ? orderList.filter(item => {
                         return item.status === tabValue[tab];
                     }) : orderList;
+                    orderList.sort((a, b) => {
+                        return parseInt(b.id) - parseInt(a.id);
+                    })
                     setOrders(orderList);
 
                 })
