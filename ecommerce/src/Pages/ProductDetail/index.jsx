@@ -16,7 +16,7 @@ const ProductDetail = (props) => {
     const [choosenSize, setSize] = useState('S');
     //const [Wishlist, setWistlist] = useState([]);
     const itemInfo = props.location.state.info;
-    console.log(itemInfo);
+    // console.log(itemInfo);
     const [amount, setAmount] = useState(1);
 
     //const itemInWistlist = props.location.state.inWishlist;
@@ -26,13 +26,15 @@ const ProductDetail = (props) => {
     const product = {
         id: itemInfo['ID'],
         name: itemInfo['name'],
-        img: require('../../asset/images/products/' + itemInfo['imgFile']).default,
+        // img: require('../../asset/images/products/' + itemInfo['imgFile']).default,
+        img: itemInfo['imgFile'],
         price: itemInfo['price'],
         description: itemInfo['description'],
         type: itemInfo['type'],
         availableAmount: itemInfo['availableAmount'],
         sizes: ['S', 'M', 'L', 'XL', 'XXL']
     }
+    // console.log(product);
 
     // function getSize(type) {
     //     switch (type) {
@@ -122,7 +124,7 @@ const ProductDetail = (props) => {
             amount: amount,
             availableAmount: product.availableAmount
         };
-        // console.log(orderInfo);
+        console.log(orderInfo);
         if (localStorage.getItem('cart') == null) {
             let products = [];
             addProductToCart(products, orderInfo);

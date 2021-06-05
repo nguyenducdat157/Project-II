@@ -63,7 +63,7 @@ const HeaderItem = (props) => {
                 <div className="header-navbar">
                     <NavbarItem role={userInfo && userInfo.role === 'admin' ? 'admin' : 'customer'}/>
                 </div>
-                    {(!login || (userInfo && userInfo.role === 'customer') ? 
+                  
                     <div className="header-icon">
                         <div className="search-icon">
                             <Form inline >
@@ -94,7 +94,6 @@ const HeaderItem = (props) => {
                         </div>
                     </div>
 
-                    : null)}
                     
             </div>
             <div className="header-line"><hr /></div>

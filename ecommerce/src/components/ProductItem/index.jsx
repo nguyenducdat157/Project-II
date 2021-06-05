@@ -11,9 +11,9 @@ const ProductItem = (props) => {
     //console.log(inWishlist);
     const saleOff = itemInfo['saleOff'];
     const name = itemInfo['name'];
-    const price = itemInfo['price']
-
-    const imgFile = require('../../asset/images/products/' + itemInfo['imgFile']).default;
+    const price = itemInfo['price'];
+    const imgFile = itemInfo['imgFile'];
+    // const imgFile = require('../../asset/images/products/' + itemInfo['imgFile']).default;
     // console.log(imgFile);
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");

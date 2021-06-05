@@ -29,6 +29,7 @@ import WishlistPage from './Pages/Wishlist';
 import Dashboard from './Pages/Admin/dashboard';
 import UserList from './Pages/ListUser/listUser';
 import NotifiCationPage from './Pages/Notification';
+import PasswordChange from './Pages/PasswordChange/PasswordChange';
 
 
 function App() {
@@ -41,7 +42,7 @@ function App() {
       <Route path="/collections/:type" exact component={CollectionPage} />
       <Route path="/signin" exact component={SignIn} />
       <Route path="/register" exact component={Signup} />
-
+      <Route path="/password-change" exact component={PasswordChange} />
       <Route path="/search" component={SearchPage} />
 
       <Route path="/order-detail" exact={false} component={OrderDetail} />
@@ -56,7 +57,7 @@ function App() {
       <Route path="/product-detail" exact={false} component={ProductDetail} />
       <Route path="/listOrder" exact component={OrdersList} />
       <Route path="/admin/listOrder" exact component={OrdersList} />
-
+     
       
       <Route path="/customer/wishlist" exact={false} component={WishlistPage} />
       <Route path="/admin" exact component={Dashboard} />

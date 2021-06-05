@@ -2,7 +2,7 @@ import { Pagination } from '@material-ui/lab';
 import axios from 'axios';
 
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router';
+import { Redirect, useParams } from 'react-router';
 import Container from '../../components/ContainerItem';
 import Footer from '../../components/Footer';
 import HeaderItem from '../../components/Header';
@@ -14,7 +14,7 @@ const CollectionPage = () => {
     const [collectionItemsFilters, setCollectionItemsFilters] = useState('');
     const { type } = useParams();
     console.log(type);
-
+    const userInfo = JSON.parse(localStorage.getItem('info'));
     //pagination
     const [page, setPage] = useState(1);
 
@@ -122,6 +122,7 @@ const CollectionPage = () => {
     // }
 
     return (<>
+        {userInfo && userInfo.role === 'admin' ? <Redirect to="/admin"/> : null}
         <section>
             <header>
                 <HeaderItem />

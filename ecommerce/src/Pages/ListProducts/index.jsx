@@ -189,7 +189,7 @@ function ProductList(props) {
                                     <TableCell>{product.status}</TableCell>
                                     <TableCell style={{ maxWidth: '4rem', wordBreak: 'break-all' }}>{product.description}</TableCell>
                                     {/* <TableCell>{Math.round((product.rating + Number.EPSILON) * 10) / 10}</TableCell> */}
-                                    <TableCell><img src={require('../../asset/images/products/' + product.imgFile).default} className="img-productList"></img></TableCell>
+                                    <TableCell><img src={product.imgFile} className="img-productList"></img></TableCell>
                                     <TableCell>
                                         {/* onClick={() => (window.confirm('Are you sure to delete this item?')) ? deleteHandler(product) : {}} */}
                                         <Link style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>

@@ -33,8 +33,11 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
     },
 }));
-
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 export default function Orders(props) {
+
     const classes = useStyles();
     // const [orders, setOrders] = useState([]);
 
@@ -103,7 +106,7 @@ export default function Orders(props) {
                             </TableCell>
                             <TableCell>{order.createTime}</TableCell>
                             <TableCell>{order.name}</TableCell>
-                            <TableCell>{order.total_price}</TableCell>
+                            <TableCell>{numberWithCommas(order.total_price)}</TableCell>
                             <TableCell>{order.address}</TableCell>
                             <TableCell align="right">{order.status}</TableCell>
                         </TableRow>

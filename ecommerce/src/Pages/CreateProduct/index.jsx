@@ -40,7 +40,7 @@ export default function CreateProduct() {
         // productInfo.imgFile = files[0].name; 
         // setProduct(productInfo);
         setProduct({
-            ...product, imgFile: files[0].name
+            ...product, imgFile: files[0]
         });
 
     }

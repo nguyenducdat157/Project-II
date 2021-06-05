@@ -18,21 +18,17 @@ export default function AddressForm(props) {
     // useEffect(function(){
     //     console.log(shipInfo);
     // });
+
     const shipInfo = props.shipInfo;
-    
+    const shipInfoIsNull = props.shipInfoIsNull;
+    // console.log(validatePhone(shipInfo.phone));
+    // const [isInvalidPhone, setInvalidPhone] = useState(()=>validatePhone(shipInfo.phone));
+    const isInvalidPhone = props.isInvalidPhone;
     const handleChange = (e) =>{
         e.preventDefault();
         // const newShipInfo = JSON.parse(JSON.stringify(shipInfo));
         const {name, value} = e.target;
-        // newShipInfo[name] = value;
 
-        
-        
-        
-        // setShipInfo(prevInfo => ({
-        //     ...prevInfo, ...newShipInfo
-        // }));
-        // console.log(newShipInfo);
               
         props.handleShipInfo(name, value);
 
@@ -49,6 +45,7 @@ export default function AddressForm(props) {
                         id="firstname"
                         name="firstname"
                         label="First name"
+                        
                         fullWidth
                         autoComplete="given-name"
                         value={shipInfo.firstname}
@@ -74,7 +71,8 @@ export default function AddressForm(props) {
                         name="address"
                         label="Address"
                         fullWidth
-
+                        error={shipInfoIsNull.address ? true : false}
+                        helperText={shipInfoIsNull.address ? "Vui lòng nhập địa chỉ" : ""}
                         value={shipInfo.address}
                         onChange={handleChange}
                     />
@@ -85,6 +83,8 @@ export default function AddressForm(props) {
                         name="phone"
                         label="Phone number"
                         fullWidth
+                        error={shipInfoIsNull.phone || isInvalidPhone ? true : false}
+                        helperText={shipInfoIsNull.phone ? "Vui lòng nhập số điện thoại" : isInvalidPhone ? "Vui lòng nhập đúng định dạng" : ""}
                         value={shipInfo.phone}
                         onChange={handleChange}
                     />

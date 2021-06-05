@@ -15,6 +15,8 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { HOST_URL } from '../../config';
 import { Redirect } from 'react-router-dom';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -165,6 +167,7 @@ export default function Signup() {
             }
             axios(config)
                 .then(res => {
+       
                     console.log("success!");
                     setSuccess(true);
 
@@ -175,17 +178,28 @@ export default function Signup() {
                     localStorage.setItem('token', res.data.token);
                     const user = res.data.response.user;
                     const userInfo = {
-                        name: user.firstname + ' ' + user.lastname,
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                        // name: user.firstname + ' ' + user.lastname,
                         email: user.email,
                         address: user.address,
                         phone: user.phone,
                     };
                     console.log(userInfo);
                     localStorage.setItem('info', JSON.stringify(userInfo));
+                    
+
+
 
 
                 })
                 .catch(err => {
+                    toast.error("Tài khoản đã tồn tại", {
+                        hideProgressBar: true,
+                        closeButton: false,
+                        position: "top-center",
+        
+                    })
                     setSuccess(false);
                 });
 
@@ -197,6 +211,10 @@ export default function Signup() {
     return (
 
         <Container component="main" maxWidth="xs">
+            <ToastContainer
+                    transition={Slide}
+                    autoClose={2000}
+            />
             {success ? <Redirect to='/' /> : ''}
             <CssBaseline />
             <div className={classes.paper}>

@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import axios from 'axios';
 import { HOST_URL } from '../../config';
 import { AdminHeader } from '../Admin/dashboard';
+import { Redirect } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,6 +34,7 @@ export default function OrderDetail(props) {
     // const orderInfo = props.location.state.info;
     const orderId = props.location.state.orderId;
     const [orderInfo, setOrderInfo] = useState({});
+    const userInfo = JSON.parse(localStorage.getItem('info'));
     // let timeShipping =  new Date(orderInfo.createTime);
     // timeShipping.setDate(timeShipping.getDate() + 3);
     // let timeShipping = new Date();
@@ -89,7 +91,8 @@ export default function OrderDetail(props) {
     }
 
     const showListProduct = productList.map(product => {
-        const imgFile = require('../../asset/images/products/' + product.imgFile).default;
+        // const imgFile = require('../../asset/images/products/' + product.imgFile).default;
+        const imgFile = product.imgFile;
         return (
 
             <Grid container spacing={3}>
@@ -137,7 +140,8 @@ export default function OrderDetail(props) {
     //  console.log(orderInfo);
     return (
         <>
-            {isAdmin ? <AdminHeader style={{ marginBottom: '30px' }} /> : <HeaderItem />}
+            {!userInfo ? <Redirect to="/signin"/> : ""}
+            {userInfo && userInfo.role === 'admin' ? <AdminHeader style={{ marginBottom: '30px' }} /> : <HeaderItem />}
             {/* <HeaderItem /> */}
             <div className={classes.root}>
                 <Grid container style={{ width: '100%', margin: 'auto' }} spacing={3} >

@@ -7,7 +7,7 @@ const CartItem = (props) => {
     console.log(itemInfo);
     const id = props.id;
     const [amount, setAmount] = useState(itemInfo.amount);
-    const imgFile = require('../../asset/images/products/' + itemInfo['imgFile']).default;
+    const imgFile = itemInfo['imgFile']
 
 
     function numberWithCommas(x) {

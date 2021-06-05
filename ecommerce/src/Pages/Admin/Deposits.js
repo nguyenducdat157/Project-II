@@ -23,7 +23,7 @@ export default function Deposits(props) {
             new Date(item.createTime).getDate() === today.getDate() && item.status !== "Đã hủy"
     });
     const deposits = orders.reduce((sum, x) => {
-        return sum + parseInt(x.total_price) / 1000;
+        return sum + parseInt(x.total_price);
     }, 0);
 
     function numberWithCommas(x) {
@@ -33,7 +33,7 @@ export default function Deposits(props) {
         <React.Fragment>
             <Title>Doanh thu hôm nay</Title>
             <Typography component="p" variant="h5">
-                {numberWithCommas(deposits)} (Triệu đồng)
+                {numberWithCommas(deposits)}đ
       </Typography>
             <Typography color="textSecondary" className={classes.depositContext}>
                 Hôm nay

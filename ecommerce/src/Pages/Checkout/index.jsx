@@ -73,7 +73,7 @@ export default function Checkout() {
     const cart = JSON.parse(localStorage.getItem('cart'));
     const shipFee = 30000;
     const userID = localStorage.getItem('id');
-   
+    
     let today = new Date();
     const dd = String(today.getDate());
     const mm = String(today.getMonth() + 1); //January is 0!
@@ -91,18 +91,33 @@ export default function Checkout() {
         'shipFee': shipFee
     });
 
+    const [isInvalidPhone, setInvalidPhone] = useState(false);
+
+    const [shipInfoIsNull, setShipInfoIsNull] = useState({address: false, phone: false});
+
+    function validatePhone(phone) {
+        var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        return re.test(String(phone));
+    }
 
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
 
     const handleShipInfo = (name, value) => {
-         
+        if (value !== ''){
+            setShipInfoIsNull({...shipInfoIsNull, [name]: false});
+        } 
+        if (name == 'phone' && validatePhone(value)){
+            setInvalidPhone(false);
+        }
         setShipInfo(prevInfo =>{
             return {...prevInfo, [name]: value}
         });
         
         
     }
+
+
 
     const handleNext = () => {
 
@@ -133,7 +148,33 @@ export default function Checkout() {
                 .catch(err => {
                     console.log(err);
                 });
+            setActiveStep(activeStep + 1);
         }
+        else if (activeStep === 0){
+            if (shipInfo.address === ''){
+                setShipInfoIsNull({...shipInfoIsNull, address: true});
+                return;
+            }
+            else{
+                setShipInfoIsNull({...shipInfoIsNull, address: false});
+            }
+            if (shipInfo.phone === ''){
+                setShipInfoIsNull({...shipInfoIsNull, phone: true});
+                return;
+            } else {
+                setShipInfoIsNull({...shipInfoIsNull, phone: false});
+                if (!validatePhone(shipInfo.phone)){
+                    setInvalidPhone(true);
+                    return;
+                }
+            }
+            
+            setActiveStep(activeStep + 1);
+        }
+        else {
+            setActiveStep(activeStep + 1);
+        }
+        
         setActiveStep(activeStep + 1);
     };
     const handleHome = () => {
@@ -146,7 +187,7 @@ export default function Checkout() {
     function getStepContent(step) {
         switch (step) {
             case 0:
-                return <div><AddressForm shipInfo={shipInfo} handleShipInfo={handleShipInfo}/></div>;
+                return <div><AddressForm shipInfo={shipInfo} isInvalidPhone={isInvalidPhone} shipInfoIsNull={shipInfoIsNull} handleShipInfo={handleShipInfo}/></div>;
             case 1:
                 return <div><Review cart={cart} shipInfo={shipInfo}/></div>;
             // case 1:

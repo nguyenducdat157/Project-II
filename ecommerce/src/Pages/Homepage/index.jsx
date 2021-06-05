@@ -5,6 +5,7 @@ import Slice from '../../components/Slice';
 import Container from '../../components/ContainerItem';
 import axios from 'axios';
 import { HOST_URL } from '../../config.js';
+import { Redirect } from 'react-router';
 const HomePage = (props) => {
 
     //const [allProductItems, setAllProductItems] = useState([]);
@@ -13,7 +14,7 @@ const HomePage = (props) => {
     // useState(()=>{
 
     // });
-
+    const userInfo = JSON.parse(localStorage.getItem('info'));
     function get5Element(arr) {
         return (arr.length > 5) ? arr.slice(0, 5) : arr;
     }
@@ -75,7 +76,7 @@ const HomePage = (props) => {
 
     return (
         <>
-
+            {userInfo && userInfo.role === 'admin' ? <Redirect to="/admin" /> : null}
             <section>
                 <header>
                     <HeaderItem login={login} />

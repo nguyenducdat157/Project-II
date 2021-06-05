@@ -22,18 +22,19 @@ function EditProduct() {
 
     }
     const handleFileSelected = (files) => {
-
+        console.log(files[0]);
         // let productInfo = product;
         // productInfo.imgFile = files[0].name; 
         // setProduct(productInfo);
         setProduct({
-            ...product, imgFile: files[0].name
+            ...product, imgFile: files[0]
         });
 
     }
 
     const handleReset = () => {
         const newProduct = {
+            id: params['id'],
             name: '',
             price: 0,
             imgFile: null,

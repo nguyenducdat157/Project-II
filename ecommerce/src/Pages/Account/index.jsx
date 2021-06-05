@@ -13,7 +13,8 @@ const AccountPage = () => {
     }
     const info = JSON.parse(localStorage.getItem('info'));
     const userId = localStorage.getItem('id');
-    // console.log(info.name);
+    console.log(info);
+    console.log(info.name);
     // console.log(info.phone);
     // console.log(info.address);
     // console.log(info.email);
@@ -33,7 +34,7 @@ const AccountPage = () => {
                             <li className="wish-list"><Link to={`/customer/wishlist/${userId}`} >Danh sách sản phẩm quan tâm</Link></li>
                             <li className="order-list"><a href="/listOrder">Đơn hàng của tôi</a></li>
                             <li><a href="/notification">Thông báo</a></li>
-                            <li><a href="#">Đổi mật khẩu</a></li>
+                            <li><a href="/password-change">Đổi mật khẩu</a></li>
                             <li className="logout"><a href="/" onClick={handleLogout}>Đăng xuất</a></li>
                         </ul>
                     </div>

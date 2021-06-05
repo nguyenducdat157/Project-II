@@ -19,7 +19,7 @@ export default function FormInput(props) {
     const product = props.product;
     const type = product.type;
     const [showToast, setToast] = useState(false);
-    console.log(type);
+    // console.log(type);
     const handleChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
@@ -29,41 +29,61 @@ export default function FormInput(props) {
     }
     const handleFileSelected = (e) => {
         const files = e.target.files;
-        console.log(files);
+        // console.log(files);
         props.handleFileSelected(files)
 
 
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        // HTMLFormControlsCollection.log
-        const data = product;
-        console.log(data);
+        const formData = new FormData();
+        for (const key in product){
+            console.log(product[key]);
+            formData.append(key, product[key]);
+        }
+        formData.append("method", props.method);
+        // console.log(data);
         let config = {
             method: 'POST',
-            url: `${HOST_URL}/products`,
+            url:  `${HOST_URL}/products`,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data',
             },
-            data: data
+            data: formData
 
         }
         axios(config)
             .then(res => {
-                console.log(res);
+                // console.log(res);
+                setToast(true);
+                if (res.status === 200 || res.status === 201){
+                    
+                    toast.success(props.textButton + " sản phẩm thành công", {
+                        onClose: () => {
+                            setToast(false);
+                            window.location.href = '/admin/listProduct'
+                        },
+                        hideProgressBar: true,
+                        closeButton: false,
+                        position: "top-center",
+            
+                    })
+                }
+                else{
+                    toast.error(props.textButton + " sản phẩm không thành công", {
+                        onClose: () => setToast(false),
+                        hideProgressBar: true,
+                        closeButton: false,
+                        position: "top-center",
+            
+                    })
+                }
 
             })
             .catch(err => {
                 console.log(err);
             });
-        setToast(true);
-        toast.success(props.textButton + " sản phẩm thành công", {
-            onClose: () => setToast(false),
-            hideProgressBar: true,
-            closeButton: false,
-            position: "top-center",
 
-        })
     }
 
     return (
