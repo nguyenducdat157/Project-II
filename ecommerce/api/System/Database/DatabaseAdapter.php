@@ -39,8 +39,8 @@ class DatabaseAdapter {
      * @param $sql
      * @return mixed
      */
-    public function query($sql) {
-        return $this->dbConnection->query($sql);
+    public function query($sql, $fetchMode=PDO::FETCH_ASSOC) {
+        return $this->dbConnection->query($sql, $fetchMode);
     }
     public function prepare($sql)
     {

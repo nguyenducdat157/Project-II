@@ -23,6 +23,23 @@ class ModelsOrder extends Model{
                 if (!$stmt->execute(array_values($orderItem))){
                     return false;
                 }
+                $amount_select_query = 'SELECT availableAmount, soldAmount FROM product WHERE id = ?';
+                $stmt = $this->db->prepare($amount_select_query);
+                if ($stmt->execute([$productID])){
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $availableAmount = $result['availableAmount'];
+                    $soldAmount = $result['soldAmount'];
+                    $update_query = 'UPDATE product SET availableAmount = ?, soldAmount = ? WHERE id = ?';
+                    $update_stmt = $this->db->prepare($update_query);
+                    $update_result = $update_stmt->execute([$availableAmount - $amount, $soldAmount + $amount, $productID]);
+                    if (!$update_result){
+         
+                        return false;
+                    }
+                        
+                }
+                else 
+                    return false;
                 
             }
             return true;
@@ -110,6 +127,8 @@ class ModelsOrder extends Model{
         and order_item.order_id = '.$orderId. ' GROUP by product.ID');
 
         foreach($result as $sql) {
+            $imgFile = $sql['imgFile'];
+            $sql['imgFile'] = img_to_base64($imgFile);
             array_push($res, $sql);
         }
         return $res;

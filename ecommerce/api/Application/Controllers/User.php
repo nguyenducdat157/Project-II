@@ -34,13 +34,12 @@ class ControllersUser extends Controller {
             $user = $user[0];
             $token = JWT::encode($user, SECRET_KEY);        
             $response = ['user'=>$user];
-            $this->response->sendStatus(200);
-            $this->response->setContent(['token' => $token, 'response'=> $response]);    
+            $this->send(201, ['token' => $token, 'response'=> $response]);
+            
         }
         else{
             $response = 'Error creating user';
-            $this->response->sendStatus(401);
-            $this->response->setContent(['response' => $response]);
+            $this->send(400, ['response'=>$response]);
         }
 
     }
@@ -86,6 +85,21 @@ class ControllersUser extends Controller {
         
         
     
+    }
+
+    public function update($params){
+        $id = $params['id'];
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (isset($data['old_password'])){
+            $result = $this->_model->update($id, $data, true);
+            if ($result)
+                $this->send(200, "Successfully updated password");
+            else 
+                $this->send(400, "Error updating password");
+        }
+        // else{
+        //     $result = $this->_model->update($id, $data);
+        // }
     }
 
 }

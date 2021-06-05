@@ -99,20 +99,22 @@ class ModelsProduct extends Model{
     }
     
     public function select_all($param=null){
-    $query = 'SELECT * from product';
+        $query = 'SELECT * from product';
 
-    if($param) {
-       // echo $param['type'];
-        $query =  $query. ' where type like "%'. $param['type']. '%"';
-       // echo $query;
-    }
-    $res = [];
-    $result =  $this->db->query($query);
-   // var_dump($result);
-    foreach($result as $sql) {
-        array_push($res, $sql);
-    }
-    return $res;
+        if($param) {
+        // echo $param['type'];
+            $query =  $query. ' where type like "%'. $param['type']. '%"';
+        // echo $query;
+        }
+        $res = [];
+        $result =  $this->db->query($query);
+
+        foreach($result as $sql) {
+            $imgFile = $sql['imgFile'];
+            $sql['imgFile'] = img_to_base64($imgFile);
+            array_push($res, $sql);
+        }
+        return $res;
     }
 
     public function getProductsByType($type) {
@@ -120,6 +122,8 @@ class ModelsProduct extends Model{
         $result = $this->db->query('select * from product where type like "%'. $type. '%"');
         
         foreach($result as $sql) {
+            $imgFile = $sql['imgFile'];
+            $sql['imgFile'] = img_to_base64($imgFile);
             array_push($res, $sql);
         }
         return $res;
@@ -131,6 +135,8 @@ class ModelsProduct extends Model{
         or type like "%'. $key. '%"');
         
         foreach($result as $sql) {
+            $imgFile = $sql['imgFile'];
+            $sql['imgFile'] = img_to_base64($imgFile);
             array_push($res, $sql);
         }
         return $res;
@@ -142,6 +148,8 @@ class ModelsProduct extends Model{
         // return $stmt;
 
         foreach($result as $sql) {
+            $imgFile = $sql['imgFile'];
+            $sql['imgFile'] = img_to_base64($imgFile);
             array_push($res, $sql);
         }
         return $res;
@@ -155,6 +163,8 @@ class ModelsProduct extends Model{
         // return $stmt;
 
         foreach($result as $sql) {
+            $imgFile = $sql['imgFile'];
+            $sql['imgFile'] = img_to_base64($imgFile);
             array_push($res, $sql);
         }
         return $res;
@@ -168,6 +178,7 @@ class ModelsProduct extends Model{
         return false;
     }
     public function create($data){
+
         $query = 'INSERT INTO product (';
         $fields = '';
         
@@ -185,6 +196,10 @@ class ModelsProduct extends Model{
     
         $stmt = $this->db->prepare($query);
         return $stmt->execute(array_values($values));
+   
+            
+        
+        
         // return $query;
 
     
@@ -192,6 +207,7 @@ class ModelsProduct extends Model{
     }
 
     public function update($id, $data){
+
         $update = '';
         $condition = ' WHERE id = ?';
         $values = array();
@@ -204,13 +220,7 @@ class ModelsProduct extends Model{
         $query = 'UPDATE product SET ' . $update . $condition; 
         $stmt = $this->db->prepare($query);
         return $stmt->execute(array_values($values));
-        // try{
-        //     $stmt = $this->db->prepare($query);
-        //     return $stmt->execute(array_values($values));
-            
-        // } catch (PDOException){
-        //     return false;
-        // }
+
 
     }
 

@@ -18,14 +18,6 @@ class ControllersProduct extends Controller {
             $result = $this->_model->select_all($params);
         }
        
-       // $response = $result->rows;
-       // print_r($response);
-        // while($row = $result->fetch()){
-        //     array_push($response, $row);
-        // }
-        // foreach($result as $row){
-        //     array_push($response, $row);
-        // }
         $this->response->sendStatus(200);
         $this->response->setContent(['response'=> $result]);     
     }
@@ -42,30 +34,94 @@ class ControllersProduct extends Controller {
     public function get($params){
         $id = $params['id'];
         $product = $this->_model->get($id);
-        if ($product)
+        if ($product){
+            $imgFile = $product['imgFile'];
+            $product['imgFile'] = img_to_base64($imgFile);
             $this->send(200, $product);
+        }
         else 
             $this->send(404, ['error' => 'Product not found']);
     }
     public function create(){
-        
-        $data = json_decode(file_get_contents('php://input'));
-        $result = $this->_model->create($data);
-        if ($result)
-            $this->response->sendStatus(201);
-        else 
-            $this->response->sendStatus(400);
+        $filename = $_FILES["imgFile"]["name"];
+        $tmp_name = $_FILES["imgFile"]["tmp_name"];
+        $error = $_FILES["imgFile"]["error"];
+
+        if ($error > 0)    
+            $this->send(400, "Error uploading file");
+        else {
+            $filename = preg_replace('/\s+/', '-', $filename);
+              
+            $upload_name = UPLOAD .  'products/' . $filename;
+            
+            if (move_uploaded_file($tmp_name, $upload_name)) {
+
+                // print_r(array_keys($data));
+                $method = $_POST['method'];
+                unset($_POST['method']);
+                $data = $_POST; 
+                $data['imgFile'] = $filename;
+                if ($method == 'POST'){
+                    $result = $this->_model->create($data);
+                    if ($result)
+                        $this->send(201, "Created new product");
+                    else 
+                        $this->send(400, "Error creating new product");
+                }
+                else{
+                    $productID = $data['ID'];
+                    unset($data['ID']);
+                    $result = $this->_model->update($productID, $data);
+                    if ($result)
+                        $this->send(201, "Updated product");
+                    else 
+                        $this->send(400, "Error updating product");
+    
+                }
+                
+
+
+            } 
+            else
+                $this->send(400, "Error creating new product");
+            
+        }
+
     }
 
 
     public function update($params){
         $productID = $params['id'];
-        $data = json_decode(file_get_contents('php://input'));
-        $result = $this->_model->update($productID, $data);
-        if ($result)
-            $this->response->sendStatus(200);
-        else 
-            $this->response->sendStatus(400);
+        parse_str(file_get_contents("php://input"),$data);
+        // var_dump($data);
+        $img = $data['imgFile'];
+        var_dump(array_keys($data));
+        $filename = $_FILES["imgFile"]["name"];
+        $tmp_name = $_FILES["imgFile"]["tmp_name"];
+        $error = $_FILES["imgFile"]["error"];
+
+        if ($error > 0)    
+            $this->send(400, "Error uploading file");
+        else {
+            $filename = preg_replace('/\s+/', '-', $filename);
+              
+            $upload_name = UPLOAD .  'products/' . $filename;
+            
+            if (move_uploaded_file($tmp_name, $upload_name)) {
+                $data = json_decode(file_get_contents('php://input'), true);
+                echo array_keys($data);
+                // $data['imgFile'] = $filename;
+                $result = $this->_model->update($productID, $data);
+                if ($result)
+                    $this->send(201, "Updated product");
+                else 
+                    $this->send(400, "Error updating product");
+
+            } 
+            else
+                $this->send(400, "Error updating product");
+            
+        }
     }
 
     public function delete($params){
