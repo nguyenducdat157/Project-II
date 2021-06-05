@@ -43,6 +43,7 @@ function TabElement(props) {
                 <Tab label="Tất cả" style={{ textTransform: 'none' }} />
                 <Tab label="new" style={{ textTransform: 'none' }} />
                 <Tab label="hot" style={{ textTransform: 'none' }} />
+                <Tab label="Ngừng kinh doanh" style={{ textTransform: 'none' }} />
             </Tabs>
         </Paper>
     );
@@ -52,7 +53,7 @@ function TabElement(props) {
 function ProductList(props) {
     const [idDelete, setIdDelete] = useState(0);
     const [tab, setTab] = useState(0);
-    const tabValue = ['Tất cả', 'new', 'hot'];
+    const tabValue = ['Tất cả', 'new', 'hot', 'Ngừng kinh doanh'];
 
     const callback = (status) => {
         setTab(status);
@@ -80,6 +81,12 @@ function ProductList(props) {
 
 
     }
+    function Datediff(d1, d2) {
+        var t2 = d2.getTime();
+        var t1 = d1.getTime();
+
+        return parseInt((t2 - t1) / (24 * 3600 * 1000));
+    }
 
     const [productList, setProductList] = useState([]);
     const userInfo = JSON.parse(localStorage.getItem('info'));
@@ -96,9 +103,37 @@ function ProductList(props) {
             .then(res => {
                 let products = res.data.response;
                 console.log(products);
-                products = tab ? products.filter(item => {
-                    return item.status === tabValue[tab];
-                }) : products;
+                // products = tab ? products.filter(item => {
+                //     return item.status === tabValue[tab];
+                // }) : products;
+                if (tab) {
+                    if (tab === 1) {
+                        products = products.filter(product => {
+                            let createDate = new Date(product.importDate);
+                            let today = new Date();
+
+                            return Datediff(createDate, today) < 30;
+                        })
+                    }
+                    if (tab === 2) {
+                        products = products.filter(product => {
+
+                            let createDate = new Date(product.importDate);
+                            let today = new Date();
+                            //  console.log(Datediff(createDate, today), product.soldAmount);
+                            return Datediff(createDate, today) < 15 && parseInt(product.soldAmount) >= 50;
+                        })
+                    }
+                    if (tab === 3) {
+                        products = products.filter(product => {
+                            return product.status === 'deleted';
+                        })
+                    }
+
+                }
+                products.sort((a, b) => {
+                    return parseInt(b.ID) - parseInt(a.ID);
+                })
                 setProductList(products);
                 console.log(res.data.response);
 
@@ -154,8 +189,8 @@ function ProductList(props) {
                                     <TableCell>Brand</TableCell>
                                     <TableCell>Type</TableCell>
                                     <TableCell>Aivalable Amount</TableCell>
+                                    <TableCell>Sold Amount</TableCell>
                                     <TableCell>Status</TableCell>
-                                    <TableCell>Description</TableCell>
                                     <TableCell>Image</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -167,9 +202,10 @@ function ProductList(props) {
                                     <TableCell>{product.brand}</TableCell>
                                     <TableCell>{product.type}</TableCell>
                                     <TableCell>{product.availableAmount}</TableCell>
+                                    <TableCell>{product.soldAmount}</TableCell>
                                     <TableCell>{product.status}</TableCell>
-                                    <TableCell style={{ maxWidth: '4rem', wordBreak: 'break-all' }}>{product.description}</TableCell>
-                                    {/* <TableCell>{Math.round((product.rating + Number.EPSILON) * 10) / 10}</TableCell> */}
+                                    {/* <TableCell style={{ maxWidth: '4rem', wordBreak: 'break-all' }}>{product.description}</TableCell>*/}
+
                                     <TableCell><img src={product.imgFile} className="img-productList"></img></TableCell>
                                     <TableCell>
                                         {/* onClick={() => (window.confirm('Are you sure to delete this item?')) ? deleteHandler(product) : {}} */}
