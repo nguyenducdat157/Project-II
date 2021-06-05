@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import {useState} from 'react';
+import { useState } from 'react';
 export default function AddressForm(props) {
     // const info = JSON.parse(localStorage.getItem('info'));
     // const [shipInfo, setShipInfo] = useState({
@@ -14,7 +14,7 @@ export default function AddressForm(props) {
     //     'phone': info.phone
 
     // });
-    
+
     // useEffect(function(){
     //     console.log(shipInfo);
     // });
@@ -87,6 +87,7 @@ export default function AddressForm(props) {
                         helperText={shipInfoIsNull.phone ? "Vui lòng nhập số điện thoại" : isInvalidPhone ? "Vui lòng nhập đúng định dạng" : ""}
                         value={shipInfo.phone}
                         onChange={handleChange}
+                        required
                     />
                 </Grid>
 

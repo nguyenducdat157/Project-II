@@ -21,7 +21,7 @@ const CartView = (props) => {
             setTotalBill(getTotalBill(products));
         }
 
-        // console.log(products);
+        console.log(products);
         // console.log(totalBill);
     }, []);
 
@@ -52,15 +52,17 @@ const CartView = (props) => {
         // console.log(productList);
     }
     const handleItemRemove = (id) => {
-        productList.splice(id, 1);
-        setProductList(productList);
+        let tempList = productList;
+        tempList.splice(id, 1);
+        setProductList(tempList);
+        console.log(tempList);
         setTotalBill(getTotalBill(productList));
         localStorage.setItem('cart', JSON.stringify(productList));
     }
     const getTotalBill = (productList) => {
         let total = 0;
         for (let i = 0; i < productList.length; i++) {
-            total += productList[i].amount * productList[i].price;
+            total += productList[i].amount * productList[i].price * (1 - productList[i].saleOff / 100);
         }
         return total;
     }

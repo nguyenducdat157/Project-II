@@ -14,7 +14,7 @@ function numberWithCommas(x) {
 const getTotalBill = (productList) => {
     let total = 0;
     for (let i = 0; i < productList.length; i++) {
-        total += productList[i].amount * productList[i].price;
+        total += productList[i].amount * productList[i].price * (1 - productList[i].saleOff / 100);
     }
     return total;
 }
@@ -49,8 +49,8 @@ export default function Review(props) {
             <List disablePadding>
                 {cart.map((product) => (
                     <ListItem className={classes.listItem} key={product.name}>
-                        <ListItemText primary={product.name} secondary={'Size: ' + product.size + ' - ' + 'SL: ' + product.amount} />
-                        <Typography variant="body2">{numberWithCommas(product.price * product.amount)}đ</Typography>
+                        <ListItemText primary={product.name} secondary={'SL: ' + product.amount} />
+                        <Typography variant="body2">{numberWithCommas(product.price * product.amount * (1 - product.saleOff / 100))}đ</Typography>
                     </ListItem>
                 ))}
                 <ListItem className={classes.listItem}>

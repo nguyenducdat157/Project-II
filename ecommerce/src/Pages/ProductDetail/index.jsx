@@ -32,7 +32,7 @@ const ProductDetail = (props) => {
         description: itemInfo['description'],
         type: itemInfo['type'],
         availableAmount: itemInfo['availableAmount'],
-        sizes: ['S', 'M', 'L', 'XL', 'XXL']
+        saleOff: itemInfo['saleOff']
     }
     // console.log(product);
 
@@ -122,7 +122,8 @@ const ProductDetail = (props) => {
             price: product.price,
             size: choosenSize,
             amount: amount,
-            availableAmount: product.availableAmount
+            availableAmount: product.availableAmount,
+            saleOff: product.saleOff
         };
         console.log(orderInfo);
         if (localStorage.getItem('cart') == null) {
@@ -290,9 +291,11 @@ const ProductDetail = (props) => {
 
                         </div>
                         <div className="wishlist">
-                            <Button variant="outline-light"
+                            {userID ? <Button variant="outline-light"
                                 onClick={handleAddToWishList}
                             ><FontAwesomeIcon icon={faHeart} style={{ color: liked ? 'red' : 'black' }} /></Button>
+                                : <Button style={{ display: "none" }} />}
+
                         </div>
                     </div>
 
@@ -311,13 +314,14 @@ const ProductDetail = (props) => {
                     }
 
                     </div> */}
-                    <div className="product-soldAmount">
+                    <div className="product-amount">
                         <p>Đã bán: <b>{itemInfo['soldAmount']}</b> sản phẩm</p>
+                        <p>Còn: <b>{itemInfo['availableAmount']}</b> sản phẩm</p>
                     </div>
                     <div className='quantity-productDetail'>
                         <button className='quantity-minus quantity-btn' disabled={amount === 1} onClick={handleDecreaseAmount}>-</button>
                         <input type='text' name='amount' className='item-quantity' value={amount}></input>
-                        <button className='quantity-plus quantity-btn' disabled={amount === parseInt(itemInfo['availableAmount'])} onClick={handleIncreaseAmount}>+</button>
+                        <button className='quantity-plus quantity-btn' disabled={amount === parseInt(itemInfo['availableAmount']) || parseInt(itemInfo['availableAmount']) === 0} onClick={handleIncreaseAmount}>+</button>
                         <CssBaseline />
                     </div>
 
@@ -326,7 +330,11 @@ const ProductDetail = (props) => {
                         <h3 style={{ fontWeight: '600' }}>Description</h3>
                         <p ><br />{product.description}</p>
                     </div>
-                    <button className="btn-cart" onClick={handleAddToCart}>Add to cart</button>
+                    {parseInt(itemInfo['availableAmount']) > 0 ?
+                        <button className="btn-cart" onClick={handleAddToCart}>Add to cart</button> :
+                        <h2>Hết hàng</h2>
+                    }
+
                 </div>
                 <ToastContainer
                     transition={Slide}

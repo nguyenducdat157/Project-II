@@ -54,10 +54,10 @@ function TabElement(props) {
 
 
 function OrdersList(props) {
-    
+
     const userInfo = JSON.parse(localStorage.getItem('info'));
     const isAdmin = userInfo && userInfo.role === 'admin';
-    
+
     // const classes = useStyles();
     const [orders, setOrders] = useState([]);
     const userId = localStorage.getItem('id');
@@ -164,12 +164,12 @@ function OrdersList(props) {
 
 
     useEffect(function () {
-        if (userInfo){
+        if (userInfo) {
             let url = '';
-            if (userInfo.role === 'admin'){
+            if (userInfo.role === 'admin') {
                 url = `${HOST_URL}/orders`
             }
-            else{
+            else {
                 url = `${HOST_URL}/orders?userId=${userId}`
             }
             axios({
@@ -185,7 +185,7 @@ function OrdersList(props) {
                         return item.status === tabValue[tab];
                     }) : orderList;
                     setOrders(orderList);
-    
+
                 })
                 .catch(err => {
                     console.log("error!");
@@ -198,9 +198,9 @@ function OrdersList(props) {
 
 
     return (
-        
+
         <>
-            {userInfo === null ?  <Redirect to="/signin"/> : userInfo.role === 'admin' ? <AdminHeader/> : <HeaderItem/>}
+            {userInfo === null ? <Redirect to="/signin" /> : userInfo.role === 'admin' ? <AdminHeader /> : <HeaderItem />}
             <div className="content content-margined">
                 <div className="back-to-result" style={{ marginBottom: '20px' }} >
                     <Link to={isAdmin ? "../admin" : "../account"} className="link-primary" style={{ display: 'contents' }}>
@@ -266,7 +266,7 @@ function OrdersList(props) {
                                     :
                                     (order.status === "Đang xác nhận") ?
                                         <TableCell>
-                                            <Link onClick={() => (window.confirm('Bạn có chắc chắn muốn xóa đơn hàng này không')) ? () => {changeStatusHandler(order.id, order.status)} : {}} style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>
+                                            <Link onClick={() => (window.confirm('Bạn có chắc chắn muốn xóa đơn hàng này không')) ? changeStatusHandler(order.id, order.status) : {}} style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>
                                         </TableCell> :
                                         <TableCell>
                                             <Link style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon color="disabled" /></Link>

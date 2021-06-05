@@ -92,8 +92,8 @@ const CollectionPage = () => {
 
         let config = {
             method: 'get',
-            url: (type === "new-arrival") ? `${HOST_URL}/products/status?status=new` :
-                (type === "sale-50") ? `${HOST_URL}/products/status?status=sale` :
+            url: (type === "new-arrival") ? `${HOST_URL}/products/status/?status=new` :
+                (type === "sale-50") ? `${HOST_URL}/products/status/?status=sale` :
                     type ? `${HOST_URL}/products?type=${type}` : `${HOST_URL}/products`,
             headers: {
                 'Content-Type': 'application/json'
