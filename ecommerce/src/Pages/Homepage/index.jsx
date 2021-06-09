@@ -87,7 +87,7 @@ const HomePage = (props) => {
                 <div className="container" style={{ maxWidth: '90%' }}>
                     <a href="/collections/new-arrival" className="link-primary"><h3>New arrival</h3></a>
                     <Container productItems={newProductItems} isHomePage={true} />
-                    <a href="/collections/sale-50" className="link-primary"><h3>Sale 50%</h3></a>
+                    <a href="/collections/sale-50" className="link-primary"><h3>Sale up to 50%</h3></a>
                     <Container productItems={saleProductItems} isHomePage={true} />
                 </div>
             </section>

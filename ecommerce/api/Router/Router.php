@@ -37,5 +37,6 @@ $router->get('/orders/order', 'order@get_order_by_id');
 //notification
 $router->get('/notifications', 'notification@get_notifications');
 $router->post('/notifications', 'notification@create_notifications');
+$router->put('/notifications', 'notification@set_read');
 
 //$router->post('/deletewishlists', 'wishlist@delete_by_id');

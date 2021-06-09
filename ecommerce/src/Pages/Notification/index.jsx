@@ -22,6 +22,7 @@ const NotifiCationPage = () => {
     const classes = useStyles();
     const userId = localStorage.getItem('id');
     const [notifications, setNotifications] = useState([]);
+    const [nofiChange, setNofiChange] = useState(0);
     // const [orders, setOrders] = useState([]);
 
     useEffect(function () {
@@ -62,7 +63,32 @@ const NotifiCationPage = () => {
                 'Content-Type': 'application/json'
             }
         })
-    }, []);
+    }, [nofiChange]);
+    const changeStatusNofi = async (id, status) => {
+        console.log('change');
+        if (status === "0") {
+            await axios({
+                method: 'put',
+                url: `${HOST_URL}/notifications`,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: { "id": id }
+            })
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log("error!");
+                    console.log(err);
+                });
+
+            setNofiChange(id);
+
+        }
+
+
+    }
 
     // const showListNotify = () => {
     //     return notifications.map(notification =>
@@ -90,7 +116,7 @@ const NotifiCationPage = () => {
             { notifications.length ?
                 <>
                     <div className="notify-title">
-                        <h3>Thông báo({notifications.length})</h3>
+                        <h3>Thông báo({notifications.filter(item => { return item.status === "0" }).length})</h3>
                     </div>
                     <Grid container spacing={3} style={{ backgroundColor: '#e5e5e5', margin: '2% 2%', width: '96%' }}>
                         {notifications.map(notification =>
@@ -98,23 +124,23 @@ const NotifiCationPage = () => {
                                 <Grid item xs={12} sm={1}>
 
                                 </Grid>
-                                <Grid item xs={12} sm={2} >
-                                    <Paper className={classes.paper}><p>
+                                <Grid item xs={12} sm={2}  >
+                                    <Paper className={classes.paper} style={{ backgroundColor: (notification.status === "0") ? 'white' : '#E9E9E9' }}><p>
                                         Ngày {new Date(notification.createTime).getDate()}/{new Date(notification.createTime).getMonth() + 1} /{new Date(notification.createTime).getFullYear()}
                                     </p>
                                     </Paper>
 
                                 </Grid>
-                                <Grid item xs={12} sm={9}>
-                                    <Paper className={classes.paper}>
+                                <Grid item xs={12} sm={9} >
+                                    <Paper className={classes.paper} style={{ backgroundColor: (notification.status === "0") ? 'white' : '#E9E9E9' }}>
                                         {notification.content === "Đã được xác nhận" ?
                                             < p > Đơn hàng có id {notification.id_order} {notification.content} và đang giao, cảm ơn quý khách !
-                                        <Link to={{ pathname: `/order-detail/${notification.id_order}`, state: { orderId: notification.id_order } }}>
+                                        <Link onClick={() => { changeStatusNofi(notification.id, notification.status) }} to={{ pathname: `/order-detail/${notification.id_order}`, state: { orderId: notification.id_order } }}>
                                                     Chi tiết
                                             </Link>
                                             </p> :
                                             < p > Đơn hàng có id {notification.id_order} {notification.content} thành công, cảm ơn quý khách !
-                                        <Link to={{ pathname: `/order-detail/${notification.id_order}`, state: { orderId: notification.id_order } }}>
+                                        <Link onClick={() => { changeStatusNofi(notification.id, notification.status) }} to={{ pathname: `/order-detail/${notification.id_order}`, state: { orderId: notification.id_order } }}>
                                                     Chi tiết
                                             </Link>
                                             </p>

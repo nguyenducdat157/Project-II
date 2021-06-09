@@ -144,7 +144,7 @@ class ModelsProduct extends Model{
 
     public function getSaleProducts() {
         $res = [];
-        $result = $this->db->query('select * from product where saleOff = 50');
+        $result = $this->db->query('select * from product where saleOff <= 50');
         // return $stmt;
 
         foreach($result as $sql) {

@@ -34,7 +34,7 @@ const ProductDetail = (props) => {
         availableAmount: itemInfo['availableAmount'],
         saleOff: itemInfo['saleOff']
     }
-    // console.log(product);
+    //console.log(product);
 
     // function getSize(type) {
     //     switch (type) {
@@ -298,11 +298,26 @@ const ProductDetail = (props) => {
 
                         </div>
                     </div>
+                    {
+                        (product.saleOff === "0") ?
+                            <div className="product-price" id="price-preview-detail">
+                                <span>{numberWithCommas(product.price)}đ</span>
 
-                    <div className="product-price" id="price-preview-detail">
-                        <span>{numberWithCommas(product.price)}đ</span>
+                            </div> :
+                            <div className="product-price" id="price-preview-detail">
+                                <span>{numberWithCommas(product.price * (1 - parseInt(product.saleOff) / 100))}đ</span>
+                                <span style={{
+                                    color: "black",
+                                    fontWeight: '400'
+                                }}><del>{numberWithCommas(product.price)}đ</del></span>
+                                <span style={{
+                                    color: "black",
+                                    fontWeight: '400'
+                                }}>-{product.saleOff}%</span>
 
-                    </div>
+                            </div>
+                    }
+
 
                     {/* <div className="sizes">{
                         product.sizes.map((size) =>
@@ -321,7 +336,7 @@ const ProductDetail = (props) => {
                     <div className='quantity-productDetail'>
                         <button className='quantity-minus quantity-btn' disabled={amount === 1} onClick={handleDecreaseAmount}>-</button>
                         <input type='text' name='amount' className='item-quantity' value={amount}></input>
-                        <button className='quantity-plus quantity-btn' disabled={amount === parseInt(itemInfo['availableAmount']) || parseInt(itemInfo['availableAmount']) === 0} onClick={handleIncreaseAmount}>+</button>
+                        <button className='quantity-plus quantity-btn' disabled={amount === parseInt(itemInfo['availableAmount']) || itemInfo['status'] === "deleted" || parseInt(itemInfo['availableAmount']) === 0} onClick={handleIncreaseAmount}>+</button>
                         <CssBaseline />
                     </div>
 
@@ -330,9 +345,10 @@ const ProductDetail = (props) => {
                         <h3 style={{ fontWeight: '600' }}>Description</h3>
                         <p ><br />{product.description}</p>
                     </div>
-                    {parseInt(itemInfo['availableAmount']) > 0 ?
-                        <button className="btn-cart" onClick={handleAddToCart}>Add to cart</button> :
-                        <h2>Hết hàng</h2>
+                    {(itemInfo['status'] === 'deleted') ? <h2>Ngừng kinh doanh</h2> :
+                        parseInt(itemInfo['availableAmount']) > 0 ?
+                            <button className="btn-cart" onClick={handleAddToCart}>Add to cart</button> :
+                            <h2>Hết hàng</h2>
                     }
 
                 </div>
