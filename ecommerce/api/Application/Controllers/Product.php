@@ -128,9 +128,9 @@ class ControllersProduct extends Controller {
         $productID = $params['id'];
         $result = $this->_model->delete($productID);
         if ($result)
-            $this->response->sendStatus(200);
+            $this->send(200, "Deleted product");
         else 
-            $this->response->sendStatus(400); 
+            $this->send(400, "Error deleting product"); 
     }
     public function get_products_by_key() {
         $key = isset($_GET['keyword']) ? $_GET['keyword'] : '';

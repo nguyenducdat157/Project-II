@@ -262,8 +262,8 @@ export default function FormInput(props) {
                                     onChange={handleChange}
                                     fullWidth
                                 >
-                                    <MenuItem value={"new"}>New</MenuItem>
-                                    <MenuItem value={"hot"}>Hot</MenuItem>
+                                    <MenuItem value={"sale"}>Đang bán</MenuItem>
+                                    <MenuItem value={"deleted"}>Đã xóa</MenuItem>
                                     
    
                                 </Select>

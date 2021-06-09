@@ -225,6 +225,11 @@ class ModelsProduct extends Model{
     }
 
     public function delete($id){
+        $select_query = 'SELECT * FROM order_item WHERE product_id = ?';
+        $stmt = $this->db->prepare($select_query);
+        $result = $stmt->execute([$id]);
+        if (!$result && $stmt->fetch())
+            return false;
         $query = 'DELETE FROM product WHERE id = ?';
         $stmt = $this->db->prepare($query);
         return $stmt->execute([$id]);

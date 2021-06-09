@@ -19,7 +19,8 @@ import axios from 'axios';
 import { HOST_URL } from '../../config';
 import { AdminHeader } from '../Admin/dashboard';
 import { Paper, Tabs, Tab } from '@material-ui/core';
-
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function TabElement(props) {
     const [value, setValue] = React.useState(0);
@@ -50,7 +51,7 @@ function TabElement(props) {
 
 
 function ProductList(props) {
-    const [idDelete, setIdDelete] = useState(0);
+    const [idDelete, setIdDelete] = useState(-1);
     const [tab, setTab] = useState(0);
     const tabValue = ['Tất cả', 'new', 'hot'];
 
@@ -62,24 +63,45 @@ function ProductList(props) {
 
         axios({
             method: 'delete',
-            url: `${HOST_URL}/products`,
+            url: `${HOST_URL}/products/${id}`,
             headers: {
                 'Content-Type': 'application/json'
             },
-            data: id
         })
             .then(res => {
-                console.log(res);
+                toast.success("Xóa sản phẩm thành công!", {
+
+                    hideProgressBar: true,
+                    closeButton: false,
+                    position: "top-center",
+        
+                })
+                setIdDelete(id);
             })
             .catch(err => {
-                console.log("error!");
-                console.log(err);
-            });
+                toast.error("Sản phẩm đã được mua, không thể xóa!", {
 
-        setIdDelete(id);
+                    hideProgressBar: true,
+                    closeButton: false,
+                    position: "top-center",
+        
+                })
+            });
+        
+
 
 
     }
+
+    useEffect(function(){
+        
+        let products = [...productList];
+        const idx = products.findIndex(product => product.ID === idDelete);
+        console.log(idx);
+        products.splice(idx, 1);
+        setProductList(products);
+        // setProductList([...products]);
+    }, [idDelete]);
 
     const [productList, setProductList] = useState([]);
     const userInfo = JSON.parse(localStorage.getItem('info'));
@@ -112,6 +134,10 @@ function ProductList(props) {
     if (userInfo && userInfo.role === 'admin') {
         return (
             <>
+                <ToastContainer
+                    transition={Slide}
+                    autoClose={1000}
+                />
                 <AdminHeader />
                 <div className="content content-margined">
                     <div className="back-to-result">
@@ -173,7 +199,7 @@ function ProductList(props) {
                                     <TableCell><img src={product.imgFile} className="img-productList"></img></TableCell>
                                     <TableCell>
                                         {/* onClick={() => (window.confirm('Are you sure to delete this item?')) ? deleteHandler(product) : {}} */}
-                                        <Link style={{ color: "#203040", cursor: 'pointer' }}><DeleteIcon /></Link>
+                                        <Link style={{ color: "#203040", cursor: 'pointer' }} onClick={()=>(window.confirm("Bạn có chắc chắn muốn xóa sản phẩm?")) ? handleDelete(product.ID) : {}}  ><DeleteIcon /></Link>
                                         <Link to={"../admin/editProduct/" + product.ID} style={{ color: "#203040", cursor: 'pointer' }}><CreateIcon /></Link>
                                     </TableCell>
                                 </TableRow>))}
